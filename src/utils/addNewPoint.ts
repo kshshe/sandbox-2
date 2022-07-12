@@ -58,11 +58,20 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
   if (coordinate.x > state.borders.horizontal || coordinate.y > state.borders.vertical) {
     return
   }
+  const typeToAdd = type || state.currentType
+  if (typeToAdd === 'Eraser') {
+    const pointThere = getPointOnCoordinate(coordinate)
+    if (pointThere) {
+      state.points = state.points.filter(point => point !== pointThere)
+      delete state.pointsByCoordinate[getCoordinateKey(pointThere.coordinate)]
+      redrawPoint(pointThere.coordinate)
+    }
+    return
+  }
   const pointThere = getPointOnCoordinate(coordinate)
   if (pointThere) {
     return
   }
-  const typeToAdd = type || state.currentType
   const point = createPointObject(coordinate, typeToAdd)
   state.pointsByCoordinate[getCoordinateKey(coordinate)] = point
   redrawPoint(coordinate)

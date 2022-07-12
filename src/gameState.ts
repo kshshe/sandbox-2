@@ -20,7 +20,7 @@ export type GameState = {
     horizontal: number
     vertical: number
   }
-  currentType: PointType
+  currentType: PointType | 'Eraser'
   brushSize: number
 }
 
