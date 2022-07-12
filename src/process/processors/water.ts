@@ -2,6 +2,10 @@ import { Processor, RequestedAction } from '../types'
 import { canMoveDown, canMoveLeft, canMoveLeftDown, canMoveRight, canMoveRightDown } from '../utils/canMove'
 
 export const waterProcessor: Processor = (state, point) => {
+  if (point.temperature < 0) {
+    return RequestedAction.Freeze
+  }
+
   if (
     canMoveDown(state, point)
   ) {

@@ -6,12 +6,14 @@ export type Coordinate = {
 export enum PointType {
   Sand = 'Sand',
   Water = 'Water',
+  Ice = 'Ice',
   StaticStone = 'StaticStone',
 }
 
 export type PointData = {
   coordinate: Coordinate
   type: PointType
+  temperature: number
 }
 
 export type GameState = {
@@ -24,6 +26,7 @@ export type GameState = {
   currentType: PointType | 'Eraser'
   brushSize: number
   speed: number
+  temperature: number
 }
 
 let gameState: null | GameState = null
@@ -40,6 +43,7 @@ export const getOrCreateGameState = (): GameState => {
       currentType: PointType.Sand,
       brushSize: 1,
       speed: 1,
+      temperature: 0,
     }
   }
   return gameState

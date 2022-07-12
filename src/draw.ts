@@ -10,6 +10,8 @@ const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
 
 let lastCtx: CanvasRenderingContext2D | null = null
 
+const debug = localStorage.getItem('debug')
+
 export const redrawPoint = (coordinate: Coordinate) => {
   const ctx = lastCtx
   if (!ctx) {
@@ -18,12 +20,20 @@ export const redrawPoint = (coordinate: Coordinate) => {
   const point = getPointOnCoordinate(coordinate)
   const { x, y } = coordinate
   if (!point) {
+    if (debug) {
+      ctx.fillText('', x * SCALE,(y+1) * SCALE)
+    }
     ctx.fillStyle = '#fff'
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
   } else {
     const { type } = point
     ctx.fillStyle = getColor(type)
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+    if (debug) {
+      ctx.fillStyle = '#000'
+      ctx.font = '7px Arial'
+      ctx.fillText(`${Math.round(point.temperature)}`, (x) * SCALE, (y+1) * SCALE)
+    }
   }
 }
 

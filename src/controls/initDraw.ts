@@ -14,9 +14,7 @@ const getCircleCoordinatesInRadius = (
   for (let x = center.x - radius; x <= center.x + radius / 2; x++) {
     for (let y = center.y - radius; y <= center.y + radius / 2; y++) {
       if (x >= 0 && y >= 0 && x < horizontal && y < vertical) {
-        if (Math.random() > 0.5) {
           coordinates.push({ x, y })
-        }
       }
     }
   }

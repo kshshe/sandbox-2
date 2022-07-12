@@ -8,13 +8,24 @@ import { Processor, RequestedAction } from './types'
 
 import { sandProcessor } from './processors/sand'
 import { waterProcessor } from './processors/water'
+import { iceProcessor } from './processors/ice'
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
+import { findNeighbours } from './utils/findNeighbours'
 
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
+  [PointType.Ice]: iceProcessor,
   [PointType.StaticStone]: () => RequestedAction.None,
+}
+
+const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
+  [PointType.Water]: PointType.Ice,
+}
+
+const MELT_MAP: Partial<Record<PointType, PointType>> = {
+  [PointType.Ice]: PointType.Water,
 }
 
 const applyAction = (action: RequestedAction, point: PointData): void => {
@@ -33,6 +44,12 @@ const applyAction = (action: RequestedAction, point: PointData): void => {
   }
 
   switch (action) {
+    case RequestedAction.Freeze:
+      point.type = FREEZE_MAP[point.type] || point.type
+      break
+    case RequestedAction.Melt:
+      point.type = MELT_MAP[point.type] || point.type
+      break
     case RequestedAction.MoveDown:
       swapTo({ ...point.coordinate, y: point.coordinate.y + 1 })
       break
@@ -66,6 +83,20 @@ const applyAction = (action: RequestedAction, point: PointData): void => {
 
 const processGameTick = (): void => {
   const state = getOrCreateGameState()
+  const temperaturesMap: Map<PointData, number> = new Map()
+  state.points.forEach((point) => {
+    const pointNeighboursTemps = findNeighbours(state, point).map(
+      (neighbour) => neighbour.temperature,
+    )
+    const tempsArray = [...pointNeighboursTemps, state.temperature, point.temperature]
+    const averageTemp = tempsArray.reduce((acc, cur) => acc + cur, 0) /
+    tempsArray.length
+    const tempDiff = averageTemp - point.temperature
+    temperaturesMap.set(point, point.temperature + tempDiff / 60)
+  })
+  state.points.forEach((point) => {
+    point.temperature = temperaturesMap.get(point) || point.temperature
+  })
   state.points.forEach((point) => {
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point)

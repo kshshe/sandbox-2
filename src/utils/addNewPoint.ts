@@ -8,6 +8,15 @@ import {
 import { getCoordinateKey } from './getCoordinateKey'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
 
+const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
+  [PointType.Ice]: {
+    temperature: -350
+  },
+  [PointType.Water]: {
+    temperature: 5
+  }
+}
+
 const updateCoordinate = (point: PointData, coordinateFrom: Coordinate, coordinateTo: Coordinate): void => {
   const state = getOrCreateGameState()
   delete state.pointsByCoordinate[getCoordinateKey(coordinateFrom)]
@@ -44,7 +53,9 @@ const createPointObject = (coordinate: Coordinate, type: PointType): PointData =
         localCoordinate.y = newCoordinate.y
       }
     },
-    type
+    type,
+    temperature: 0,
+    ...(POINT_INITIAL_DATA[type] || {})
   }
 
   return point
