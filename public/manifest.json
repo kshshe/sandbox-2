@@ -1,0 +1,9 @@
+{
+    "name": "Sandbox",
+    "short_name": "Sandbox",
+    "theme_color": "#ffd800",
+    "background_color": "#ffffff",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/"
+  }

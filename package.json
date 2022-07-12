@@ -1,0 +1,28 @@
+{
+  "name": "sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "build": "mkdir -p build && rm -rf ./build/* && cp -rf ./public/* ./build/ && tsc-bundle tsconfig.json --outFile ./build/bundle.js",
+    "pretest": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kshshe/sandbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kshshe/sandbox/issues"
+  },
+  "homepage": "https://github.com/kshshe/sandbox#readme",
+  "dependencies": {
+    "typescript-bundle": "^1.0.18"
+  }
+}
