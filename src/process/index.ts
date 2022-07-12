@@ -1,5 +1,6 @@
 import {
   Coordinate,
+  GameState,
   getOrCreateGameState,
   PointData,
   PointType,
@@ -11,17 +12,21 @@ import { waterProcessor } from './processors/water'
 import { steamProcessor } from './processors/steam'
 import { iceProcessor } from './processors/ice'
 import { lavaProcessor } from './processors/lava'
+import { fireProcessor } from './processors/fire'
+import { staticStoneProcessor } from './processors/staticStone'
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { findNeighbours } from './utils/findNeighbours'
+import { getCoordinateKey } from '../utils/getCoordinateKey'
 
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
   [PointType.Ice]: iceProcessor,
-[PointType.Steam]: steamProcessor,
+  [PointType.Steam]: steamProcessor,
   [PointType.Lava]: lavaProcessor,
-  [PointType.StaticStone]: () => RequestedAction.None,
+  [PointType.Fire]: fireProcessor,
+  [PointType.StaticStone]: staticStoneProcessor,
 }
 
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
@@ -36,7 +41,7 @@ const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.StaticStone]: PointType.Lava,
 }
 
-const applyAction = (action: RequestedAction, point: PointData): void => {
+const applyAction = (state: GameState, action: RequestedAction, point: PointData): void => {
   const pointInitialCoordinate = { ...point.coordinate }
   const swapTo = (to: Coordinate) => {
     const pointThere = getPointOnCoordinate(to)
@@ -98,6 +103,11 @@ const applyAction = (action: RequestedAction, point: PointData): void => {
         y: point.coordinate.y - 1,
       })
       break
+    case RequestedAction.Die:
+      delete state.pointsByCoordinate[getCoordinateKey(point.coordinate)]
+      state.points = state.points.filter((p) => p !== point)
+      redrawPoint(point.coordinate)
+      break
     default:
       break
   }
@@ -110,9 +120,13 @@ const processGameTick = (): void => {
     const pointNeighboursTemps = findNeighbours(state, point).map(
       (neighbour) => neighbour.temperature,
     )
-    const tempsArray = [...pointNeighboursTemps, state.temperature, point.temperature]
-    const averageTemp = tempsArray.reduce((acc, cur) => acc + cur, 0) /
-    tempsArray.length
+    const tempsArray = [
+      ...pointNeighboursTemps,
+      state.temperature,
+      point.temperature,
+    ]
+    const averageTemp =
+      tempsArray.reduce((acc, cur) => acc + cur, 0) / tempsArray.length
     const tempDiff = averageTemp - point.temperature
     temperaturesMap.set(point, point.temperature + tempDiff / 60)
   })
@@ -125,7 +139,8 @@ const processGameTick = (): void => {
     if (action === RequestedAction.None) {
       return
     }
-    applyAction(action, point)
+    applyAction(state, action, point)
+    point.age++
     redrawPoint(odlCoordinate)
     redrawPoint(point.coordinate)
   })

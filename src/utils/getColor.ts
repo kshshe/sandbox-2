@@ -6,6 +6,7 @@ const COLORS: Record<PointType, string> = {
     [PointType.Ice]: '#c9eeff',
     [PointType.Steam]: '#efefef',
     [PointType.Lava]: '#ff642e',
+    [PointType.Fire]: '#ff992e',
     [PointType.StaticStone]: '#a7a7a7',
 }
 

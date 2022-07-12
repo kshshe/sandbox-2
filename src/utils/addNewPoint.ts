@@ -20,6 +20,9 @@ const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
   },
   [PointType.Lava]: {
     temperature: 200
+  },
+  [PointType.Fire]: {
+    temperature: 700
   }
 }
 
@@ -61,6 +64,7 @@ const createPointObject = (coordinate: Coordinate, type: PointType): PointData =
     },
     type,
     temperature: 0,
+    age: 1,
     ...(POINT_INITIAL_DATA[type] || {})
   }
 

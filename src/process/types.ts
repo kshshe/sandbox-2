@@ -12,6 +12,7 @@ export enum RequestedAction {
   MoveUp = 'MoveUp',
   Freeze = 'Freeze',
   Melt = 'Melt',
+  Die = 'Die',
 }
 
 export type Processor = (state: GameState, point: PointData) => RequestedAction

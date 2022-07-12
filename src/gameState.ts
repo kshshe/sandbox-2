@@ -7,6 +7,7 @@ export enum PointType {
   Sand = 'Sand',
   Water = 'Water',
   Ice = 'Ice',
+  Fire = 'Fire',
   Steam = 'Steam',
   Lava = 'Lava',
   StaticStone = 'StaticStone',
@@ -16,6 +17,7 @@ export type PointData = {
   coordinate: Coordinate
   type: PointType
   temperature: number
+  age: number
 }
 
 export type GameState = {
