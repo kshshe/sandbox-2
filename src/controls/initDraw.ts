@@ -14,7 +14,9 @@ const getCircleCoordinatesInRadius = (
   for (let x = center.x - radius; x <= center.x + radius / 2; x++) {
     for (let y = center.y - radius; y <= center.y + radius / 2; y++) {
       if (x >= 0 && y >= 0 && x < horizontal && y < vertical) {
-        coordinates.push({ x, y })
+        if (Math.random() > 0.5) {
+          coordinates.push({ x, y })
+        }
       }
     }
   }
@@ -56,7 +58,7 @@ const listen = (
   })
 }
 
-const HOLD_ADD_TIMEOUT = 50
+const HOLD_ADD_TIMEOUT = 20
 export const initDraw = (canvas: HTMLCanvasElement) => {
   let isDragging = false
   let addInterval: number | null = null
