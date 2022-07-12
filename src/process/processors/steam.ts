@@ -1,23 +1,20 @@
 import { Processor, RequestedAction } from '../types'
-import { canMoveDown, canMoveLeft, canMoveLeftDown, canMoveRight, canMoveRightDown } from '../utils/canMove'
+import { canMoveUp, canMoveLeft, canMoveLeftUp, canMoveRight, canMoveRightUp } from '../utils/canMove'
 
-export const waterProcessor: Processor = (state, point) => {
-  if (point.temperature < 0) {
+export const steamProcessor: Processor = (state, point) => {
+  if (point.temperature < 20) {
     return RequestedAction.Freeze
-  }
-  if (point.temperature > 20) {
-    return RequestedAction.Melt
   }
 
   if (
-    canMoveDown(state, point)
+    canMoveUp(state, point)
   ) {
-    return RequestedAction.MoveDown
+    return RequestedAction.MoveUp
   }
 
   const availableActionsFirstPriority = [
-    canMoveLeftDown(state, point) && RequestedAction.MoveLeftDown,
-    canMoveRightDown(state, point) && RequestedAction.MoveRightDown,
+    canMoveLeftUp(state, point) && RequestedAction.MoveLeftUp,
+    canMoveRightUp(state, point) && RequestedAction.MoveRightUp,
   ].filter(Boolean) as RequestedAction[]
 
   if (availableActionsFirstPriority.length > 0) {

@@ -7,6 +7,8 @@ export enum RequestedAction {
   MoveRight = 'MoveRight',
   MoveLeftDown = 'MoveLeftDown',
   MoveRightDown = 'MoveRightDown',
+  MoveRightUp = 'MoveRightUp',
+  MoveLeftUp = 'MoveLeftUp',
   MoveUp = 'MoveUp',
   Freeze = 'Freeze',
   Melt = 'Melt',

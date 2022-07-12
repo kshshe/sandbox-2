@@ -8,7 +8,9 @@ import { Processor, RequestedAction } from './types'
 
 import { sandProcessor } from './processors/sand'
 import { waterProcessor } from './processors/water'
+import { steamProcessor } from './processors/steam'
 import { iceProcessor } from './processors/ice'
+import { lavaProcessor } from './processors/lava'
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { findNeighbours } from './utils/findNeighbours'
@@ -17,15 +19,21 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
   [PointType.Ice]: iceProcessor,
+[PointType.Steam]: steamProcessor,
+  [PointType.Lava]: lavaProcessor,
   [PointType.StaticStone]: () => RequestedAction.None,
 }
 
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Water]: PointType.Ice,
+  [PointType.Steam]: PointType.Water,
+  [PointType.Lava]: PointType.StaticStone,
 }
 
 const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Ice]: PointType.Water,
+  [PointType.Water]: PointType.Steam,
+  [PointType.StaticStone]: PointType.Lava,
 }
 
 const applyAction = (action: RequestedAction, point: PointData): void => {
@@ -74,6 +82,20 @@ const applyAction = (action: RequestedAction, point: PointData): void => {
         ...point.coordinate,
         x: point.coordinate.x + 1,
         y: point.coordinate.y + 1,
+      })
+      break
+    case RequestedAction.MoveRightUp:
+      swapTo({
+        ...point.coordinate,
+        x: point.coordinate.x + 1,
+        y: point.coordinate.y - 1,
+      })
+      break
+    case RequestedAction.MoveLeftUp:
+      swapTo({
+        ...point.coordinate,
+        x: point.coordinate.x - 1,
+        y: point.coordinate.y - 1,
       })
       break
     default:

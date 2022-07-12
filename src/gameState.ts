@@ -7,6 +7,8 @@ export enum PointType {
   Sand = 'Sand',
   Water = 'Water',
   Ice = 'Ice',
+  Steam = 'Steam',
+  Lava = 'Lava',
   StaticStone = 'StaticStone',
 }
 
