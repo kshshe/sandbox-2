@@ -8,6 +8,7 @@ export enum PointType {
   Water = 'Water',
   Ice = 'Ice',
   Fire = 'Fire',
+  Fuel = 'Fuel',
   Steam = 'Steam',
   Lava = 'Lava',
   StaticStone = 'StaticStone',
@@ -47,7 +48,7 @@ export const getOrCreateGameState = (): GameState => {
         vertical: 0,
       },
       currentType: PointType.Sand,
-      brushSize: 1,
+      brushSize: 2,
       speed: 1,
       temperature: 0,
     }

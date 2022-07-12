@@ -13,6 +13,7 @@ const CONTROLLED_POINT_TYPES = [
   PointType.Steam,
   PointType.Lava,
   PointType.Fire,
+  PointType.Fuel,
   PointType.StaticStone,
 ]
 
@@ -60,7 +61,7 @@ const init = () => {
   brushInput.type = 'range'
   brushInput.min = '1'
   brushInput.max = '10'
-  brushInput.value = '1'
+  brushInput.value = '2'
   brushInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.brushSize = brushInput.valueAsNumber

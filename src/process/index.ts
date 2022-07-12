@@ -16,6 +16,8 @@ import { fireProcessor } from './processors/fire'
 import { staticStoneProcessor } from './processors/staticStone'
 import { meltedGlassProcessor } from './processors/meltedGlass'
 import { staticGlassProcessor } from './processors/staticGlass'
+import { fuelProcessor } from './processors/fuel'
+
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { findNeighbours } from './utils/findNeighbours'
@@ -32,6 +34,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.StaticStone]: staticStoneProcessor,
   [PointType.MeltedGlass]: meltedGlassProcessor,
   [PointType.StaticGlass]: staticGlassProcessor,
+  [PointType.Fuel]: fuelProcessor,
 }
 
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
@@ -47,9 +50,14 @@ const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.StaticStone]: PointType.Lava,
   [PointType.Sand]: PointType.MeltedGlass,
   [PointType.StaticGlass]: PointType.MeltedGlass,
+  [PointType.Fuel]: PointType.Fire,
 }
 
-const applyAction = (state: GameState, action: RequestedAction, point: PointData): void => {
+const applyAction = (
+  state: GameState,
+  action: RequestedAction,
+  point: PointData,
+): void => {
   const pointInitialCoordinate = { ...point.coordinate }
   const swapTo = (to: Coordinate) => {
     const pointThere = getPointOnCoordinate(to)
@@ -144,6 +152,18 @@ const processGameTick = (): void => {
       redrawPoint(point.coordinate)
     }
   })
+  if (state.points.length > 0) {
+    const averageTemp =
+      state.points.reduce((acc, cur) => acc + cur.temperature, 0) /
+      state.points.length
+    const diff = averageTemp - state.temperature
+    state.temperature += diff / 2000
+    state.temperature /= 1.01
+    const tempElement = document.querySelector('.temp')
+    if (tempElement) {
+      tempElement.innerHTML = `${state.temperature.toFixed(2)} ℃`
+    }
+  }
   state.points.forEach((point) => {
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point)

@@ -10,6 +10,7 @@ const COLORS: Record<PointType, string> = {
     [PointType.StaticStone]: '#a7a7a7',
     [PointType.StaticGlass]: '#f2f4ff',
     [PointType.MeltedGlass]: '#ffe6d3',
+    [PointType.Fuel]: '#2eff5e',
 }
 
 export const getColor = (type: PointType): string => {
