@@ -25,6 +25,7 @@ const listen = (
   events.forEach((event) => {
     console.log(`Adding listener for ${event}`)
     element.addEventListener(event, e => {
+      e.preventDefault()
       callback({
         // @ts-ignore
         x: e.clientX || e.touches?.[0]?.clientX, y: e.clientY || e.touches?.[0]?.clientY,
