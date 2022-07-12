@@ -14,12 +14,15 @@ export enum PointType {
   StaticStone = 'StaticStone',
   StaticGlass = 'StaticGlass',
   MeltedGlass = 'MeltedGlass',
+  Hot = 'Hot',
+  Cold = 'Cold',
 }
 
 export type PointData = {
   coordinate: Coordinate
   type: PointType
   temperature: number
+  fixedTemperature: boolean
   age: number
 }
 

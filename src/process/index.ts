@@ -35,6 +35,8 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.MeltedGlass]: meltedGlassProcessor,
   [PointType.StaticGlass]: staticGlassProcessor,
   [PointType.Fuel]: fuelProcessor,
+  [PointType.Hot]: () => RequestedAction.None,
+  [PointType.Cold]: () => RequestedAction.None,
 }
 
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
@@ -147,6 +149,9 @@ const processGameTick = (): void => {
     temperaturesMap.set(point, point.temperature + tempDiff / 60)
   })
   state.points.forEach((point) => {
+    if (point.fixedTemperature) {
+      return;
+    }
     point.temperature = temperaturesMap.get(point) || point.temperature
     if (debug) {
       redrawPoint(point.coordinate)

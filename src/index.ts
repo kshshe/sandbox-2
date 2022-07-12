@@ -15,6 +15,8 @@ const CONTROLLED_POINT_TYPES = [
   PointType.Fire,
   PointType.Fuel,
   PointType.StaticStone,
+  PointType.Hot,
+  PointType.Cold,
 ]
 
 const init = () => {
@@ -46,6 +48,7 @@ const init = () => {
     }
     button.classList.add(`control--${type}`)
     button.style.backgroundColor = type === 'Eraser' ? 'white' : getColor(type)
+    button.innerText = type
     button.addEventListener('click', () => {
       const state = getOrCreateGameState()
       document.querySelectorAll('.control').forEach((control) => {
