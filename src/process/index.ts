@@ -14,6 +14,7 @@ import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
+  [PointType.StaticStone]: () => RequestedAction.None,
 }
 
 const applyAction = (action: RequestedAction, point: PointData): void => {

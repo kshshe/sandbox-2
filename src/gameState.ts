@@ -6,6 +6,7 @@ export type Coordinate = {
 export enum PointType {
   Sand = 'Sand',
   Water = 'Water',
+  StaticStone = 'StaticStone',
 }
 
 export type PointData = {
