@@ -16,6 +16,7 @@ export enum PointType {
   MeltedGlass = 'MeltedGlass',
   Hot = 'Hot',
   Cold = 'Cold',
+  Void = 'Void',
 }
 
 export type PointData = {

@@ -13,6 +13,7 @@ const COLORS: Record<PointType, string> = {
   [PointType.Fuel]: '#2eff5e',
   [PointType.Hot]: '#c53300',
   [PointType.Cold]: '#0078af',
+  [PointType.Void]: '#000000',
 }
 
 export const getColor = (type: PointType): string => {
