@@ -5,22 +5,14 @@ const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
   [PointType.Sand]: [PointType.Water],
 }
 
-type MoveChecker = (state: GameState, point: PointData) => boolean | (() => void)
+type MoveChecker = (state: GameState, point: PointData) => boolean
 
-export const canMoveTo = (point: PointData, coordinate: Coordinate): boolean | (() => void) => {
+export const canMoveTo = (point: PointData, coordinate: Coordinate): boolean => {
   const state = getOrCreateGameState()
   const pointKey = getCoordinateKey(coordinate)
   const pointThere = state.pointsByCoordinate[pointKey]
   if (pointThere) {
-    if (IGNORE_MAP[point.type]?.includes(pointThere.type)) {
-      const afterMove = () => {
-        delete state.pointsByCoordinate[getCoordinateKey(point.coordinate)]
-        pointThere.coordinate = {...point.coordinate}
-        state.pointsByCoordinate[getCoordinateKey(pointThere.coordinate)] = pointThere
-      }
-      return afterMove
-    }
-    return false
+    return !!IGNORE_MAP[point.type]?.includes(pointThere.type)
   }
   return true
 }

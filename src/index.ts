@@ -2,7 +2,7 @@ import { getOrCreateGameState, PointType } from './gameState'
 import { setBorders } from './utils/setBorders'
 import { startEngine } from './process'
 import { SCALE } from './constants'
-import { draw } from './draw'
+import { drawInitial } from './draw'
 import { initControls } from './controls/initControls'
 import { getColor } from './utils/getColor'
 
@@ -43,7 +43,7 @@ const init = () => {
   // @ts-ignore
   window.gameState = getOrCreateGameState()
 
-  draw(canvas)
+  drawInitial(canvas)
   startEngine()
 }
 

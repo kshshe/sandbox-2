@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "mkdir -p build && rm -rf ./build/* && cp -rf ./public/* ./build/ && tsc-bundle tsconfig.json --outFile ./build/bundle.js",
+    "start": "npm run build -- --watch",
     "pretest": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
