@@ -21,6 +21,7 @@ export type GameState = {
     vertical: number
   }
   currentType: PointType
+  brushSize: number
 }
 
 let gameState: null | GameState = null
@@ -35,6 +36,7 @@ export const getOrCreateGameState = (): GameState => {
         vertical: 0,
       },
       currentType: PointType.Sand,
+      brushSize: 1,
     }
   }
   return gameState

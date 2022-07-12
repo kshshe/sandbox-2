@@ -36,6 +36,17 @@ const init = () => {
     controls.appendChild(button)
   })
 
+  const input = document.createElement('input')
+  input.type = 'range'
+  input.min = '1'
+  input.max = '10'
+  input.value = '1'
+  input.addEventListener('change', () => {
+    const state = getOrCreateGameState()
+    state.brushSize = input.valueAsNumber
+  });
+  controls.appendChild(input)
+
   setBorders(proportions.width / SCALE, proportions.height / SCALE)
 
   initControls(canvas)

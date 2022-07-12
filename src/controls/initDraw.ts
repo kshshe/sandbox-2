@@ -1,12 +1,32 @@
 import { addNewPoint } from '../utils/addNewPoint'
 import { SCALE } from '../constants'
+import { Coordinate, getOrCreateGameState } from '../gameState'
 
 type Position = { x: number, y: number }
+
+const getCircleCoordinatesInRadius = (
+  center: Coordinate,
+  radius: number,
+): Coordinate[] => {
+  const state = getOrCreateGameState()
+  const { horizontal, vertical } = state.borders
+  const coordinates: Coordinate[] = []
+  for (let x = center.x - radius; x <= center.x + radius / 2; x++) {
+    for (let y = center.y - radius; y <= center.y + radius / 2; y++) {
+      if (x >= 0 && y >= 0 && x < horizontal && y < vertical) {
+        coordinates.push({ x, y })
+      }
+    }
+  }
+  return coordinates
+}
 
 const drawNewPoint = (
   canvas: HTMLCanvasElement,
   position: Position,
 ) => {
+  const state = getOrCreateGameState()
+  const brushSize = Math.max(state.brushSize, 1)
   const rect = canvas.getBoundingClientRect()
   const relativePosition = {
     x: position.x - rect.left,
@@ -14,7 +34,9 @@ const drawNewPoint = (
   }
   const x = Math.floor(relativePosition.x / SCALE)
   const y = Math.floor(relativePosition.y / SCALE)
-  addNewPoint({ x, y })
+  getCircleCoordinatesInRadius({ x, y }, brushSize).forEach(coordinate => {
+    addNewPoint(coordinate)
+  })
 }
 
 const listen = (
