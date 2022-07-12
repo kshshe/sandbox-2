@@ -46,16 +46,27 @@ const init = () => {
     controls.appendChild(button)
   })
 
-  const input = document.createElement('input')
-  input.type = 'range'
-  input.min = '1'
-  input.max = '10'
-  input.value = '1'
-  input.addEventListener('change', () => {
+  const brushInput = document.createElement('input')
+  brushInput.type = 'range'
+  brushInput.min = '1'
+  brushInput.max = '10'
+  brushInput.value = '1'
+  brushInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
-    state.brushSize = input.valueAsNumber
+    state.brushSize = brushInput.valueAsNumber
   });
-  controls.appendChild(input)
+  controls.appendChild(brushInput)
+
+  const speedInput = document.createElement('input')
+  speedInput.type = 'range'
+  speedInput.min = '1'
+  speedInput.max = '5'
+  speedInput.value = '1'
+  speedInput.addEventListener('change', () => {
+    const state = getOrCreateGameState()
+    state.speed = speedInput.valueAsNumber
+  });
+  controls.appendChild(speedInput)
 
   setBorders(proportions.width / SCALE, proportions.height / SCALE)
 

@@ -22,6 +22,7 @@ export type GameState = {
   }
   currentType: PointType | 'Eraser'
   brushSize: number
+  speed: number
 }
 
 let gameState: null | GameState = null
@@ -37,6 +38,7 @@ export const getOrCreateGameState = (): GameState => {
       },
       currentType: PointType.Sand,
       brushSize: 1,
+      speed: 1,
     }
   }
   return gameState

@@ -1,4 +1,9 @@
-import { Coordinate, getOrCreateGameState, PointData, PointType } from '../gameState'
+import {
+  Coordinate,
+  getOrCreateGameState,
+  PointData,
+  PointType,
+} from '../gameState'
 import { Processor, RequestedAction } from './types'
 
 import { sandProcessor } from './processors/sand'
@@ -16,7 +21,7 @@ const applyAction = (action: RequestedAction, point: PointData): void => {
   const swapTo = (to: Coordinate) => {
     const pointThere = getPointOnCoordinate(to)
     if (pointThere) {
-      pointThere.coordinate = {x: -1, y: -1}
+      pointThere.coordinate = { x: -1, y: -1 }
     }
     point.coordinate = to
     if (pointThere) {
@@ -40,10 +45,18 @@ const applyAction = (action: RequestedAction, point: PointData): void => {
       swapTo({ ...point.coordinate, y: point.coordinate.y - 1 })
       break
     case RequestedAction.MoveLeftDown:
-      swapTo({ ...point.coordinate, x: point.coordinate.x - 1, y: point.coordinate.y + 1 })
+      swapTo({
+        ...point.coordinate,
+        x: point.coordinate.x - 1,
+        y: point.coordinate.y + 1,
+      })
       break
     case RequestedAction.MoveRightDown:
-      swapTo({ ...point.coordinate, x: point.coordinate.x + 1, y: point.coordinate.y + 1 })
+      swapTo({
+        ...point.coordinate,
+        x: point.coordinate.x + 1,
+        y: point.coordinate.y + 1,
+      })
       break
     default:
       break
@@ -68,7 +81,10 @@ const TICKS_PER_SECOND = 60
 
 export const startEngine = async () => {
   while (true) {
+    const state = getOrCreateGameState()
     processGameTick()
-    await new Promise((resolve) => setTimeout(resolve, 1000 / TICKS_PER_SECOND))
+    await new Promise((resolve) =>
+      setTimeout(resolve, 1000 / TICKS_PER_SECOND / state.speed),
+    )
   }
 }
