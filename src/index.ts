@@ -6,6 +6,16 @@ import { drawInitial } from './draw'
 import { initControls } from './controls/initControls'
 import { getColor } from './utils/getColor'
 
+const CONTROLLED_POINT_TYPES = [
+  PointType.Sand,
+  PointType.Water,
+  PointType.Ice,
+  PointType.Steam,
+  PointType.Lava,
+  PointType.Fire,
+  PointType.StaticStone,
+]
+
 const init = () => {
   const root = document.getElementById('root')
   const controls = document.querySelector('.controls')
@@ -26,7 +36,7 @@ const init = () => {
 
   const state = getOrCreateGameState()
 
-  const controlTypes = [...Object.values(PointType), 'Eraser'] as Array<PointType | "Eraser">
+  const controlTypes = [...CONTROLLED_POINT_TYPES, 'Eraser'] as Array<PointType | "Eraser">
   controlTypes.forEach((type) => {
     const button = document.createElement('button')
     button.classList.add('control')

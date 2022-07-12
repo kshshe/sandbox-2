@@ -14,10 +14,13 @@ import { iceProcessor } from './processors/ice'
 import { lavaProcessor } from './processors/lava'
 import { fireProcessor } from './processors/fire'
 import { staticStoneProcessor } from './processors/staticStone'
+import { meltedGlassProcessor } from './processors/meltedGlass'
+import { staticGlassProcessor } from './processors/staticGlass'
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { findNeighbours } from './utils/findNeighbours'
 import { getCoordinateKey } from '../utils/getCoordinateKey'
+import { debug } from '../constants'
 
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
@@ -27,18 +30,23 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Lava]: lavaProcessor,
   [PointType.Fire]: fireProcessor,
   [PointType.StaticStone]: staticStoneProcessor,
+  [PointType.MeltedGlass]: meltedGlassProcessor,
+  [PointType.StaticGlass]: staticGlassProcessor,
 }
 
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Water]: PointType.Ice,
   [PointType.Steam]: PointType.Water,
   [PointType.Lava]: PointType.StaticStone,
+  [PointType.MeltedGlass]: PointType.StaticGlass,
 }
 
 const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Ice]: PointType.Water,
   [PointType.Water]: PointType.Steam,
   [PointType.StaticStone]: PointType.Lava,
+  [PointType.Sand]: PointType.MeltedGlass,
+  [PointType.StaticGlass]: PointType.MeltedGlass,
 }
 
 const applyAction = (state: GameState, action: RequestedAction, point: PointData): void => {
@@ -132,6 +140,9 @@ const processGameTick = (): void => {
   })
   state.points.forEach((point) => {
     point.temperature = temperaturesMap.get(point) || point.temperature
+    if (debug) {
+      redrawPoint(point.coordinate)
+    }
   })
   state.points.forEach((point) => {
     const odlCoordinate = { ...point.coordinate }

@@ -1,6 +1,6 @@
 import { Coordinate, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
-import { SCALE } from './constants'
+import { debug, SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 
 const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
@@ -9,8 +9,6 @@ const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
 }
 
 let lastCtx: CanvasRenderingContext2D | null = null
-
-const debug = localStorage.getItem('debug')
 
 export const redrawPoint = (coordinate: Coordinate) => {
   const ctx = lastCtx
@@ -30,6 +28,7 @@ export const redrawPoint = (coordinate: Coordinate) => {
     ctx.fillStyle = getColor(type)
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
     if (debug) {
+      ctx.fillText('', x * SCALE,(y+1) * SCALE)
       ctx.fillStyle = '#000'
       ctx.font = '7px Arial'
       ctx.fillText(`${Math.round(point.temperature)}`, (x) * SCALE, (y+1) * SCALE)

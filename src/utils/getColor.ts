@@ -8,6 +8,8 @@ const COLORS: Record<PointType, string> = {
     [PointType.Lava]: '#ff642e',
     [PointType.Fire]: '#ff992e',
     [PointType.StaticStone]: '#a7a7a7',
+    [PointType.StaticGlass]: '#f2f4ff',
+    [PointType.MeltedGlass]: '#ffe6d3',
 }
 
 export const getColor = (type: PointType): string => {

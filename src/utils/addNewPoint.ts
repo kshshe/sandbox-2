@@ -19,7 +19,7 @@ const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
     temperature: 95
   },
   [PointType.Lava]: {
-    temperature: 200
+    temperature: 300
   },
   [PointType.Fire]: {
     temperature: 700
