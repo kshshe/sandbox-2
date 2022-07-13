@@ -24,7 +24,7 @@ export const waterProcessor: Processor = (state, point) => {
   const neighbors = findNeighbours(state, point, [
     ...NEIGHBOUR_DIRECTIONS_TOP_SIDE,
     ...NEIGHBOUR_DIRECTIONS_EQUAL,
-  ]).filter((neighbor) => neighbor.type !== PointType.Water)
+  ]).filter((neighbor) => neighbor.type !== point.type)
   const shouldStickToTheLeft = neighbors.some((neighbor) =>
     neighbor.coordinate.x < point.coordinate.x)
   const shouldStickToTheRight = neighbors.some((neighbor) =>  
