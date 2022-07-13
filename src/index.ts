@@ -20,7 +20,13 @@ const CONTROLLED_POINT_TYPES = [
   PointType.Void,
 ]
 
-const init = () => {
+const init = async () => {
+  try {
+    await navigator.serviceWorker.register('/sw.js');
+  } catch (err) {
+    console.log('Service worker registration failed: ', err);
+  }
+
   const root = document.getElementById('root')
   const controls = document.querySelector('.controls')
   if (!root) {
@@ -95,7 +101,3 @@ const init = () => {
 }
 
 window.addEventListener('load', init)
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/pwa/sw.js')
-}
