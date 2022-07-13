@@ -1,4 +1,4 @@
-import { Coordinate, getOrCreateGameState } from './gameState'
+import { Coordinate, getOrCreateGameState, PointType } from './gameState'
 import { getColor } from './utils/getColor'
 import { debug, SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
@@ -25,7 +25,7 @@ export const redrawPoint = (coordinate: Coordinate) => {
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
   } else {
     const { type } = point
-    ctx.fillStyle = getColor(type, point.temperature)
+    ctx.fillStyle = getColor(type, point.temperature, point.type === PointType.Water ? 0 : point.humidity)
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
     if (debug) {
       ctx.fillText('', x * SCALE,(y+1) * SCALE)

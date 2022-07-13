@@ -72,12 +72,34 @@ export const canMoveLeftDown: MoveChecker = (state, point) => {
   )
 }
 
+export const canMoveLeftLeftDown: MoveChecker = (state, point) => {
+  return (
+    point.coordinate.x > 1 &&
+    point.coordinate.y < state.borders.vertical - 1 &&
+    canMoveTo(point, {
+      x: point.coordinate.x - 2,
+      y: point.coordinate.y + 1,
+    })
+  )
+}
+
 export const canMoveRightDown: MoveChecker = (state, point) => {
   return (
     point.coordinate.x < state.borders.horizontal - 1 &&
     point.coordinate.y < state.borders.vertical - 1 &&
     canMoveTo(point, {
       x: point.coordinate.x + 1,
+      y: point.coordinate.y + 1,
+    })
+  )
+}
+
+export const canMoveRightRightDown: MoveChecker = (state, point) => {
+  return (
+    point.coordinate.x < state.borders.horizontal - 2 &&
+    point.coordinate.y < state.borders.vertical - 1 &&
+    canMoveTo(point, {
+      x: point.coordinate.x + 2,
       y: point.coordinate.y + 1,
     })
   )

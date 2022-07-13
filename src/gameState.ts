@@ -26,6 +26,7 @@ export type PointData = {
   coordinate: Coordinate
   type: PointType
   temperature: number
+  humidity: number
   fixedTemperature: boolean
   age: number
   cloningType?: PointType

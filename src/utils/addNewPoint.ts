@@ -14,6 +14,7 @@ const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
   },
   [PointType.Water]: {
     temperature: 5,
+    humidity: 100,
   },
   [PointType.Steam]: {
     temperature: 95,
@@ -91,6 +92,7 @@ const createPointObject = (
     },
     type,
     temperature: 0,
+    humidity: 0,
     age: 1,
     fixedTemperature: false,
     ...(POINT_INITIAL_DATA[type] || {}),

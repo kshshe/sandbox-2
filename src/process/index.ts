@@ -114,6 +114,20 @@ const applyAction = (
         y: point.coordinate.y + 1,
       })
       break
+    case RequestedAction.MoveLeftLeftDown:
+      swapTo({
+        ...point.coordinate,
+        x: point.coordinate.x - 2,
+        y: point.coordinate.y + 1,
+      })
+      break
+    case RequestedAction.MoveRightRightDown:
+      swapTo({
+        ...point.coordinate,
+        x: point.coordinate.x + 2,
+        y: point.coordinate.y + 1,
+      })
+      break
     case RequestedAction.MoveRightUp:
       swapTo({
         ...point.coordinate,
