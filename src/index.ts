@@ -44,13 +44,19 @@ const init = async () => {
   if (!types) {
     throw new Error('Types element not found')
   }
-  const proportions = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  }
   const canvas = document.createElement('canvas')
-  canvas.width = proportions.width
-  canvas.height = proportions.height
+  const setCanvasSize = () => {
+    const proportions = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
+    canvas.width = proportions.width
+    canvas.height = proportions.height
+    setBorders(proportions.width / SCALE, proportions.height / SCALE)
+    drawInitial(canvas)
+  }
+  setCanvasSize()
+  window.addEventListener('resize', setCanvasSize)
   root.appendChild(canvas)
 
   const state = getOrCreateGameState()
@@ -106,8 +112,6 @@ const init = async () => {
     drawInitial(canvas)
   });
   controls.appendChild(showTempInput)
-
-  setBorders(proportions.width / SCALE, proportions.height / SCALE)
 
   initControls(canvas)
 
