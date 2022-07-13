@@ -8,6 +8,7 @@ import {
 import { Processor, RequestedAction } from './types'
 
 import { sandProcessor } from './processors/sand'
+import { virusProcessor } from './processors/virus'
 import { waterProcessor } from './processors/water'
 import { steamProcessor } from './processors/steam'
 import { iceProcessor } from './processors/ice'
@@ -39,6 +40,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Fuel]: fuelProcessor,
   [PointType.Void]: voidProcessor,
   [PointType.Clone]: cloneProcessor,
+  [PointType.Virus]: virusProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.NonExistentElement]: () => RequestedAction.None,
@@ -178,6 +180,9 @@ const processGameTick = (): void => {
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point)
     point.age++
+    if (point.virusImmunity && point.virusImmunity > 0) {
+      point.virusImmunity--
+    }
     if (action === RequestedAction.None) {
       return
     }

@@ -17,6 +17,7 @@ const CONTROLLED_POINT_TYPES = [
   PointType.StaticStone,
   PointType.Hot,
   PointType.Cold,
+  PointType.Virus,
   PointType.Void,
   PointType.Clone,
 ]

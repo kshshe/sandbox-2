@@ -18,6 +18,7 @@ export enum PointType {
   Cold = 'Cold',
   Void = 'Void',
   Clone = 'Clone',
+  Virus = 'Virus',
   NonExistentElement = 'NonExistentElement',
 }
 
@@ -28,6 +29,9 @@ export type PointData = {
   fixedTemperature: boolean
   age: number
   cloningType?: PointType
+  transformInto?: PointType
+  transformTimeout?: number
+  virusImmunity?: number
 }
 
 export type GameState = {
