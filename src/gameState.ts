@@ -14,7 +14,7 @@ export enum PointType {
   Fuel = 'Fuel',
   Steam = 'Steam',
   Lava = 'Lava',
-  StaticStone = 'StaticStone',
+  Stone = 'Stone',
   StaticGlass = 'StaticGlass',
   MeltedGlass = 'MeltedGlass',
   Hot = 'Hot',

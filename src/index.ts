@@ -17,7 +17,7 @@ const CONTROLLED_POINT_TYPES = [
   PointType.IceFire,
   PointType.Fuel,
   PointType.Acid,
-  PointType.StaticStone,
+  PointType.Stone,
   PointType.Metal,
   PointType.Hot,
   PointType.Cold,

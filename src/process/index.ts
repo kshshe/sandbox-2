@@ -14,7 +14,7 @@ import { steamProcessor } from './processors/steam'
 import { iceProcessor } from './processors/ice'
 import { lavaProcessor } from './processors/lava'
 import { fireProcessor } from './processors/fire'
-import { staticStoneProcessor } from './processors/staticStone'
+import { stoneProcessor } from './processors/stone'
 import { meltedGlassProcessor } from './processors/meltedGlass'
 import { staticGlassProcessor } from './processors/staticGlass'
 import { fuelProcessor } from './processors/fuel'
@@ -38,7 +38,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Fire]: fireProcessor,
   [PointType.BFire]: fireProcessor,
   [PointType.IceFire]: fireProcessor,
-  [PointType.StaticStone]: staticStoneProcessor,
+  [PointType.Stone]: stoneProcessor,
   [PointType.MeltedGlass]: meltedGlassProcessor,
   [PointType.StaticGlass]: staticGlassProcessor,
   [PointType.Fuel]: fuelProcessor,
@@ -55,14 +55,14 @@ const PROCESSORS: Record<PointType, Processor> = {
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Water]: PointType.Ice,
   [PointType.Steam]: PointType.Water,
-  [PointType.Lava]: PointType.StaticStone,
+  [PointType.Lava]: PointType.Stone,
   [PointType.MeltedGlass]: PointType.StaticGlass,
 }
 
 const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Ice]: PointType.Water,
   [PointType.Water]: PointType.Steam,
-  [PointType.StaticStone]: PointType.Lava,
+  [PointType.Stone]: PointType.Lava,
   [PointType.Sand]: PointType.MeltedGlass,
   [PointType.StaticGlass]: PointType.MeltedGlass,
   [PointType.Fuel]: PointType.Fire,

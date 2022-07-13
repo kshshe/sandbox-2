@@ -9,6 +9,7 @@ import { getCoordinateKey } from '../../utils/getCoordinateKey'
 
 const fluids = [
   PointType.Water,
+  PointType.MeltedGlass,
   PointType.Steam,
   PointType.Lava,
   PointType.Fuel,
@@ -16,7 +17,7 @@ const fluids = [
   PointType.BFire,
   PointType.IceFire,
 ]
-const powders = [PointType.Sand]
+const powders = [PointType.Sand, PointType.Stone, PointType.Virus]
 
 const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
   [PointType.Steam]: [...powders, ...fluids],
