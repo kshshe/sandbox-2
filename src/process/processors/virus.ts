@@ -1,5 +1,6 @@
 import { redrawPoint } from '../../draw';
 import { PointType } from '../../gameState';
+import { POINT_INITIAL_DATA } from '../../utils/addNewPoint';
 import { Processor, RequestedAction } from '../types'
 import { canMoveDown, canMoveLeftDown, canMoveRightDown } from '../utils/canMove'
 import { findNeighbours } from '../utils/findNeighbours'
@@ -30,6 +31,9 @@ export const virusProcessor: Processor = (state, point) => {
       point.transformTimeout--;
     } else {
       point.type = point.transformInto;
+      if (POINT_INITIAL_DATA[point.type]) {
+        Object.assign(point, POINT_INITIAL_DATA[point.type]);
+      }
       point.virusImmunity = TRANSFORM_DEFAULT_TIMEOUT * 2;
       redrawPoint(point.coordinate)
       point.transformInto = undefined;
