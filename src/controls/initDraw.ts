@@ -11,10 +11,16 @@ const getCircleCoordinatesInRadius = (
   const state = getOrCreateGameState()
   const { horizontal, vertical } = state.borders
   const coordinates: Coordinate[] = []
-  for (let x = center.x - radius; x <= center.x + radius / 2; x++) {
-    for (let y = center.y - radius; y <= center.y + radius / 2; y++) {
-      if (x >= 0 && y >= 0 && x < horizontal && y < vertical) {
-          coordinates.push({ x, y })
+  for (let x = center.x - radius; x <= center.x + radius; x++) {
+    const circleWidthOnX = Math.floor(Math.sqrt(radius ** 2 - Math.abs((x - center.x)) ** 2))
+    for (let y = center.y - circleWidthOnX; y <= center.y + circleWidthOnX; y++) {
+      if (
+        x >= 0 &&
+        x <= horizontal &&
+        y >= 0 &&
+        y <= vertical
+      ) {
+        coordinates.push({ x, y })
       }
     }
   }
