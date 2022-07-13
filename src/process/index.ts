@@ -26,6 +26,7 @@ import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { findNeighbours } from './utils/findNeighbours'
 import { getCoordinateKey } from '../utils/getCoordinateKey'
 import { debug } from '../constants'
+import { getColor } from '../utils/getColor'
 
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
@@ -197,6 +198,10 @@ const processGameTick = (): void => {
     const metaElement = document.querySelector('.meta')
     if (metaElement) {
       metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${state.points.length} points`
+    }
+    const canvasElement = document.querySelector('canvas')
+    if (canvasElement) {
+      canvasElement.style.borderColor = getColor(PointType.NonExistentElement, state.temperature, 0, true);
     }
   }
   state.points.forEach((point) => {
