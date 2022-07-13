@@ -19,7 +19,7 @@ export const sandProcessor: Processor = (state, point) => {
 
   const averageHumidity = neighboursHumidity.reduce((acc, curr) => acc + curr, 0) / 8;
   const humidityDiff = averageHumidity - point.humidity;
-  if (humidityDiff > 0.5) {
+  if (humidityDiff) {
     point.humidity = point.humidity + humidityDiff / 60;
     redrawPoint(point.coordinate);
   }
