@@ -5,10 +5,6 @@ export const fireProcessor: Processor = (state, point) => {
   if (point.age > 10) {
     return RequestedAction.Die
   }
-  
-  if (point.temperature < 20) {
-    return RequestedAction.Freeze
-  }
 
   const availableActionsFirstPriority = [
     canMoveUp(state, point) && RequestedAction.MoveUp,

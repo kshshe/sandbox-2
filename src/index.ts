@@ -13,6 +13,8 @@ const CONTROLLED_POINT_TYPES = [
   PointType.Steam,
   PointType.Lava,
   PointType.Fire,
+  PointType.BFire,
+  PointType.IceFire,
   PointType.Fuel,
   PointType.StaticStone,
   PointType.Metal,

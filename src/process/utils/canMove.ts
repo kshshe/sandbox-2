@@ -1,22 +1,43 @@
-import { Coordinate, GameState, getOrCreateGameState, PointData, PointType } from '../../gameState'
+import {
+  Coordinate,
+  GameState,
+  getOrCreateGameState,
+  PointData,
+  PointType,
+} from '../../gameState'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
 
-const fluids = [PointType.Water, PointType.Steam, PointType.Lava, PointType.Fuel]
+const fluids = [
+  PointType.Water,
+  PointType.Steam,
+  PointType.Lava,
+  PointType.Fuel,
+  PointType.Fire,
+  PointType.BFire,
+  PointType.IceFire,
+]
 const powders = [PointType.Sand]
 
 const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
   [PointType.Steam]: [...powders, ...fluids],
   [PointType.Sand]: fluids,
+  [PointType.Lava]: fluids,
 }
 
 type MoveChecker = (state: GameState, point: PointData) => boolean
 
-export const canMoveTo = (point: PointData, coordinate: Coordinate): boolean => {
+export const canMoveTo = (
+  point: PointData,
+  coordinate: Coordinate,
+): boolean => {
   const state = getOrCreateGameState()
   const pointKey = getCoordinateKey(coordinate)
   const pointThere = state.pointsByCoordinate[pointKey]
   if (pointThere) {
-    return pointThere.type !== point.type && !!IGNORE_MAP[point.type]?.includes(pointThere.type)
+    return (
+      pointThere.type !== point.type &&
+      !!IGNORE_MAP[point.type]?.includes(pointThere.type)
+    )
   }
   return true
 }

@@ -8,6 +8,8 @@ export enum PointType {
   Water = 'Water',
   Ice = 'Ice',
   Fire = 'Fire',
+  BFire = 'BFire',
+  IceFire = 'IceFire',
   Fuel = 'Fuel',
   Steam = 'Steam',
   Lava = 'Lava',

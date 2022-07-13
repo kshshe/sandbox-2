@@ -34,6 +34,8 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Steam]: steamProcessor,
   [PointType.Lava]: lavaProcessor,
   [PointType.Fire]: fireProcessor,
+  [PointType.BFire]: fireProcessor,
+  [PointType.IceFire]: fireProcessor,
   [PointType.StaticStone]: staticStoneProcessor,
   [PointType.MeltedGlass]: meltedGlassProcessor,
   [PointType.StaticGlass]: staticGlassProcessor,
