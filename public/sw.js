@@ -1,5 +1,5 @@
 const appName = 'sandbox'
-const version = '2'
+const version = '3'
 const cacheName = `${appName}-v${version}`
 
 const appShellFiles = [
