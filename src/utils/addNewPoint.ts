@@ -10,38 +10,46 @@ import { getPointOnCoordinate } from './getPointOnCoordinate'
 
 const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
   [PointType.Ice]: {
-    temperature: -100
+    temperature: -100,
   },
   [PointType.Water]: {
-    temperature: 5
+    temperature: 5,
   },
   [PointType.Steam]: {
-    temperature: 95
+    temperature: 95,
   },
   [PointType.Lava]: {
-    temperature: 300
+    temperature: 300,
   },
   [PointType.Fire]: {
-    temperature: 700
+    temperature: 700,
   },
   [PointType.Hot]: {
     temperature: 1200,
-    fixedTemperature: true
+    fixedTemperature: true,
   },
   [PointType.Cold]: {
     temperature: -700,
-    fixedTemperature: true
-  }
+    fixedTemperature: true,
+  },
 }
 
-const updateCoordinate = (point: PointData, coordinateFrom: Coordinate, coordinateTo: Coordinate): void => {
+const updateCoordinate = (
+  point: PointData,
+  coordinateFrom: Coordinate,
+  coordinateTo: Coordinate,
+): void => {
   const state = getOrCreateGameState()
   delete state.pointsByCoordinate[getCoordinateKey(coordinateFrom)]
   state.pointsByCoordinate[getCoordinateKey(coordinateTo)] = point
 }
 
-const createPointObject = (coordinate: Coordinate, type: PointType): PointData => {
-  let {x, y} = coordinate
+const createPointObject = (
+  coordinate: Coordinate,
+  type: PointType,
+): PointData => {
+  let { x, y } = coordinate
+  let pauseUpdates = false
   let localCoordinate = {
     get x() {
       return x
@@ -50,31 +58,42 @@ const createPointObject = (coordinate: Coordinate, type: PointType): PointData =
       return y
     },
     set x(value) {
-      updateCoordinate(point, {x, y}, {x: value, y})
+      if (!pauseUpdates) {
+        updateCoordinate(point, { x, y }, { x: value, y })
+      }
       x = value
     },
     set y(value) {
-      updateCoordinate(point, {x, y}, {x, y: value})
+      if (!pauseUpdates) {
+        updateCoordinate(point, { x, y }, { x, y: value })
+      }
       y = value
-    }
+    },
   }
   const point: PointData = {
     get coordinate() {
       return localCoordinate
     },
     set coordinate(newCoordinate: Coordinate) {
+      pauseUpdates = true
+      const from = { x, y }
       if (newCoordinate.x !== localCoordinate.x) {
         localCoordinate.x = newCoordinate.x
       }
       if (newCoordinate.y !== localCoordinate.y) {
         localCoordinate.y = newCoordinate.y
       }
+      updateCoordinate(point, from, {
+        x: newCoordinate.x,
+        y: newCoordinate.y,
+      })
+      pauseUpdates = false
     },
     type,
     temperature: 0,
     age: 1,
     fixedTemperature: false,
-    ...(POINT_INITIAL_DATA[type] || {})
+    ...(POINT_INITIAL_DATA[type] || {}),
   }
 
   return point
@@ -85,14 +104,17 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
   if (coordinate.x < 0 || coordinate.y < 0) {
     return
   }
-  if (coordinate.x > state.borders.horizontal || coordinate.y > state.borders.vertical) {
+  if (
+    coordinate.x > state.borders.horizontal ||
+    coordinate.y > state.borders.vertical
+  ) {
     return
   }
   const typeToAdd = type || state.currentType
   if (typeToAdd === 'Eraser') {
     const pointThere = getPointOnCoordinate(coordinate)
     if (pointThere) {
-      state.points = state.points.filter(point => point !== pointThere)
+      state.points = state.points.filter((point) => point !== pointThere)
       delete state.pointsByCoordinate[getCoordinateKey(pointThere.coordinate)]
       redrawPoint(pointThere.coordinate)
     }
@@ -107,3 +129,6 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
   redrawPoint(coordinate)
   state.points.push(point)
 }
+
+// @ts-ignore
+window.addNewPoint = addNewPoint

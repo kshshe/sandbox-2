@@ -18,6 +18,7 @@ import { meltedGlassProcessor } from './processors/meltedGlass'
 import { staticGlassProcessor } from './processors/staticGlass'
 import { fuelProcessor } from './processors/fuel'
 import { voidProcessor } from './processors/void'
+import { cloneProcessor } from './processors/clone'
 
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -37,6 +38,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.StaticGlass]: staticGlassProcessor,
   [PointType.Fuel]: fuelProcessor,
   [PointType.Void]: voidProcessor,
+  [PointType.Clone]: cloneProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
 }

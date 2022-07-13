@@ -18,6 +18,7 @@ const CONTROLLED_POINT_TYPES = [
   PointType.Hot,
   PointType.Cold,
   PointType.Void,
+  PointType.Clone,
 ]
 
 const init = async () => {

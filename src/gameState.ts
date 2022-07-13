@@ -17,6 +17,7 @@ export enum PointType {
   Hot = 'Hot',
   Cold = 'Cold',
   Void = 'Void',
+  Clone = 'Clone',
 }
 
 export type PointData = {
@@ -25,6 +26,7 @@ export type PointData = {
   temperature: number
   fixedTemperature: boolean
   age: number
+  cloningType?: PointType
 }
 
 export type GameState = {
