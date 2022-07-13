@@ -1,4 +1,3 @@
-import { PointType } from '../../gameState'
 import { Processor, RequestedAction } from '../types'
 import {
   canMoveDown,

@@ -22,6 +22,7 @@ const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
   [PointType.Steam]: [...powders, ...fluids],
   [PointType.Sand]: fluids,
   [PointType.Lava]: fluids,
+  [PointType.Water]: [PointType.Fuel],
 }
 
 type MoveChecker = (state: GameState, point: PointData) => boolean
