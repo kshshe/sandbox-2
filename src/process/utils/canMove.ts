@@ -1,7 +1,7 @@
 import { Coordinate, GameState, getOrCreateGameState, PointData, PointType } from '../../gameState'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
 
-const fluids = [PointType.Water, PointType.Steam, PointType.Lava]
+const fluids = [PointType.Water, PointType.Steam, PointType.Lava, PointType.Fuel]
 const powders = [PointType.Sand]
 
 const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
