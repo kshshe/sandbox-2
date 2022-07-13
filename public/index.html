@@ -17,8 +17,12 @@
       #root {
         background-color: #fff;
       }
-
       .controls {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+      }
+      .types {
         position: fixed;
         top: 10px;
         right: 10px;
@@ -28,7 +32,7 @@
         align-items: flex-end;
         gap: 5px;
       }
-      .control {
+      .type {
         display: block;
         height: 20px;
         min-height: 5vh;
@@ -36,10 +40,10 @@
         min-width: 5vh;
         border: 2px solid rgba(0, 0, 0, 0.201);
       }
-      .control--selected {
+      .type--selected {
         border: 2px solid #000;
       }
-      .control--void {
+      .type--void {
         color: white;
       }
       .temp {
@@ -52,6 +56,7 @@
   </head>
   <body>
     <div id="root">
+      <div class="types"></div>
       <div class="controls"></div>
       <div class="temp"></div>
     </div>

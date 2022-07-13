@@ -29,11 +29,15 @@ const init = async () => {
 
   const root = document.getElementById('root')
   const controls = document.querySelector('.controls')
+  const types = document.querySelector('.types')
   if (!root) {
     throw new Error('Root element not found')
   }
   if (!controls) {
     throw new Error('Controls element not found')
+  }
+  if (!types) {
+    throw new Error('Types element not found')
   }
   const proportions = {
     width: window.innerWidth,
@@ -49,22 +53,22 @@ const init = async () => {
   const controlTypes = [...CONTROLLED_POINT_TYPES, 'Eraser'] as Array<PointType | "Eraser">
   controlTypes.forEach((type) => {
     const button = document.createElement('button')
-    button.classList.add('control')
+    button.classList.add('type')
     if (state.currentType === type) {
-      button.classList.add('control--selected')
+      button.classList.add('type--selected')
     }
-    button.classList.add(`control--${type}`)
+    button.classList.add(`type--${type}`)
     button.style.backgroundColor = type === 'Eraser' ? 'white' : getColor(type)
     button.innerText = type
     button.addEventListener('click', () => {
       const state = getOrCreateGameState()
-      document.querySelectorAll('.control').forEach((control) => {
-        control.classList.remove('control--selected')
+      document.querySelectorAll('.type').forEach((control) => {
+        control.classList.remove('type--selected')
       });
-      button.classList.add('control--selected')
+      button.classList.add('type--selected')
       state.currentType = type
     })
-    controls.appendChild(button)
+    types.appendChild(button)
   })
 
   const brushInput = document.createElement('input')
