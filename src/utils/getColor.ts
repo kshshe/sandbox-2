@@ -14,6 +14,7 @@ const COLORS: Record<PointType, string> = {
   [PointType.StaticGlass]: '#f2f4ff',
   [PointType.MeltedGlass]: '#ffe6d3',
   [PointType.Fuel]: '#2eff5e',
+  [PointType.Acid]: '#60ff2e',
   [PointType.Hot]: '#c53300',
   [PointType.Cold]: '#0078af',
   [PointType.Void]: '#000000',

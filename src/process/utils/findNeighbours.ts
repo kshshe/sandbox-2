@@ -12,10 +12,13 @@ export const NEIGHBOUR_DIRECTIONS_TOP_SIDE: Direction[] = [
   { x: 1, y: -1 },
 ]
 
-export const NEIGHBOUR_DIRECTIONS_BOTTOM: Direction[] = [
-  { x: 0, y: 1 },
+export const NEIGHBOUR_DIRECTIONS_BOTTOM_SIDE: Direction[] = [
   { x: -1, y: 1 },
   { x: 1, y: 1 },
+]
+
+export const NEIGHBOUR_DIRECTIONS_BOTTOM: Direction[] = [
+  { x: 0, y: 1 },
 ]
 
 export const NEIGHBOUR_DIRECTIONS_EQUAL: Direction[] = [
@@ -27,6 +30,7 @@ export const NEIGHBOUR_DIRECTIONS: Direction[] = [
   ...NEIGHBOUR_DIRECTIONS_TOP,
   ...NEIGHBOUR_DIRECTIONS_TOP_SIDE,
   ...NEIGHBOUR_DIRECTIONS_BOTTOM,
+  ...NEIGHBOUR_DIRECTIONS_BOTTOM_SIDE,
   ...NEIGHBOUR_DIRECTIONS_EQUAL,
 ]
 
