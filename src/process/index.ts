@@ -84,9 +84,15 @@ const applyAction = (
   switch (action) {
     case RequestedAction.Freeze:
       point.type = FREEZE_MAP[point.type] || point.type
+      if (point.type === PointType.Water) {
+        point.humidity = 100
+      }
       break
     case RequestedAction.Melt:
       point.type = MELT_MAP[point.type] || point.type
+      if (point.type === PointType.Water) {
+        point.humidity = 100
+      }
       break
     case RequestedAction.MoveDown:
       swapTo({ ...point.coordinate, y: point.coordinate.y + 1 })
