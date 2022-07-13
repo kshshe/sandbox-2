@@ -174,7 +174,7 @@ const processGameTick = (): void => {
     const averageTemp =
       tempsArray.reduce((acc, cur) => acc + cur, 0) / tempsArray.length
     const tempDiff = averageTemp - point.temperature
-    temperaturesMap.set(point, point.temperature + tempDiff / 60)
+    temperaturesMap.set(point, point.temperature + tempDiff / 20)
   })
   state.points.forEach((point) => {
     if (point.fixedTemperature) {
