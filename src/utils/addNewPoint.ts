@@ -10,7 +10,7 @@ import { getPointOnCoordinate } from './getPointOnCoordinate'
 
 const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
   [PointType.Ice]: {
-    temperature: -100,
+    temperature: -200,
   },
   [PointType.Water]: {
     temperature: 5,
