@@ -5,14 +5,9 @@ export const steamProcessor: Processor = (state, point) => {
   if (point.temperature < 20) {
     return RequestedAction.Freeze
   }
-
-  if (
-    canMoveUp(state, point)
-  ) {
-    return RequestedAction.MoveUp
-  }
-
+  
   const availableActionsFirstPriority = [
+    canMoveUp(state, point) && RequestedAction.MoveUp,
     canMoveLeftUp(state, point) && RequestedAction.MoveLeftUp,
     canMoveRightUp(state, point) && RequestedAction.MoveRightUp,
   ].filter(Boolean) as RequestedAction[]
