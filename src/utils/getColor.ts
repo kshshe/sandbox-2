@@ -16,6 +16,7 @@ const COLORS: Record<PointType, string> = {
   [PointType.Cold]: '#0078af',
   [PointType.Void]: '#000000',
   [PointType.Clone]: '#00a927',
+  [PointType.NonExistentElement]: '#ffffff',
 }
 
 const COLD = '#0000FF'
