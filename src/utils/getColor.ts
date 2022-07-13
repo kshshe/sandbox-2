@@ -17,6 +17,7 @@ const COLORS: Record<PointType, string> = {
   [PointType.Void]: '#000000',
   [PointType.Clone]: '#00a927',
   [PointType.Virus]: '#d900ff',
+  [PointType.Metal]: '#e5e5e5',
   [PointType.NonExistentElement]: '#ffffff',
 }
 
@@ -33,7 +34,8 @@ export const getColor = (type: PointType, temperature: number = BASE_TEMP, humid
   const state = getOrCreateGameState()
   const typeColor = mixColors(COLORS[type], WET, Math.min(humidity / 200, 1))
   const tempDiff = Math.abs(temperature - BASE_TEMP)
-  if (!state.showTemperature || tempDiff < MIN_DIFF) {
+  const showTemperature = state.showTemperature || (type === PointType.Metal && temperature > 0)
+  if (!showTemperature || tempDiff < MIN_DIFF) {
     return typeColor
   }
   const ratio = Math.min(tempDiff / MAX_DIFF, MAX_RATIO)

@@ -43,6 +43,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Virus]: virusProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
+  [PointType.Metal]: () => RequestedAction.None,
   [PointType.NonExistentElement]: () => RequestedAction.None,
 }
 
@@ -180,7 +181,7 @@ const processGameTick = (): void => {
       return;
     }
     point.temperature = temperaturesMap.get(point) || point.temperature
-    if (debug || state.showTemperature) {
+    if (debug || state.showTemperature || point.type === PointType.Metal) {
       redrawPoint(point.coordinate)
     }
   })

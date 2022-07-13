@@ -19,6 +19,7 @@ export enum PointType {
   Void = 'Void',
   Clone = 'Clone',
   Virus = 'Virus',
+  Metal = 'Metal',
   NonExistentElement = 'NonExistentElement',
 }
 
