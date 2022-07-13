@@ -31,6 +31,7 @@ export const virusProcessor: Processor = (state, point) => {
       point.transformTimeout--;
     } else {
       point.type = point.transformInto;
+      point.fixedTemperature = false;
       if (POINT_INITIAL_DATA[point.type]) {
         Object.assign(point, POINT_INITIAL_DATA[point.type]);
       }
