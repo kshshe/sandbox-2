@@ -95,3 +95,7 @@ const init = () => {
 }
 
 window.addEventListener('load', init)
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/pwa/sw.js')
+}
