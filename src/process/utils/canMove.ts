@@ -16,7 +16,7 @@ export const canMoveTo = (point: PointData, coordinate: Coordinate): boolean => 
   const pointKey = getCoordinateKey(coordinate)
   const pointThere = state.pointsByCoordinate[pointKey]
   if (pointThere) {
-    return !!IGNORE_MAP[point.type]?.includes(pointThere.type)
+    return pointThere.type !== point.type && !!IGNORE_MAP[point.type]?.includes(pointThere.type)
   }
   return true
 }
