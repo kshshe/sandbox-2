@@ -18,6 +18,7 @@ export enum PointType {
   Cold = 'Cold',
   Void = 'Void',
   Clone = 'Clone',
+  NonExistentElement = 'NonExistentElement',
 }
 
 export type PointData = {

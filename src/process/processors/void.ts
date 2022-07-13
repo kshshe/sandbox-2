@@ -8,6 +8,7 @@ export const voidProcessor: Processor = (state, point) => {
   const neighbours = findNeighbours(state, point)
   neighbours.forEach((neighbour) => {
     if (neighbour.type !== PointType.Void) {
+      neighbour.type = PointType.NonExistentElement
       delete state.pointsByCoordinate[getCoordinateKey(neighbour.coordinate)]
       state.points = state.points.filter((p) => p !== neighbour)
       redrawPoint(neighbour.coordinate)

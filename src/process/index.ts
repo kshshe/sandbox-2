@@ -41,6 +41,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Clone]: cloneProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
+  [PointType.NonExistentElement]: () => RequestedAction.None,
 }
 
 const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
