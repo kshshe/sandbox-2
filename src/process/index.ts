@@ -168,9 +168,9 @@ const processGameTick = (): void => {
     const diff = averageTemp - state.temperature
     state.temperature += diff / 2000
     state.temperature = state.temperature + (5 - state.temperature) / 100
-    const tempElement = document.querySelector('.temp')
-    if (tempElement) {
-      tempElement.innerHTML = `${state.temperature.toFixed(2)} ℃`
+    const metaElement = document.querySelector('.meta')
+    if (metaElement) {
+      metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${state.points.length} points`
     }
   }
   state.points.forEach((point) => {

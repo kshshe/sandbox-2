@@ -120,6 +120,9 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
     }
     return
   }
+  if (state.points.length > 6000) {
+    return
+  }
   const pointThere = getPointOnCoordinate(coordinate)
   if (pointThere) {
     return
