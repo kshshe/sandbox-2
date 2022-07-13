@@ -40,7 +40,7 @@ const drawNewPoint = (
   }
   const x = Math.floor(relativePosition.x / SCALE)
   const y = Math.floor(relativePosition.y / SCALE)
-  getCircleCoordinatesInRadius({ x, y }, brushSize).forEach(coordinate => {
+  getCircleCoordinatesInRadius({ x, y }, brushSize - 1).forEach(coordinate => {
     addNewPoint(coordinate)
   })
 }
