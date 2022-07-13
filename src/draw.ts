@@ -25,7 +25,7 @@ export const redrawPoint = (coordinate: Coordinate) => {
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
   } else {
     const { type } = point
-    ctx.fillStyle = getColor(type)
+    ctx.fillStyle = getColor(type, point.temperature)
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
     if (debug) {
       ctx.fillText('', x * SCALE,(y+1) * SCALE)

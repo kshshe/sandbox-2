@@ -1,4 +1,5 @@
-import { PointType } from '../gameState'
+import { getOrCreateGameState, PointType } from '../gameState'
+import { mixColors }  from './mixColors'
 
 const COLORS: Record<PointType, string> = {
   [PointType.Sand]: '#ffd800',
@@ -17,6 +18,21 @@ const COLORS: Record<PointType, string> = {
   [PointType.Clone]: '#00a927',
 }
 
-export const getColor = (type: PointType): string => {
-  return COLORS[type]
+const COLD = '#0000FF'
+const HOT = '#FF0000'
+
+const BASE_TEMP = 5;
+const MIN_DIFF = 2;
+const MAX_DIFF = 150;
+const MAX_RATIO = 0.8;
+
+export const getColor = (type: PointType, temperature: number = BASE_TEMP): string => {
+  const state = getOrCreateGameState()
+  const typeColor = COLORS[type]
+  const tempDiff = Math.abs(temperature - BASE_TEMP)
+  if (!state.showTemperature || tempDiff < MIN_DIFF) {
+    return typeColor
+  }
+  const ratio = Math.min(tempDiff / MAX_DIFF, MAX_RATIO)
+  return mixColors(typeColor, temperature > 0 ? HOT : COLD, ratio)
 }

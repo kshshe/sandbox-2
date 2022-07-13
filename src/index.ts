@@ -94,6 +94,15 @@ const init = async () => {
   });
   controls.appendChild(speedInput)
 
+  const showTempInput = document.createElement('input')
+  showTempInput.type = 'checkbox'
+  showTempInput.addEventListener('change', () => {
+    const state = getOrCreateGameState()
+    state.showTemperature = showTempInput.checked
+    drawInitial(canvas)
+  });
+  controls.appendChild(showTempInput)
+
   setBorders(proportions.width / SCALE, proportions.height / SCALE)
 
   initControls(canvas)

@@ -157,7 +157,7 @@ const processGameTick = (): void => {
       return;
     }
     point.temperature = temperaturesMap.get(point) || point.temperature
-    if (debug) {
+    if (debug || state.showTemperature) {
       redrawPoint(point.coordinate)
     }
   })
