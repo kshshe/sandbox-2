@@ -176,11 +176,11 @@ const processGameTick = (): void => {
   state.points.forEach((point) => {
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point)
+    point.age++
     if (action === RequestedAction.None) {
       return
     }
     applyAction(state, action, point)
-    point.age++
     redrawPoint(odlCoordinate)
     redrawPoint(point.coordinate)
   })
