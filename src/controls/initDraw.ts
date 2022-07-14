@@ -67,6 +67,12 @@ export const initDraw = (canvas: HTMLCanvasElement) => {
   let isDragging = false
   let addInterval: number | null = null
   let lastMousePosition = { x: 0, y: 0 }
+  listen(canvas, ['mouseout'], () => {
+    isDragging = false
+    if (addInterval) {
+      clearInterval(addInterval)
+    }
+  })
   listen(canvas, ['mousedown', 'touchstart'], (position) => {
     isDragging = true
     lastMousePosition = { ...position }
