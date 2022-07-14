@@ -2,7 +2,7 @@ import { Processor, RequestedAction } from '../types'
 import { canMoveLeft, canMoveLeftUp, canMoveRight, canMoveRightUp, canMoveUp } from '../utils/canMove'
 
 export const fireProcessor: Processor = (state, point) => {
-  if (point.age > 10) {
+  if ((point.age > 10 && Math.random() < 0.2) || point.age > 40) {
     return RequestedAction.Die
   }
 
