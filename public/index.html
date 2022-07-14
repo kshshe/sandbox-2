@@ -60,6 +60,29 @@
       }
       canvas {
         border: 5px solid transparent;
+        cursor: none;
+      }
+      .cursor {
+        position: fixed;
+        border-radius: 100%;
+        border: 2px solid black;
+        transform-origin: center center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        pointer-events: none;
+        will-change: transform;
+      }
+      .cursor--active {
+        visibility: visible;
+      }
+      .cursor::after {
+        content: "";
+        background-color: black;
+        width: 5px;
+        height: 5px;
+        border-radius: 100%;
       }
     </style>
   </head>
@@ -68,6 +91,7 @@
       <div class="types"></div>
       <div class="controls"></div>
       <div class="meta"></div>
+      <div class="cursor"></div>
     </div>
     <script src="bundle.js"></script>
   </body>
