@@ -4,8 +4,6 @@ import { findNeighbours, NEIGHBOUR_DIRECTIONS_BOTTOM, NEIGHBOUR_DIRECTIONS_BOTTO
 import { addNewPoint } from '../../utils/addNewPoint'
 import { updateHumidity } from '../utils/updateHumidity'
 
-const GROW_DIRECTIONS = [...NEIGHBOUR_DIRECTIONS_TOP, ...NEIGHBOUR_DIRECTIONS_TOP_SIDE]
-
 export const treeProcessor: Processor = (state, point) => {
   if (point.temperature > 10) {
     point.temperature = 700 * 8
@@ -19,17 +17,16 @@ export const treeProcessor: Processor = (state, point) => {
 
   updateHumidity(state, point)
 
-  if (point.humidity > 5) {
+  if (point.humidity > 3) {
     point.treeGrowTimer = (point.treeGrowTimer||0) + 1;
   }
 
-  if (point.humidity > 5 && point.treeGrowTimer && point.treeGrowTimer > 80) {
+  if (point.humidity > 3 && point.treeGrowTimer && point.treeGrowTimer > 80) {
     const topNeighbours = findNeighbours(state, point, NEIGHBOUR_DIRECTIONS_TOP)
     if (topNeighbours.length === 0) {
-      const direction = GROW_DIRECTIONS[Math.floor(Math.random() * GROW_DIRECTIONS.length)]
       addNewPoint({
-        x: point.coordinate.x + direction.x,
-        y: point.coordinate.y + direction.y,
+        x: point.coordinate.x ,
+        y: point.coordinate.y - 1,
       }, PointType.Tree)
     }
   }
