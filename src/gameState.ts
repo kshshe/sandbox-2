@@ -12,6 +12,7 @@ export enum PointType {
   IceFire = 'IceFire',
   Acid = 'Acid',
   Fuel = 'Fuel',
+  Tree = 'Tree',
   Steam = 'Steam',
   Lava = 'Lava',
   Stone = 'Stone',
@@ -38,6 +39,7 @@ export type PointData = {
   transformTimeout?: number
   virusImmunity?: number
   acidUsedTimes?: number
+  treeGrowTimer?: number
 }
 
 export type GameState = {

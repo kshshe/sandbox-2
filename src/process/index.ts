@@ -21,6 +21,7 @@ import { fuelProcessor } from './processors/fuel'
 import { voidProcessor } from './processors/void'
 import { cloneProcessor } from './processors/clone'
 import { acidProcessor } from './processors/acid'
+import { treeProcessor } from './processors/tree'
 
 import { redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -46,6 +47,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Void]: voidProcessor,
   [PointType.Clone]: cloneProcessor,
   [PointType.Virus]: virusProcessor,
+  [PointType.Tree]: treeProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.Metal]: () => RequestedAction.None,
@@ -66,6 +68,7 @@ const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Sand]: PointType.MeltedGlass,
   [PointType.StaticGlass]: PointType.MeltedGlass,
   [PointType.Fuel]: PointType.Fire,
+  [PointType.Tree]: PointType.Fire,
 }
 
 const applyAction = (

@@ -21,6 +21,7 @@ const COLORS: Record<PointType, string> = {
   [PointType.Clone]: '#00a927',
   [PointType.Virus]: '#d900ff',
   [PointType.Metal]: '#e5e5e5',
+  [PointType.Tree]: '#4d9000',
   [PointType.NonExistentElement]: '#ffffff',
 }
 

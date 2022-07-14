@@ -1,7 +1,18 @@
-import { redrawPoint } from '../../draw'
+import { PointType } from '../../gameState'
+import { addNewPoint } from '../../utils/addNewPoint'
+import { updateHumidity } from '../utils/updateHumidity'
 import { Processor, RequestedAction } from '../types'
-import { canMoveDown, canMoveLeftDown, canMoveLeftLeftDown, canMoveRightDown, canMoveRightRightDown } from '../utils/canMove'
-import { findNeighbours } from '../utils/findNeighbours'
+import {
+  canMoveDown,
+  canMoveLeftDown,
+  canMoveLeftLeftDown,
+  canMoveRightDown,
+  canMoveRightRightDown,
+} from '../utils/canMove'
+import {
+  findNeighbours,
+  NEIGHBOUR_DIRECTIONS_TOP,
+} from '../utils/findNeighbours'
 
 export const sandProcessor: Processor = (state, point) => {
   if (point.temperature > 120) {
@@ -11,18 +22,7 @@ export const sandProcessor: Processor = (state, point) => {
     return RequestedAction.MoveDown
   }
 
-  const neighboursHumidity = findNeighbours(state, point).map(neighbour => neighbour.humidity);
-  if (neighboursHumidity.length < 8) {
-    const diff = 8 - neighboursHumidity.length;
-    neighboursHumidity.push(...new Array(diff).fill(0));
-  }
-
-  const averageHumidity = neighboursHumidity.reduce((acc, curr) => acc + curr, 0) / 8;
-  const humidityDiff = averageHumidity - point.humidity;
-  if (humidityDiff) {
-    point.humidity = point.humidity + humidityDiff / 60;
-    redrawPoint(point.coordinate);
-  }
+  updateHumidity(state, point)
 
   const availableActionsFirstPriority = [
     canMoveLeftDown(state, point) && RequestedAction.MoveLeftDown,
@@ -30,7 +30,28 @@ export const sandProcessor: Processor = (state, point) => {
   ].filter(Boolean) as RequestedAction[]
 
   if (availableActionsFirstPriority.length > 0) {
-    return availableActionsFirstPriority[Math.floor(Math.random() * availableActionsFirstPriority.length)]
+    return availableActionsFirstPriority[
+      Math.floor(Math.random() * availableActionsFirstPriority.length)
+    ]
+  }
+
+  const topNeighbours = findNeighbours(state, point, NEIGHBOUR_DIRECTIONS_TOP)
+  if (point.humidity > 15 && topNeighbours.length === 0) {
+    point.treeGrowTimer = (point.treeGrowTimer || 0) + 1
+  } else {
+    point.treeGrowTimer = 0
+  }
+
+  if (point.humidity > 15 && point.treeGrowTimer && point.treeGrowTimer > 150) {
+    if (topNeighbours.length === 0) {
+      addNewPoint(
+        {
+          x: point.coordinate.x,
+          y: point.coordinate.y - 1,
+        },
+        PointType.Tree,
+      )
+    }
   }
 
   if (point.humidity > 20) {
@@ -40,9 +61,11 @@ export const sandProcessor: Processor = (state, point) => {
     ].filter(Boolean) as RequestedAction[]
 
     if (availableActionsSecondPriority.length > 0) {
-      return availableActionsSecondPriority[Math.floor(Math.random() * availableActionsSecondPriority.length)]
+      return availableActionsSecondPriority[
+        Math.floor(Math.random() * availableActionsSecondPriority.length)
+      ]
     }
   }
-  
+
   return RequestedAction.None
 }
