@@ -22,6 +22,7 @@ const powders = [PointType.Sand, PointType.Stone, PointType.Virus]
 const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
   [PointType.Steam]: [...powders, ...fluids],
   [PointType.Sand]: fluids,
+  [PointType.Stone]: fluids,
   [PointType.Lava]: fluids,
   [PointType.Water]: [PointType.Fuel],
 }
