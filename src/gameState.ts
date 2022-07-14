@@ -37,6 +37,7 @@ export type PointData = {
   transformInto?: PointType
   transformTimeout?: number
   virusImmunity?: number
+  acidUsedTimes?: number
 }
 
 export type GameState = {
