@@ -60,6 +60,9 @@ export type GameState = {
 let gameState: null | GameState = null
 
 export const getOrCreateGameState = (): GameState => {
+  let currentType = (localStorage.getItem('currentType') as PointType.Sand) || PointType.Sand
+  let brushSize = localStorage.getItem('brushSize') || 2
+
   if (!gameState) {
     gameState = {
       points: [],
@@ -68,8 +71,20 @@ export const getOrCreateGameState = (): GameState => {
         horizontal: 0,
         vertical: 0,
       },
-      currentType: PointType.Sand,
-      brushSize: 2,
+      get currentType() {
+        return currentType
+      },
+      set currentType(value) {
+        localStorage.setItem('currentType', value)
+        currentType = value
+      },
+      get brushSize() {
+        return +brushSize || 2
+      },
+      set brushSize(value) {
+        localStorage.setItem('brushSize', `${value}`)
+        brushSize = value
+      },
       speed: 1,
       temperature: 0,
       showTemperature: false,
