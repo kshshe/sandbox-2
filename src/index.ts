@@ -114,6 +114,16 @@ const init = async () => {
   });
   controls.appendChild(showTempInput)
 
+  const pauseInput = document.createElement('input')
+  pauseInput.type = 'checkbox'
+  pauseInput.checked = true
+  pauseInput.addEventListener('change', () => {
+    const state = getOrCreateGameState()
+    state.playing = pauseInput.checked
+    drawInitial(canvas)
+  });
+  controls.appendChild(pauseInput)
+
   initControls(canvas)
 
   // @ts-ignore

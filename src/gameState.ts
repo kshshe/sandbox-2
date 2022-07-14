@@ -54,6 +54,7 @@ export type GameState = {
   speed: number
   temperature: number
   showTemperature: boolean
+  playing: boolean
 }
 
 let gameState: null | GameState = null
@@ -71,7 +72,8 @@ export const getOrCreateGameState = (): GameState => {
       brushSize: 2,
       speed: 1,
       temperature: 0,
-      showTemperature: false
+      showTemperature: false,
+      playing: true,
     }
   }
   return gameState

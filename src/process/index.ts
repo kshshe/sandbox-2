@@ -230,7 +230,9 @@ const TICKS_PER_SECOND = 60
 export const startEngine = async () => {
   while (true) {
     const state = getOrCreateGameState()
-    processGameTick()
+    if (state.playing) {
+      processGameTick()
+    }
     await new Promise((resolve) =>
       setTimeout(resolve, 1000 / TICKS_PER_SECOND / state.speed),
     )
