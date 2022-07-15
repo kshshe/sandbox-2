@@ -160,7 +160,7 @@ const processRoomTemp = (state: GameState) => {
     const diff = averageTemp - state.temperature
     state.temperature += diff / (2000 / TICKS_PER_SECOND)
     state.temperature =
-      state.temperature + (5 - state.temperature) / (100 / TICKS_PER_SECOND)
+      state.temperature + (state.baseTemperature - state.temperature) / (100 / TICKS_PER_SECOND)
   }
 }
 

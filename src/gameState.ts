@@ -31,9 +31,12 @@ export type GameState = {
   brushSize: number
   speed: number
   temperature: number
+  baseTemperature: number
   showTemperature: boolean
   playing: boolean
 }
+
+export const DEFAULT_BASE_TEMP = 5
 
 let gameState: null | GameState = null
 
@@ -63,7 +66,8 @@ const createGameState = (): GameState => {
         brushSize = value
       },
       speed: 1,
-      temperature: 0,
+      temperature: DEFAULT_BASE_TEMP,
+      baseTemperature: DEFAULT_BASE_TEMP,
       showTemperature: false,
       playing: true,
     }

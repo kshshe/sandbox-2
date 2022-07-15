@@ -1,4 +1,4 @@
-import { getOrCreateGameState } from './gameState'
+import { DEFAULT_BASE_TEMP, getOrCreateGameState } from './gameState'
 import { setBorders } from './utils/setBorders'
 import { startEngine } from './process'
 import { SCALE } from './constants'
@@ -85,6 +85,17 @@ const init = async () => {
     state.speed = speedInput.valueAsNumber
   });
   controls.appendChild(speedInput)
+
+  const baseTempInput = document.createElement('input')
+  baseTempInput.type = 'range'
+  baseTempInput.min = '-10'
+  baseTempInput.max = '10'
+  baseTempInput.value = DEFAULT_BASE_TEMP.toString()
+  baseTempInput.addEventListener('change', () => {
+    const state = getOrCreateGameState()
+    state.baseTemperature = baseTempInput.valueAsNumber
+  });
+  controls.appendChild(baseTempInput)
 
   const showTempInput = document.createElement('input')
   showTempInput.type = 'checkbox'
