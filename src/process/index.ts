@@ -24,13 +24,13 @@ import { treeProcessor } from './processors/tree'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
-import { findNeighbours } from './utils/findNeighbours'
 import { getCoordinateKey } from '../utils/getCoordinateKey'
 import { debug } from '../constants'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
 
 const TICKS_PER_SECOND = 60
+let tick = 0
 
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
@@ -57,7 +57,10 @@ const PROCESSORS: Record<PointType, Processor> = {
 }
 
 const swap = (point: PointData, to: Coordinate) => {
-  const pointInitialCoordinate: Coordinate = { x: point.coordinate.x, y: point.coordinate.y }
+  const pointInitialCoordinate: Coordinate = {
+    x: point.coordinate.x,
+    y: point.coordinate.y,
+  }
   const pointThere = getPointOnCoordinate(to)
   if (pointThere) {
     pointThere.coordinate = { x: -1, y: -1 }
@@ -154,7 +157,8 @@ const processRoomTemp = (state: GameState) => {
     const diff = averageTemp - state.temperature
     state.temperature += diff / (2000 / TICKS_PER_SECOND)
     state.temperature =
-      state.temperature + (state.baseTemperature - state.temperature) / (100 / TICKS_PER_SECOND)
+      state.temperature +
+      (state.baseTemperature - state.temperature) / (100 / TICKS_PER_SECOND)
   }
 }
 
@@ -176,27 +180,42 @@ const updateMeta = (state: GameState) => {
   }
 }
 
+const TEMPERATURE_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 3
+
 const processGameTick = (state: GameState): void => {
-  const temperaturesMap: Map<PointData, number> = new Map()
-  state.points.forEach((point) => {
-    const pointNeighboursTemps = findNeighbours(state, point).map(
-      (neighbour) => neighbour.temperature,
-    )
-    const tempsArray = [
-      ...pointNeighboursTemps,
-      state.temperature,
-      point.temperature,
-    ]
-    const averageTemp =
-      tempsArray.reduce((acc, cur) => acc + cur, 0) / tempsArray.length
-    const tempDiff = averageTemp - point.temperature
-    temperaturesMap.set(point, point.temperature + tempDiff / 20)
-  })
+  const temperaturesMap: number[][] = []
+  for (let x = 0; x < state.borders.horizontal; x++) {
+    temperaturesMap[x] = []
+    for (let y = 0; y < state.borders.vertical; y++) {
+      let current =
+        state.pointsByCoordinate[getCoordinateKey({ x, y })]?.temperature ||
+        state.temperature
+      if (x > 0) {
+        const left = temperaturesMap[x - 1][y]
+        const diff = (left - current) / TEMPERATURE_CHANGE_COEFFICIENT
+        current += diff
+        temperaturesMap[x - 1][y] -= diff
+      }
+      if (y > 0) {
+        const top = temperaturesMap[x][y - 1]
+        const diff = (top - current) / TEMPERATURE_CHANGE_COEFFICIENT
+        current += diff
+        temperaturesMap[x][y - 1] -= diff
+      }
+      if (x > 0 && y > 0) {
+        const topLeft = temperaturesMap[x - 1][y - 1]
+        const diff = (topLeft - current) / TEMPERATURE_CHANGE_COEFFICIENT
+        current += diff
+        temperaturesMap[x - 1][y - 1] -= diff
+      }
+      temperaturesMap[x][y] = current
+    }
+  }
   state.points.forEach((point) => {
     if (point.fixedTemperature) {
       return
     }
-    point.temperature = temperaturesMap.get(point) || point.temperature
+    point.temperature = temperaturesMap[point.coordinate.x][point.coordinate.y]
     if (debug || state.showTemperature || point.type === PointType.Metal) {
       redrawPoint(point.coordinate)
     }
@@ -217,7 +236,6 @@ const processGameTick = (state: GameState): void => {
   })
 }
 
-let tick = 0
 export const startEngine = async () => {
   while (true) {
     const state = getOrCreateGameState()
