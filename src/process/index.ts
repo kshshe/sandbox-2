@@ -30,6 +30,8 @@ import { getCoordinateKey } from '../utils/getCoordinateKey'
 import { debug } from '../constants'
 import { getColor } from '../utils/getColor'
 
+const TICKS_PER_SECOND = 60
+
 const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
@@ -167,8 +169,37 @@ const applyAction = (
   }
 }
 
-const processGameTick = (): void => {
-  const state = getOrCreateGameState()
+const processRoomTemp = (state: GameState) => {
+  if (state.points.length > 0) {
+    const averageTemp =
+      state.points.reduce((acc, cur) => acc + cur.temperature, 0) /
+      state.points.length
+    const diff = averageTemp - state.temperature
+    state.temperature += diff / (2000 / TICKS_PER_SECOND)
+    state.temperature =
+      state.temperature + (5 - state.temperature) / (100 / TICKS_PER_SECOND)
+  }
+}
+
+const updateMeta = (state: GameState) => {
+  const metaElement = document.querySelector('.meta')
+  if (metaElement) {
+    metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${
+      state.points.length
+    } points`
+  }
+  const canvasElement = document.querySelector('canvas')
+  if (canvasElement) {
+    canvasElement.style.borderColor = getColor(
+      PointType.NonExistentElement,
+      state.temperature,
+      0,
+      true,
+    )
+  }
+}
+
+const processGameTick = (state: GameState): void => {
   const temperaturesMap: Map<PointData, number> = new Map()
   state.points.forEach((point) => {
     const pointNeighboursTemps = findNeighbours(state, point).map(
@@ -186,29 +217,13 @@ const processGameTick = (): void => {
   })
   state.points.forEach((point) => {
     if (point.fixedTemperature) {
-      return;
+      return
     }
     point.temperature = temperaturesMap.get(point) || point.temperature
     if (debug || state.showTemperature || point.type === PointType.Metal) {
       redrawPoint(point.coordinate)
     }
   })
-  if (state.points.length > 0) {
-    const averageTemp =
-      state.points.reduce((acc, cur) => acc + cur.temperature, 0) /
-      state.points.length
-    const diff = averageTemp - state.temperature
-    state.temperature += diff / 2000
-    state.temperature = state.temperature + (5 - state.temperature) / 100
-    const metaElement = document.querySelector('.meta')
-    if (metaElement) {
-      metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${state.points.length} points`
-    }
-    const canvasElement = document.querySelector('canvas')
-    if (canvasElement) {
-      canvasElement.style.borderColor = getColor(PointType.NonExistentElement, state.temperature, 0, true);
-    }
-  }
   state.points.forEach((point) => {
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point)
@@ -225,13 +240,17 @@ const processGameTick = (): void => {
   })
 }
 
-const TICKS_PER_SECOND = 60
-
+let tick = 0
 export const startEngine = async () => {
   while (true) {
     const state = getOrCreateGameState()
     if (state.playing) {
-      processGameTick()
+      if (tick % TICKS_PER_SECOND === 0) {
+        processRoomTemp(state)
+      }
+      processGameTick(state)
+      updateMeta(state)
+      tick++
     }
     await new Promise((resolve) =>
       setTimeout(resolve, 1000 / TICKS_PER_SECOND / state.speed),
