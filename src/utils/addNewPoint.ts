@@ -1,4 +1,4 @@
-import { redrawPoint } from '../draw'
+import { drawPoint } from '../draw'
 import {
   Coordinate,
   getOrCreateGameState,
@@ -124,7 +124,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
     if (pointThere) {
       state.points = state.points.filter((point) => point !== pointThere)
       delete state.pointsByCoordinate[getCoordinateKey(pointThere.coordinate)]
-      redrawPoint(pointThere.coordinate)
+      drawPoint(pointThere.coordinate)
     }
     return
   }
@@ -137,7 +137,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
   }
   const point = createPointObject(coordinate, typeToAdd)
   state.pointsByCoordinate[getCoordinateKey(coordinate)] = point
-  redrawPoint(coordinate)
+  drawPoint(coordinate)
   state.points.push(point)
 }
 

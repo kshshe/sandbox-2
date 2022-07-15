@@ -23,7 +23,7 @@ import { cloneProcessor } from './processors/clone'
 import { acidProcessor } from './processors/acid'
 import { treeProcessor } from './processors/tree'
 
-import { redrawPoint } from '../draw'
+import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { findNeighbours } from './utils/findNeighbours'
 import { getCoordinateKey } from '../utils/getCoordinateKey'
@@ -78,8 +78,8 @@ const applyAction = (
   action: RequestedAction,
   point: PointData,
 ): void => {
-  const pointInitialCoordinate = { ...point.coordinate }
   const swapTo = (to: Coordinate) => {
+    const pointInitialCoordinate = { ...point.coordinate }
     const pointThere = getPointOnCoordinate(to)
     if (pointThere) {
       pointThere.coordinate = { x: -1, y: -1 }
@@ -250,6 +250,7 @@ export const startEngine = async () => {
       }
       processGameTick(state)
       updateMeta(state)
+      requestAnimationFrame(drawDelayed)
       tick++
     }
     await new Promise((resolve) =>
