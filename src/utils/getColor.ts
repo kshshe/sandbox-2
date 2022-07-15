@@ -21,17 +21,21 @@ export const getColor = (
 ): string => {
   const roundedTemperature = Math.round(temperature)
   const roundedHumidity = Math.round(humidity)
-  const cacheKey = `${type}-${roundedTemperature}-${roundedHumidity}-${force}`
-  if (cache.has(cacheKey)) {
-    return cache.get(cacheKey) as string
-  }
   const state = getOrCreateGameState()
-  const typeColor = mixColors(COLORS[type], WET, Math.min(roundedHumidity / 200, 1))
-  const tempDiff = Math.abs(roundedTemperature - BASE_TEMP)
   const showTemperature =
     force ||
     state.showTemperature ||
     (type === PointType.Metal && roundedTemperature > 0)
+  const cacheKey = `${type}-${roundedTemperature}-${roundedHumidity}-${force}-${showTemperature}`
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey) as string
+  }
+  const typeColor = mixColors(
+    COLORS[type],
+    WET,
+    Math.min(roundedHumidity / 200, 1),
+  )
+  const tempDiff = Math.abs(roundedTemperature - BASE_TEMP)
   if (!showTemperature || tempDiff < MIN_DIFF) {
     cache.set(cacheKey, typeColor)
     return typeColor
