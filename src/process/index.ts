@@ -56,25 +56,25 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.NonExistentElement]: () => RequestedAction.None,
 }
 
+const swap = (point: PointData, to: Coordinate) => {
+  const pointInitialCoordinate: Coordinate = { x: point.coordinate.x, y: point.coordinate.y }
+  const pointThere = getPointOnCoordinate(to)
+  if (pointThere) {
+    pointThere.coordinate = { x: -1, y: -1 }
+  }
+  point.coordinate = to
+  if (pointThere) {
+    pointThere.coordinate = pointInitialCoordinate
+  }
+  redrawPoint(pointInitialCoordinate)
+  redrawPoint(to)
+}
+
 const applyAction = (
   state: GameState,
   action: RequestedAction,
   point: PointData,
 ): void => {
-  const swapTo = (to: Coordinate) => {
-    const pointInitialCoordinate = { ...point.coordinate }
-    const pointThere = getPointOnCoordinate(to)
-    if (pointThere) {
-      pointThere.coordinate = { x: -1, y: -1 }
-    }
-    point.coordinate = to
-    if (pointThere) {
-      pointThere.coordinate = pointInitialCoordinate
-    }
-    redrawPoint(pointInitialCoordinate)
-    redrawPoint(to)
-  }
-
   switch (action) {
     case RequestedAction.Freeze:
       point.type = FREEZE_MAP[point.type] || point.type
@@ -89,55 +89,49 @@ const applyAction = (
       }
       break
     case RequestedAction.MoveDown:
-      swapTo({ ...point.coordinate, y: point.coordinate.y + 1 })
+      swap(point, { ...point.coordinate, y: point.coordinate.y + 1 })
       break
     case RequestedAction.MoveLeft:
-      swapTo({ ...point.coordinate, x: point.coordinate.x - 1 })
+      swap(point, { ...point.coordinate, x: point.coordinate.x - 1 })
       break
     case RequestedAction.MoveRight:
-      swapTo({ ...point.coordinate, x: point.coordinate.x + 1 })
+      swap(point, { ...point.coordinate, x: point.coordinate.x + 1 })
       break
     case RequestedAction.MoveUp:
-      swapTo({ ...point.coordinate, y: point.coordinate.y - 1 })
+      swap(point, { ...point.coordinate, y: point.coordinate.y - 1 })
       break
     case RequestedAction.MoveLeftDown:
-      swapTo({
-        ...point.coordinate,
+      swap(point, {
         x: point.coordinate.x - 1,
         y: point.coordinate.y + 1,
       })
       break
     case RequestedAction.MoveRightDown:
-      swapTo({
-        ...point.coordinate,
+      swap(point, {
         x: point.coordinate.x + 1,
         y: point.coordinate.y + 1,
       })
       break
     case RequestedAction.MoveLeftLeftDown:
-      swapTo({
-        ...point.coordinate,
+      swap(point, {
         x: point.coordinate.x - 2,
         y: point.coordinate.y + 1,
       })
       break
     case RequestedAction.MoveRightRightDown:
-      swapTo({
-        ...point.coordinate,
+      swap(point, {
         x: point.coordinate.x + 2,
         y: point.coordinate.y + 1,
       })
       break
     case RequestedAction.MoveRightUp:
-      swapTo({
-        ...point.coordinate,
+      swap(point, {
         x: point.coordinate.x + 1,
         y: point.coordinate.y - 1,
       })
       break
     case RequestedAction.MoveLeftUp:
-      swapTo({
-        ...point.coordinate,
+      swap(point, {
         x: point.coordinate.x - 1,
         y: point.coordinate.y - 1,
       })

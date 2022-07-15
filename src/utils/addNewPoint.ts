@@ -1,11 +1,7 @@
 import { POINTS_LIMIT } from '../constants'
 import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
-import {
-  Coordinate,
-  getOrCreateGameState,
-  PointData,
-} from '../gameState'
+import { Coordinate, getOrCreateGameState, PointData } from '../gameState'
 import { getCoordinateKey } from './getCoordinateKey'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
 
@@ -23,46 +19,22 @@ const createPointObject = (
   coordinate: Coordinate,
   type: PointType,
 ): PointData => {
-  let { x, y } = coordinate
-  let pauseUpdates = false
   let localCoordinate = {
-    get x() {
-      return x
-    },
-    get y() {
-      return y
-    },
-    set x(value) {
-      if (!pauseUpdates) {
-        updateCoordinate(point, { x, y }, { x: value, y })
-      }
-      x = value
-    },
-    set y(value) {
-      if (!pauseUpdates) {
-        updateCoordinate(point, { x, y }, { x, y: value })
-      }
-      y = value
-    },
+    x: coordinate.x,
+    y: coordinate.y,
   }
   const point: PointData = {
     get coordinate() {
       return localCoordinate
     },
     set coordinate(newCoordinate: Coordinate) {
-      pauseUpdates = true
-      const from = { x, y }
-      if (newCoordinate.x !== localCoordinate.x) {
-        localCoordinate.x = newCoordinate.x
-      }
-      if (newCoordinate.y !== localCoordinate.y) {
-        localCoordinate.y = newCoordinate.y
-      }
+      const from = { x: localCoordinate.x, y: localCoordinate.y }
+      localCoordinate.x = newCoordinate.x
+      localCoordinate.y = newCoordinate.y
       updateCoordinate(point, from, {
         x: newCoordinate.x,
         y: newCoordinate.y,
       })
-      pauseUpdates = false
     },
     type,
     temperature: 0,
