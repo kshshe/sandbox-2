@@ -23,6 +23,7 @@ export type PointData = {
 export type GameState = {
   points: Array<PointData>
   pointsByCoordinate: { [key: string]: PointData }
+  temperaturesMap: number[][],
   borders: {
     horizontal: number
     vertical: number
@@ -47,6 +48,7 @@ const createGameState = (): GameState => {
     return {
       points: [],
       pointsByCoordinate: {},
+      temperaturesMap: [],
       borders: {
         horizontal: 0,
         vertical: 0,

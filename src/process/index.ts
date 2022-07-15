@@ -25,7 +25,6 @@ import { treeProcessor } from './processors/tree'
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getCoordinateKey } from '../utils/getCoordinateKey'
-import { debug } from '../constants'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
 
@@ -154,11 +153,9 @@ const processRoomTemp = (state: GameState) => {
     const averageTemp =
       state.points.reduce((acc, cur) => acc + cur.temperature, 0) /
       state.points.length
-    const diff = averageTemp - state.temperature
-    state.temperature += diff / (2000 / TICKS_PER_SECOND)
-    state.temperature =
-      state.temperature +
-      (state.baseTemperature - state.temperature) / (100 / TICKS_PER_SECOND)
+    state.temperature = averageTemp
+  } else {
+    state.temperature = state.baseTemperature
   }
 }
 
@@ -181,15 +178,25 @@ const updateMeta = (state: GameState) => {
 }
 
 const TEMPERATURE_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 3
+const TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR = TICKS_PER_SECOND * 1
 
 const processGameTick = (state: GameState): void => {
-  const temperaturesMap: number[][] = []
+  // const start = performance.now()
+  const temperaturesMap = state.temperaturesMap
   for (let x = 0; x < state.borders.horizontal; x++) {
-    temperaturesMap[x] = []
+    temperaturesMap[x] = temperaturesMap[x] || []
     for (let y = 0; y < state.borders.vertical; y++) {
-      let current =
-        state.pointsByCoordinate[getCoordinateKey({ x, y })]?.temperature ||
-        state.temperature
+      const point = state.pointsByCoordinate[getCoordinateKey({ x, y })]
+      let current = temperaturesMap[x][y]
+      if (point) {
+        current = point.temperature
+      } else {
+        if (current === undefined) {
+          current = state.baseTemperature
+        } else {
+          current = current + (state.baseTemperature - current) / TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR
+        }
+      }
       if (x > 0) {
         const left = temperaturesMap[x - 1][y]
         const diff = (left - current) / TEMPERATURE_CHANGE_COEFFICIENT
@@ -211,12 +218,14 @@ const processGameTick = (state: GameState): void => {
       temperaturesMap[x][y] = current
     }
   }
+  // const end = performance.now()
+  // console.log(`Processing took ${(end - start).toFixed(2)}ms`)
   state.points.forEach((point) => {
     if (point.fixedTemperature) {
       return
     }
     point.temperature = temperaturesMap[point.coordinate.x][point.coordinate.y]
-    if (debug || state.showTemperature || point.type === PointType.Metal) {
+    if (point.type === PointType.Metal) {
       redrawPoint(point.coordinate)
     }
   })

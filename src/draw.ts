@@ -1,6 +1,6 @@
 import { Coordinate, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
-import { debug, SCALE } from './constants'
+import { SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 import { getCoordinateKey } from './utils/getCoordinateKey'
 import { PointType } from './data'
@@ -14,6 +14,16 @@ let lastCtx: CanvasRenderingContext2D | null = null
 
 const pointsToRedraw = new Map<string, Coordinate>()
 
+export const drawTemp = (coordinate: Coordinate, temp: number) => {
+  const ctx = lastCtx
+  if (!ctx) {
+    return
+  }
+  const { x, y } = coordinate
+  ctx.fillStyle = getColor(PointType.NonExistentElement, temp)
+  ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+}
+
 export const drawPoint = (coordinate: Coordinate) => {
   const ctx = lastCtx
   if (!ctx) {
@@ -22,9 +32,6 @@ export const drawPoint = (coordinate: Coordinate) => {
   const point = getPointOnCoordinate(coordinate)
   const { x, y } = coordinate
   if (!point) {
-    if (debug) {
-      ctx.fillText('', x * SCALE, (y + 1) * SCALE)
-    }
     ctx.fillStyle = '#fff'
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
   } else {
@@ -40,17 +47,7 @@ export const drawPoint = (coordinate: Coordinate) => {
     if (point.type === PointType.Tree) {
       ctx.fillStyle = '#305b00'
       ctx.fillRect(x * SCALE, y * SCALE, 1, SCALE)
-      ctx.fillRect((1+ x)* SCALE - 1, y * SCALE, 1, SCALE)
-    }
-    if (debug) {
-      ctx.fillText('', x * SCALE, (y + 1) * SCALE)
-      ctx.fillStyle = '#000'
-      ctx.font = '7px Arial'
-      ctx.fillText(
-        `${Math.round(point.temperature)}`,
-        x * SCALE,
-        (y + 1) * SCALE,
-      )
+      ctx.fillRect((1 + x) * SCALE - 1, y * SCALE, 1, SCALE)
     }
   }
 }
@@ -62,9 +59,23 @@ export const redrawPoint = (coordinate: Coordinate) => {
 }
 
 export const drawDelayed = () => {
-  pointsToRedraw.forEach((coordinate) => {
-    drawPoint(coordinate)
-  })
+  const state = getOrCreateGameState()
+  if (state.showTemperature) {
+    for (let x = 0; x < state.borders.horizontal; x++) {
+      for (let y = 0; y < state.borders.vertical; y++) {
+        const point = state.pointsByCoordinate[getCoordinateKey({ x, y })]
+        if (point) {
+          drawPoint({ x, y })
+        } else {
+          drawTemp({ x, y }, state.temperaturesMap[x][y])
+        }
+      }
+    }
+  } else {
+    pointsToRedraw.forEach((coordinate) => {
+      drawPoint(coordinate)
+    })
+  }
   pointsToRedraw.clear()
 }
 
