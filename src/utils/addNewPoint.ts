@@ -11,6 +11,9 @@ const updateCoordinate = (
 ): void => {
   const state = getOrCreateGameState()
   delete state.pointsByCoordinate[coordinateFrom.x][coordinateFrom.y]
+  if (!state.pointsByCoordinate[coordinateTo.x]) {
+    state.pointsByCoordinate[coordinateTo.x] = []
+  }
   state.pointsByCoordinate[coordinateTo.x][coordinateTo.y] = point
 }
 
