@@ -3,7 +3,6 @@ import { Processor, RequestedAction } from '../types'
 import {
   findNeighbours,
   NEIGHBOUR_DIRECTIONS_BOTTOM,
-  NEIGHBOUR_DIRECTIONS_BOTTOM_SIDE,
   NEIGHBOUR_DIRECTIONS_TOP,
   NEIGHBOUR_DIRECTIONS_TOP_SIDE,
 } from '../utils/findNeighbours'
