@@ -1,7 +1,7 @@
 import { GameState, PointData } from '../../gameState'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
 
-type Direction = {x: number, y: number};
+export type Direction = {x: number, y: number};
 
 export const NEIGHBOUR_DIRECTIONS_TOP: Direction[] = [
   { x: 0, y: -1 },

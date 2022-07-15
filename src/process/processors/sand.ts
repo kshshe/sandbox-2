@@ -36,7 +36,7 @@ export const sandProcessor: Processor = (state, point) => {
   }
 
   const topNeighbours = findNeighbours(state, point, NEIGHBOUR_DIRECTIONS_TOP)
-  if (point.humidity > 15 && topNeighbours.length === 0) {
+  if (point.humidity > 15 && topNeighbours.length === 0 && point.temperature > 1) {
     point.treeGrowTimer = (point.treeGrowTimer || 0) + 1
   } else {
     point.treeGrowTimer = 0
