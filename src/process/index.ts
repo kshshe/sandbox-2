@@ -223,9 +223,12 @@ const processGameTick = (state: GameState): void => {
     if (point.fixedTemperature) {
       return
     }
-    point.temperature = temperaturesMap[point.coordinate.x][point.coordinate.y]
-    if (point.type === PointType.Metal) {
-      redrawPoint(point.coordinate)
+    const temp = temperaturesMap[point.coordinate.x][point.coordinate.y]
+    if (!isNaN(temp)) {
+      point.temperature = temperaturesMap[point.coordinate.x][point.coordinate.y]
+      if (point.type === PointType.Metal) {
+        redrawPoint(point.coordinate)
+      }
     }
   })
   state.points.forEach((point) => {
