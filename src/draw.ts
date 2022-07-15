@@ -1,8 +1,9 @@
-import { Coordinate, getOrCreateGameState, PointType } from './gameState'
+import { Coordinate, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
 import { debug, SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 import { getCoordinateKey } from './utils/getCoordinateKey'
+import { PointType } from './data'
 
 const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
   ctx.fillStyle = '#fff'

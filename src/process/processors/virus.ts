@@ -1,6 +1,5 @@
 import { redrawPoint } from '../../draw';
-import { PointType } from '../../gameState';
-import { POINT_INITIAL_DATA } from '../../utils/addNewPoint';
+import { PointType, POINT_INITIAL_DATA } from '../../data';
 import { Processor, RequestedAction } from '../types'
 import { canMoveDown, canMoveLeftDown, canMoveRightDown } from '../utils/canMove'
 import { findNeighbours } from '../utils/findNeighbours'

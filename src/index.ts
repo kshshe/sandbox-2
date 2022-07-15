@@ -1,30 +1,11 @@
-import { getOrCreateGameState, PointType } from './gameState'
+import { getOrCreateGameState } from './gameState'
 import { setBorders } from './utils/setBorders'
 import { startEngine } from './process'
 import { SCALE } from './constants'
 import { drawInitial } from './draw'
 import { initControls } from './controls/initControls'
 import { getColor } from './utils/getColor'
-
-const CONTROLLED_POINT_TYPES = [
-  PointType.Sand,
-  PointType.Water,
-  PointType.Ice,
-  PointType.Steam,
-  PointType.Lava,
-  PointType.Fire,
-  PointType.BFire,
-  PointType.IceFire,
-  PointType.Fuel,
-  PointType.Acid,
-  PointType.Stone,
-  PointType.Metal,
-  PointType.Hot,
-  PointType.Cold,
-  PointType.Virus,
-  PointType.Void,
-  PointType.Clone,
-]
+import { CONTROLLED_POINT_TYPES, PointType } from './data'
 
 const init = async () => {
   try {

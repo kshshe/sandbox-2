@@ -1,30 +1,8 @@
+import { PointType } from './data'
+
 export type Coordinate = {
   x: number
   y: number
-}
-
-export enum PointType {
-  Sand = 'Sand',
-  Water = 'Water',
-  Ice = 'Ice',
-  Fire = 'Fire',
-  BFire = 'BFire',
-  IceFire = 'IceFire',
-  Acid = 'Acid',
-  Fuel = 'Fuel',
-  Tree = 'Tree',
-  Steam = 'Steam',
-  Lava = 'Lava',
-  Stone = 'Stone',
-  StaticGlass = 'StaticGlass',
-  MeltedGlass = 'MeltedGlass',
-  Hot = 'Hot',
-  Cold = 'Cold',
-  Void = 'Void',
-  Clone = 'Clone',
-  Virus = 'Virus',
-  Metal = 'Metal',
-  NonExistentElement = 'NonExistentElement',
 }
 
 export type PointData = {

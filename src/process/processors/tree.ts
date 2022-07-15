@@ -1,4 +1,4 @@
-import { PointType } from '../../gameState'
+import { PointType } from '../../data'
 import { Processor, RequestedAction } from '../types'
 import {
   findNeighbours,

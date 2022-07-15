@@ -1,7 +1,7 @@
 import { Processor, RequestedAction } from '../types'
 import { findNeighbours, NEIGHBOUR_DIRECTIONS } from '../utils/findNeighbours'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
-import { PointType } from '../../gameState'
+import { PointType } from '../../data'
 import { addNewPoint } from '../../utils/addNewPoint'
 
 export const cloneProcessor: Processor = (state, point) => {

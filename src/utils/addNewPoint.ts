@@ -1,45 +1,12 @@
+import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
 import {
   Coordinate,
   getOrCreateGameState,
   PointData,
-  PointType,
 } from '../gameState'
 import { getCoordinateKey } from './getCoordinateKey'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
-
-export const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
-  [PointType.Ice]: {
-    temperature: -200,
-  },
-  [PointType.Water]: {
-    temperature: 5,
-    humidity: 100,
-  },
-  [PointType.Steam]: {
-    temperature: 95,
-  },
-  [PointType.Lava]: {
-    temperature: 300,
-  },
-  [PointType.Fire]: {
-    temperature: 700,
-  },
-  [PointType.BFire]: {
-    temperature: 4000,
-  },
-  [PointType.IceFire]: {
-    temperature: -2000,
-  },
-  [PointType.Hot]: {
-    temperature: 1200,
-    fixedTemperature: true,
-  },
-  [PointType.Cold]: {
-    temperature: -700,
-    fixedTemperature: true,
-  },
-}
 
 const updateCoordinate = (
   point: PointData,

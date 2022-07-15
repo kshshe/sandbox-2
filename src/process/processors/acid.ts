@@ -1,5 +1,5 @@
 import { redrawPoint } from '../../draw'
-import { PointType } from '../../gameState'
+import { PointType } from '../../data'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
 import { Processor, RequestedAction } from '../types'
 import {

@@ -2,7 +2,7 @@ import { Processor, RequestedAction } from '../types'
 import { findNeighbours } from '../utils/findNeighbours'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
 import { redrawPoint } from '../../draw'
-import { PointType } from '../../gameState'
+import { PointType } from '../../data'
 
 export const voidProcessor: Processor = (state, point) => {
   const neighbours = findNeighbours(state, point)

@@ -1,31 +1,11 @@
+import { IGNORE_MAP } from '../../data'
 import {
   Coordinate,
   GameState,
   getOrCreateGameState,
   PointData,
-  PointType,
 } from '../../gameState'
 import { getCoordinateKey } from '../../utils/getCoordinateKey'
-
-const fluids = [
-  PointType.Water,
-  PointType.MeltedGlass,
-  PointType.Steam,
-  PointType.Lava,
-  PointType.Fuel,
-  PointType.Fire,
-  PointType.BFire,
-  PointType.IceFire,
-]
-const powders = [PointType.Sand, PointType.Stone, PointType.Virus]
-
-const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
-  [PointType.Steam]: [...powders, ...fluids],
-  [PointType.Sand]: fluids,
-  [PointType.Stone]: fluids,
-  [PointType.Lava]: fluids,
-  [PointType.Water]: [PointType.Fuel],
-}
 
 type MoveChecker = (state: GameState, point: PointData) => boolean
 

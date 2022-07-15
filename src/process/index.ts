@@ -3,7 +3,6 @@ import {
   GameState,
   getOrCreateGameState,
   PointData,
-  PointType,
 } from '../gameState'
 import { Processor, RequestedAction } from './types'
 
@@ -29,6 +28,7 @@ import { findNeighbours } from './utils/findNeighbours'
 import { getCoordinateKey } from '../utils/getCoordinateKey'
 import { debug } from '../constants'
 import { getColor } from '../utils/getColor'
+import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
 
 const TICKS_PER_SECOND = 60
 
@@ -54,23 +54,6 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.Metal]: () => RequestedAction.None,
   [PointType.NonExistentElement]: () => RequestedAction.None,
-}
-
-const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
-  [PointType.Water]: PointType.Ice,
-  [PointType.Steam]: PointType.Water,
-  [PointType.Lava]: PointType.Stone,
-  [PointType.MeltedGlass]: PointType.StaticGlass,
-}
-
-const MELT_MAP: Partial<Record<PointType, PointType>> = {
-  [PointType.Ice]: PointType.Water,
-  [PointType.Water]: PointType.Steam,
-  [PointType.Stone]: PointType.Lava,
-  [PointType.Sand]: PointType.MeltedGlass,
-  [PointType.StaticGlass]: PointType.MeltedGlass,
-  [PointType.Fuel]: PointType.Fire,
-  [PointType.Tree]: PointType.Fire,
 }
 
 const applyAction = (
