@@ -44,6 +44,7 @@ let gameState: null | GameState = null
 const createGameState = (): GameState => {
     let currentType = (localStorage.getItem('currentType') as PointType.Sand) || PointType.Sand
     let brushSize = localStorage.getItem('brushSize') || 2
+    let speed = localStorage.getItem('speed') || 1
     
     return {
       points: [],
@@ -67,7 +68,13 @@ const createGameState = (): GameState => {
         localStorage.setItem('brushSize', `${value}`)
         brushSize = value
       },
-      speed: 1,
+      get speed() {
+        return +speed || 1
+      },
+      set speed(value) {
+        localStorage.setItem('speed', `${value}`)
+        speed = value
+      },
       temperature: DEFAULT_BASE_TEMP,
       baseTemperature: DEFAULT_BASE_TEMP,
       showTemperature: false,
