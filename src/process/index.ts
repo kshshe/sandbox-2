@@ -24,7 +24,6 @@ import { treeProcessor } from './processors/tree'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
-import { getCoordinateKey } from '../utils/getCoordinateKey'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
 
@@ -139,7 +138,7 @@ const applyAction = (
       })
       break
     case RequestedAction.Die:
-      delete state.pointsByCoordinate[getCoordinateKey(point.coordinate)]
+      delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
       state.points = state.points.filter((p) => p !== point)
       redrawPoint(point.coordinate)
       break
@@ -186,7 +185,7 @@ const processGameTick = (state: GameState): void => {
   for (let x = 0; x < state.borders.horizontal; x++) {
     temperaturesMap[x] = temperaturesMap[x] || []
     for (let y = 0; y < state.borders.vertical; y++) {
-      const point = state.pointsByCoordinate[getCoordinateKey({ x, y })]
+      const point = state.pointsByCoordinate[x][y]
       let current = temperaturesMap[x][y]
       if (point) {
         current = point.temperature

@@ -2,7 +2,6 @@ import { POINTS_LIMIT } from '../constants'
 import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
 import { Coordinate, getOrCreateGameState, PointData } from '../gameState'
-import { getCoordinateKey } from './getCoordinateKey'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
 
 const updateCoordinate = (
@@ -11,8 +10,8 @@ const updateCoordinate = (
   coordinateTo: Coordinate,
 ): void => {
   const state = getOrCreateGameState()
-  delete state.pointsByCoordinate[getCoordinateKey(coordinateFrom)]
-  state.pointsByCoordinate[getCoordinateKey(coordinateTo)] = point
+  delete state.pointsByCoordinate[coordinateFrom.x][coordinateFrom.y]
+  state.pointsByCoordinate[coordinateTo.x][coordinateTo.y] = point
 }
 
 const createPointObject = (
@@ -63,7 +62,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
     const pointThere = getPointOnCoordinate(coordinate)
     if (pointThere) {
       state.points = state.points.filter((point) => point !== pointThere)
-      delete state.pointsByCoordinate[getCoordinateKey(pointThere.coordinate)]
+      delete state.pointsByCoordinate[pointThere.coordinate.x][pointThere.coordinate.y]
       drawPoint(pointThere.coordinate)
     }
     return
@@ -76,7 +75,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
     return
   }
   const point = createPointObject(coordinate, typeToAdd)
-  state.pointsByCoordinate[getCoordinateKey(coordinate)] = point
+  state.pointsByCoordinate[coordinate.x][coordinate.y] = point
   drawPoint(coordinate)
   state.points.push(point)
 }

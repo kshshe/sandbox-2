@@ -2,7 +2,6 @@ import { Coordinate, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
 import { SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
-import { getCoordinateKey } from './utils/getCoordinateKey'
 import { PointType } from './data'
 
 const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
@@ -53,8 +52,7 @@ export const drawPoint = (coordinate: Coordinate) => {
 }
 
 export const redrawPoint = (coordinate: Coordinate) => {
-  const coordinateKey = getCoordinateKey(coordinate)
-  pointsToRedraw.set(coordinateKey, coordinate)
+  pointsToRedraw.set(`${coordinate.x}-${coordinate.y}`, coordinate)
   return
 }
 
@@ -63,7 +61,7 @@ export const drawDelayed = () => {
   if (state.showTemperature) {
     for (let x = 0; x < state.borders.horizontal; x++) {
       for (let y = 0; y < state.borders.vertical; y++) {
-        const point = state.pointsByCoordinate[getCoordinateKey({ x, y })]
+        const point = state.pointsByCoordinate[x][y]
         if (point) {
           drawPoint({ x, y })
         } else {

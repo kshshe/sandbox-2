@@ -5,7 +5,6 @@ import {
   getOrCreateGameState,
   PointData,
 } from '../../gameState'
-import { getCoordinateKey } from '../../utils/getCoordinateKey'
 
 type MoveChecker = (state: GameState, point: PointData) => boolean
 
@@ -14,8 +13,7 @@ export const canMoveTo = (
   coordinate: Coordinate,
 ): boolean => {
   const state = getOrCreateGameState()
-  const pointKey = getCoordinateKey(coordinate)
-  const pointThere = state.pointsByCoordinate[pointKey]
+  const pointThere = state.pointsByCoordinate[coordinate.x][coordinate.y]
   if (pointThere) {
     return (
       pointThere.type !== point.type &&

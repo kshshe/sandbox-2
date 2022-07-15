@@ -1,6 +1,5 @@
 import { redrawPoint } from '../../draw'
 import { PointType } from '../../data'
-import { getCoordinateKey } from '../../utils/getCoordinateKey'
 import { Processor, RequestedAction } from '../types'
 import {
   findNeighbours,
@@ -22,7 +21,7 @@ export const acidProcessor: Processor = (state, point) => {
   ]).filter((n) => ![PointType.Clone, point.type].includes(n.type))
   if (neighbours.length > 0) {
     const topNeighbour = neighbours[0]
-    delete state.pointsByCoordinate[getCoordinateKey(topNeighbour.coordinate)]
+    delete state.pointsByCoordinate[topNeighbour.coordinate.x][topNeighbour.coordinate.y]
     state.points = state.points.filter((p) => p !== topNeighbour)
     topNeighbour.type = PointType.NonExistentElement
     redrawPoint(topNeighbour.coordinate)

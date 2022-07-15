@@ -1,6 +1,5 @@
 import { Processor, RequestedAction } from '../types'
 import { findNeighbours, NEIGHBOUR_DIRECTIONS } from '../utils/findNeighbours'
-import { getCoordinateKey } from '../../utils/getCoordinateKey'
 import { PointType } from '../../data'
 import { addNewPoint } from '../../utils/addNewPoint'
 
@@ -31,7 +30,7 @@ export const cloneProcessor: Processor = (state, point) => {
       x: point.coordinate.x + randomDirection.x,
       y: point.coordinate.y + randomDirection.y,
     }
-    const pointThere = state.pointsByCoordinate[getCoordinateKey(coordinate)]
+    const pointThere = state.pointsByCoordinate[coordinate.x][coordinate.y]
     if (!pointThere) {
       addNewPoint(coordinate, point.cloningType)
     }
