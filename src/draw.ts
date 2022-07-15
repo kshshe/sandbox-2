@@ -72,7 +72,7 @@ export function drawInitial(canvas: HTMLCanvasElement) {
   resetCanvasBg(ctx)
   const state = getOrCreateGameState()
   state.points.forEach((point) => {
-    redrawPoint(point.coordinate)
+    drawPoint(point.coordinate)
   })
 }
 
