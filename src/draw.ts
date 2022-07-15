@@ -37,6 +37,11 @@ export const drawPoint = (coordinate: Coordinate) => {
         : 0,
     )
     ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+    if (point.type === PointType.Tree) {
+      ctx.fillStyle = '#305b00'
+      ctx.fillRect(x * SCALE, y * SCALE, 1, SCALE)
+      ctx.fillRect((1+ x)* SCALE - 1, y * SCALE, 1, SCALE)
+    }
     if (debug) {
       ctx.fillText('', x * SCALE, (y + 1) * SCALE)
       ctx.fillStyle = '#000'
