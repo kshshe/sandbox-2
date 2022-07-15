@@ -1,3 +1,4 @@
+import { POINTS_LIMIT } from '../constants'
 import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
 import {
@@ -95,7 +96,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
     }
     return
   }
-  if (state.points.length > 6000) {
+  if (state.points.length > POINTS_LIMIT) {
     return
   }
   const pointThere = getPointOnCoordinate(coordinate)
