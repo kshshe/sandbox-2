@@ -2,7 +2,7 @@ import { Coordinate, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
 import { SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
-import { PointType } from './data'
+import { PointType, VISIBLE_HUMIDITY } from './data'
 
 const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
   ctx.fillStyle = '#fff'
@@ -38,7 +38,7 @@ export const drawPoint = (coordinate: Coordinate) => {
     ctx.fillStyle = getColor(
       type,
       point.temperature,
-      [PointType.Sand, PointType.Tree].includes(point.type)
+      VISIBLE_HUMIDITY[point.type]
         ? point.humidity
         : 0,
     )

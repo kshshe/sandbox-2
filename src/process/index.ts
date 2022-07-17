@@ -21,6 +21,8 @@ import { voidProcessor } from './processors/void'
 import { cloneProcessor } from './processors/clone'
 import { acidProcessor } from './processors/acid'
 import { treeProcessor } from './processors/tree'
+import { concreteProcessor } from './processors/concrete'
+import { staticStoneProcessor } from './processors/staticStone'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -42,8 +44,10 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.BFire]: fireProcessor,
   [PointType.IceFire]: fireProcessor,
   [PointType.Stone]: stoneProcessor,
+  [PointType.StaticStone]: staticStoneProcessor,
   [PointType.MeltedGlass]: meltedGlassProcessor,
   [PointType.StaticGlass]: staticGlassProcessor,
+  [PointType.Concrete]: concreteProcessor,
   [PointType.Fuel]: fuelProcessor,
   [PointType.Acid]: acidProcessor,
   [PointType.Void]: voidProcessor,

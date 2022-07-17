@@ -14,6 +14,8 @@ export enum PointType {
   Steam = 'Steam',
   Lava = 'Lava',
   Stone = 'Stone',
+  StaticStone = 'StaticStone',
+  Concrete = 'Concrete',
   StaticGlass = 'StaticGlass',
   MeltedGlass = 'MeltedGlass',
   Hot = 'Hot',
@@ -23,6 +25,12 @@ export enum PointType {
   Virus = 'Virus',
   Metal = 'Metal',
   NonExistentElement = 'NonExistentElement',
+}
+
+export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
+  [PointType.Sand]: true,
+  [PointType.Tree]: true,
+  [PointType.Concrete]: true,
 }
 
 export const COLORS: Record<PointType, string> = {
@@ -35,6 +43,8 @@ export const COLORS: Record<PointType, string> = {
   [PointType.BFire]: '#8ddaff',
   [PointType.IceFire]: '#8ddaff',
   [PointType.Stone]: '#a7a7a7',
+  [PointType.StaticStone]: '#a7a7a7',
+  [PointType.Concrete]: '#f2f2f2',
   [PointType.StaticGlass]: '#f2f4ff',
   [PointType.MeltedGlass]: '#ffe6d3',
   [PointType.Fuel]: '#2eff5e',
@@ -52,14 +62,16 @@ export const COLORS: Record<PointType, string> = {
 export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Water]: PointType.Ice,
   [PointType.Steam]: PointType.Water,
-  [PointType.Lava]: PointType.Stone,
   [PointType.MeltedGlass]: PointType.StaticGlass,
+  [PointType.Lava]: PointType.StaticStone,
+  [PointType.Concrete]: PointType.StaticStone,
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Ice]: PointType.Water,
   [PointType.Water]: PointType.Steam,
   [PointType.Stone]: PointType.Lava,
+  [PointType.StaticStone]: PointType.Lava,
   [PointType.Sand]: PointType.MeltedGlass,
   [PointType.StaticGlass]: PointType.MeltedGlass,
   [PointType.Fuel]: PointType.Fire,
@@ -101,6 +113,9 @@ export const POINT_INITIAL_DATA: Partial<Record<
     temperature: -700,
     fixedTemperature: true,
   },
+  [PointType.Concrete]: {
+    humidity: 50,
+  }
 }
 
 export const FLUIDS = [
@@ -112,6 +127,7 @@ export const FLUIDS = [
   PointType.Fire,
   PointType.BFire,
   PointType.IceFire,
+  PointType.Concrete
 ]
 
 export const POWDERS = [PointType.Sand, PointType.Stone, PointType.Virus]
@@ -124,6 +140,7 @@ export const IGNORE_MAP: Partial<Record<
   [PointType.Sand]: listToMap(FLUIDS),
   [PointType.Stone]: listToMap(FLUIDS),
   [PointType.Lava]: listToMap(FLUIDS),
+  [PointType.Concrete]: listToMap(FLUIDS),
   [PointType.Water]: listToMap([PointType.Fuel]),
 }
 
@@ -139,6 +156,7 @@ export const CONTROLLED_POINT_TYPES = [
   PointType.Fuel,
   PointType.Acid,
   PointType.Stone,
+  PointType.Concrete,
   PointType.Metal,
   PointType.Hot,
   PointType.Cold,
