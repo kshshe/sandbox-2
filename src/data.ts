@@ -106,11 +106,11 @@ export const POINT_INITIAL_DATA: Partial<Record<
     temperature: -2000,
   },
   [PointType.Hot]: {
-    temperature: 1200,
+    temperature: 1500,
     fixedTemperature: true,
   },
   [PointType.Cold]: {
-    temperature: -1200,
+    temperature: -1500,
     fixedTemperature: true,
   },
   [PointType.Concrete]: {
