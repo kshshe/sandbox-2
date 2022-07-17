@@ -83,7 +83,7 @@ const createGameState = (): GameState => {
       baseTemperature: DEFAULT_BASE_TEMP,
       showTemperature: false,
       playing: true,
-      freeBorders: true,
+      freeBorders: false,
     }
 }
 
