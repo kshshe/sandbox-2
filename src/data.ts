@@ -105,6 +105,8 @@ export const POINT_INITIAL_DATA: Partial<Record<
   },
   [PointType.Steam]: {
     temperature: 95,
+    humidity: 100,
+    fixedHumidity: true,
   },
   [PointType.Lava]: {
     temperature: 1500,
