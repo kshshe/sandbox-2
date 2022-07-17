@@ -1,4 +1,4 @@
-import { DEFAULT_BASE_TEMP, getOrCreateGameState } from './gameState'
+import { DEFAULT_BASE_TEMP, getOrCreateGameState, restoreSavedState } from './gameState'
 import { setBorders } from './utils/setBorders'
 import { startEngine } from './process'
 import { SCALE } from './constants'
@@ -137,6 +137,7 @@ const init = async () => {
   // @ts-ignore
   window.gameState = state
 
+  restoreSavedState()
   drawInitial(canvas)
   startEngine()
 }

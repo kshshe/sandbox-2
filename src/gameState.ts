@@ -1,4 +1,5 @@
 import { PointType } from './data'
+import { addNewPoint } from './utils/addNewPoint'
 
 export type Coordinate = {
   readonly x: number
@@ -49,7 +50,7 @@ const createGameState = (): GameState => {
     let brushSize = localStorage.getItem('brushSize') || 2
     let speed = localStorage.getItem('speed') || 1
     
-    return {
+    const state = {
       points: [],
       pointsByCoordinate: [],
       temperaturesMap: [],
@@ -85,6 +86,28 @@ const createGameState = (): GameState => {
       playing: true,
       freeBorders: false,
     }
+
+    return state
+}
+
+export const restoreSavedState = () => {
+  const state = getOrCreateGameState()
+
+  const storedPoints = localStorage.getItem('points')
+  if (storedPoints) {
+    try {
+      const parsedPoints = JSON.parse(storedPoints)
+      parsedPoints.forEach((point: PointData) => {
+        addNewPoint(point.coordinate, point.type)
+      });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  setInterval(() => {
+    localStorage.setItem('points', JSON.stringify(state.points))
+  }, 1000)
 }
 
 export const getOrCreateGameState = (): GameState => {
