@@ -53,7 +53,7 @@ export const COLORS: Record<PointType, string> = {
   [PointType.Concrete]: '#f2f2f2',
   [PointType.StaticGlass]: '#f2f4ff',
   [PointType.MeltedGlass]: '#ffe6d3',
-  [PointType.Fuel]: '#2eff5e',
+  [PointType.Fuel]: '#000000',
   [PointType.Acid]: '#60ff2e',
   [PointType.Hot]: '#c53300',
   [PointType.Cold]: '#0078af',
