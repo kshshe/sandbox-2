@@ -9,9 +9,12 @@ import { CONTROLLED_POINT_TYPES, PointType } from './data'
 
 const init = async () => {
   try {
-    await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.register(
+      new URL('./sw.js', import.meta.url),
+      { type: 'module' },
+    )
   } catch (err) {
-    console.log('Service worker registration failed: ', err);
+    console.log('Service worker registration failed: ', err)
   }
 
   const root = document.getElementById('root')
@@ -43,7 +46,9 @@ const init = async () => {
 
   const state = getOrCreateGameState()
 
-  const controlTypes = [...CONTROLLED_POINT_TYPES, 'Eraser'] as Array<PointType | "Eraser">
+  const controlTypes = [...CONTROLLED_POINT_TYPES, 'Eraser'] as Array<
+    PointType | 'Eraser'
+  >
   controlTypes.forEach((type) => {
     const button = document.createElement('button')
     button.classList.add('type')
@@ -57,7 +62,7 @@ const init = async () => {
       const state = getOrCreateGameState()
       document.querySelectorAll('.type').forEach((control) => {
         control.classList.remove('type--selected')
-      });
+      })
       button.classList.add('type--selected')
       state.currentType = type
     })
@@ -72,7 +77,7 @@ const init = async () => {
   brushInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.brushSize = brushInput.valueAsNumber
-  });
+  })
   controls.appendChild(brushInput)
 
   const speedInput = document.createElement('input')
@@ -83,7 +88,7 @@ const init = async () => {
   speedInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.speed = speedInput.valueAsNumber
-  });
+  })
   controls.appendChild(speedInput)
 
   const baseTempInput = document.createElement('input')
@@ -94,7 +99,7 @@ const init = async () => {
   baseTempInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.baseTemperature = baseTempInput.valueAsNumber
-  });
+  })
   controls.appendChild(baseTempInput)
 
   const showTempInput = document.createElement('input')
@@ -103,7 +108,7 @@ const init = async () => {
     const state = getOrCreateGameState()
     state.showTemperature = showTempInput.checked
     drawInitial(canvas)
-  });
+  })
   controls.appendChild(showTempInput)
 
   const pauseInput = document.createElement('input')
@@ -113,7 +118,7 @@ const init = async () => {
     const state = getOrCreateGameState()
     state.playing = pauseInput.checked
     drawInitial(canvas)
-  });
+  })
   controls.appendChild(pauseInput)
 
   initControls(canvas)
