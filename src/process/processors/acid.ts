@@ -11,7 +11,7 @@ import {
 } from '../utils/findNeighbours'
 import { waterProcessor } from './water'
 
-export const acidProcessor: Processor = (state, point) => {
+export const acidProcessor: Processor = (state, point, tick) => {
   const neighbours = findNeighbours(state, point, [
     ...NEIGHBOUR_DIRECTIONS_BOTTOM,
     ...NEIGHBOUR_DIRECTIONS_BOTTOM_SIDE,
@@ -35,5 +35,5 @@ export const acidProcessor: Processor = (state, point) => {
   return waterProcessor(state, {
     ...point,
     temperature: 10,
-  })
+  }, tick)
 }

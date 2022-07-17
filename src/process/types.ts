@@ -17,4 +17,4 @@ export enum RequestedAction {
   Die = 'Die',
 }
 
-export type Processor = (state: GameState, point: PointData) => RequestedAction
+export type Processor = (state: GameState, point: PointData, tick: number) => RequestedAction

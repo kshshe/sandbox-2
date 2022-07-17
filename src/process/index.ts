@@ -313,7 +313,7 @@ const processHumidityMap = (state: GameState) => {
 const processGameTick = (state: GameState): void => {
   state.points.forEach(function processPointActions(point) {
     const odlCoordinate = { ...point.coordinate }
-    const action = PROCESSORS[point.type](state, point)
+    const action = PROCESSORS[point.type](state, point, tick)
     point.age++
     if (point.virusImmunity && point.virusImmunity > 0) {
       point.virusImmunity--
