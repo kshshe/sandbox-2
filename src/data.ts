@@ -94,6 +94,10 @@ export const POINT_INITIAL_DATA: Partial<Record<
   [PointType.Ice]: {
     temperature: -50,
   },
+  [PointType.Acid]: {
+    humidity: 100,
+    fixedHumidity: true,
+  },
   [PointType.Water]: {
     temperature: 5,
     humidity: 100,
