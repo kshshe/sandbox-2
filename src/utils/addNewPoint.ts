@@ -56,8 +56,8 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
     return
   }
   if (
-    coordinate.x > state.borders.horizontal ||
-    coordinate.y > state.borders.vertical
+    coordinate.x > state.borders.horizontal - 1||
+    coordinate.y > state.borders.vertical - 1
   ) {
     return
   }

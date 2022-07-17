@@ -14,7 +14,7 @@ import {
 } from '../utils/findNeighbours'
 
 export const sandProcessor: Processor = (state, point) => {
-  if (point.temperature > 120) {
+  if (point.temperature > 1300) {
     return RequestedAction.Melt
   }
   if (canMoveDown(state, point)) {

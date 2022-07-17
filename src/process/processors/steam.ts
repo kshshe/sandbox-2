@@ -2,7 +2,7 @@ import { Processor, RequestedAction } from '../types'
 import { canMoveUp, canMoveLeft, canMoveLeftUp, canMoveRight, canMoveRightUp } from '../utils/canMove'
 
 export const steamProcessor: Processor = (state, point) => {
-  if (point.temperature < 18) {
+  if (point.temperature < 70) {
     return RequestedAction.Freeze
   }
   

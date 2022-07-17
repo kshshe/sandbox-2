@@ -8,7 +8,7 @@ const WET = '#000000'
 
 const BASE_TEMP = 5
 const MIN_DIFF = 2
-const MAX_DIFF = 150
+const MAX_DIFF = 700
 const MAX_RATIO = 0.8
 
 const cache = new Map<string, string>()

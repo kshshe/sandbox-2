@@ -9,7 +9,7 @@ import {
 import { addNewPoint } from '../../utils/addNewPoint'
 
 export const treeProcessor: Processor = (state, point) => {
-  if (point.temperature > 10) {
+  if (point.temperature > 50) {
     point.temperature = 700 * 8
     return RequestedAction.Melt
   }

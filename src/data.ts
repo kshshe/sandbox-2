@@ -83,7 +83,7 @@ export const POINT_INITIAL_DATA: Partial<Record<
   Partial<PointData>
 >> = {
   [PointType.Ice]: {
-    temperature: -200,
+    temperature: -50,
   },
   [PointType.Water]: {
     temperature: 5,
@@ -94,13 +94,13 @@ export const POINT_INITIAL_DATA: Partial<Record<
     temperature: 95,
   },
   [PointType.Lava]: {
-    temperature: 300,
+    temperature: 1500,
   },
   [PointType.Fire]: {
-    temperature: 700,
+    temperature: 500,
   },
   [PointType.BFire]: {
-    temperature: 4000,
+    temperature: 2000,
   },
   [PointType.IceFire]: {
     temperature: -2000,
@@ -110,7 +110,7 @@ export const POINT_INITIAL_DATA: Partial<Record<
     fixedTemperature: true,
   },
   [PointType.Cold]: {
-    temperature: -700,
+    temperature: -1200,
     fixedTemperature: true,
   },
   [PointType.Concrete]: {

@@ -16,7 +16,7 @@ export const waterProcessor: Processor = (state, point) => {
   if (point.temperature < 0) {
     return RequestedAction.Freeze
   }
-  if (point.temperature > 20) {
+  if (point.temperature > 80) {
     return RequestedAction.Melt
   }
 
