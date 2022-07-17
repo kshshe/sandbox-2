@@ -30,7 +30,7 @@ export const cloneProcessor: Processor = (state, point) => {
       x: point.coordinate.x + randomDirection.x,
       y: point.coordinate.y + randomDirection.y,
     }
-    const pointThere = state.pointsByCoordinate[coordinate.x][coordinate.y]
+    const pointThere = state.pointsByCoordinate[coordinate.x]?.[coordinate.y]
     if (!pointThere) {
       addNewPoint(coordinate, point.cloningType)
     }
