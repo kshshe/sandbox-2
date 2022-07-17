@@ -1,4 +1,5 @@
 import { SCALE } from '../constants'
+import { PointType } from '../data'
 import { getOrCreateGameState } from '../gameState'
 import { getColor } from '../utils/getColor'
 
@@ -13,11 +14,27 @@ const setCursorSize = (cursor: HTMLDivElement) => {
   cursor.style.left = `-${size / 2}px`
 }
 
+let updateMetaInterval: number | undefined
+
 export const initCursor = (canvas: HTMLCanvasElement) => {
   const cursor = document.querySelector('.cursor') as HTMLDivElement
-  if (!cursor) {
+  const cursorMeta = document.querySelector('.cursor_meta') as HTMLDivElement
+  if (!cursor || !cursorMeta) {
     return
   }
+
+const updateMeta = (x: number, y: number) => {
+  const state = getOrCreateGameState()
+    const humidity = state.humidityMap[x]?.[y]
+    const temperature = state.temperaturesMap[x]?.[y]
+    if (humidity !== undefined && temperature !== undefined) {
+      cursorMeta.innerText = `${temperature.toFixed(0)}°C, ${humidity.toFixed(0)}%`
+      cursorMeta.style.backgroundColor = getColor(PointType.Void, temperature, 0, true)
+    } else {
+      cursorMeta.innerText = ''
+    }
+  }
+
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault()
     const state = getOrCreateGameState()
@@ -49,5 +66,14 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     cursor.style.transform = `translate(${x}px, ${y}px)`
+
+    const pointX = Math.floor(x / SCALE)
+    const pointY = Math.floor(y / SCALE)
+
+    updateMeta(pointX, pointY)
+    clearInterval(updateMetaInterval)
+    updateMetaInterval = setInterval(() => {
+      updateMeta(pointX, pointY)
+    }, 300)
   })
 }

@@ -75,6 +75,22 @@ canvas {
   will-change: transform;
   background-color: #0000000a;
 
+  &_meta {
+    font-family: Arial;
+
+    position: absolute;
+    white-space: nowrap;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+
+    padding: 2px 4px;
+    border-radius: 2px;
+
+    margin-left: 150px;
+    margin-bottom: 30px;
+  }
+
   &--active {
     visibility: visible;
   }
