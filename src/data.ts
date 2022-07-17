@@ -7,6 +7,7 @@ export enum PointType {
   Ice = 'Ice',
   Fire = 'Fire',
   FireWood = 'FireWood',
+  Cinder = 'Cinder',
   Wood = 'Wood',
   BFire = 'BFire',
   IceFire = 'IceFire',
@@ -37,6 +38,7 @@ export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
 
 export const COLORS: Record<PointType, string> = {
   [PointType.Sand]: '#ffd800',
+  [PointType.Cinder]: '#dfdfdf',
   [PointType.Water]: '#00adff',
   [PointType.Ice]: '#c9eeff',
   [PointType.Steam]: '#efefef',
@@ -69,6 +71,7 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.MeltedGlass]: PointType.StaticGlass,
   [PointType.Lava]: PointType.StaticStone,
   [PointType.Concrete]: PointType.StaticStone,
+  [PointType.FireWood]: PointType.Cinder,
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
@@ -81,6 +84,7 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Fuel]: PointType.Fire,
   [PointType.Tree]: PointType.Fire,
   [PointType.Wood]: PointType.FireWood,
+  [PointType.Cinder]: PointType.Concrete,
 }
 
 export const POINT_INITIAL_DATA: Partial<Record<
@@ -120,6 +124,9 @@ export const POINT_INITIAL_DATA: Partial<Record<
   },
   [PointType.Concrete]: {
     humidity: 50,
+  },
+  [PointType.Cinder]: {
+    temperature: 50,
   }
 }
 
@@ -143,6 +150,7 @@ export const IGNORE_MAP: Partial<Record<
 >> = {
   [PointType.Steam]: listToMap([...POWDERS, ...FLUIDS]),
   [PointType.Sand]: listToMap(FLUIDS),
+  [PointType.Cinder]: listToMap(FLUIDS),
   [PointType.Stone]: listToMap(FLUIDS),
   [PointType.Lava]: listToMap(FLUIDS),
   [PointType.Concrete]: listToMap(FLUIDS),
