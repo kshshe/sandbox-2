@@ -106,7 +106,7 @@ export const POINT_INITIAL_DATA: Partial<Record<
     temperature: 1500,
   },
   [PointType.Fire]: {
-    temperature: 500,
+    temperature: 900,
   },
   [PointType.BFire]: {
     temperature: 2000,
