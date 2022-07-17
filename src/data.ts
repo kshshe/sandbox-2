@@ -6,6 +6,8 @@ export enum PointType {
   Water = 'Water',
   Ice = 'Ice',
   Fire = 'Fire',
+  FireWood = 'FireWood',
+  Wood = 'Wood',
   BFire = 'BFire',
   IceFire = 'IceFire',
   Acid = 'Acid',
@@ -40,6 +42,8 @@ export const COLORS: Record<PointType, string> = {
   [PointType.Steam]: '#efefef',
   [PointType.Lava]: '#ff642e',
   [PointType.Fire]: '#ff992e',
+  [PointType.FireWood]: '#ff992e',
+  [PointType.Wood]: '#cf8800',
   [PointType.BFire]: '#8ddaff',
   [PointType.IceFire]: '#8ddaff',
   [PointType.Stone]: '#a7a7a7',
@@ -76,6 +80,7 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.StaticGlass]: PointType.MeltedGlass,
   [PointType.Fuel]: PointType.Fire,
   [PointType.Tree]: PointType.Fire,
+  [PointType.Wood]: PointType.FireWood,
 }
 
 export const POINT_INITIAL_DATA: Partial<Record<
@@ -157,6 +162,7 @@ export const CONTROLLED_POINT_TYPES = [
   PointType.Acid,
   PointType.Stone,
   PointType.Concrete,
+  PointType.Wood,
   PointType.Metal,
   PointType.Hot,
   PointType.Cold,

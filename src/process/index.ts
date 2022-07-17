@@ -23,6 +23,8 @@ import { acidProcessor } from './processors/acid'
 import { treeProcessor } from './processors/tree'
 import { concreteProcessor } from './processors/concrete'
 import { staticStoneProcessor } from './processors/staticStone'
+import { woodProcessor } from './processors/wood'
+import { fireWoodProcessor } from './processors/fireWood'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -54,6 +56,8 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Clone]: cloneProcessor,
   [PointType.Virus]: virusProcessor,
   [PointType.Tree]: treeProcessor,
+  [PointType.FireWood]: fireWoodProcessor,
+  [PointType.Wood]: woodProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.Metal]: () => RequestedAction.None,
