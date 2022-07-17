@@ -42,6 +42,7 @@ const createPointObject = (
     temperature: 0,
     humidity: 0,
     age: 1,
+    fixedHumidity: false,
     fixedTemperature: false,
     ...(POINT_INITIAL_DATA[type] || {}),
   }

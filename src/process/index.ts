@@ -28,6 +28,8 @@ import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
 
 const TICKS_PER_SECOND = 60
+const TICK_TIMES_LIMIT = 100
+const tickTimes: number[] = []
 let tick = 0
 
 const PROCESSORS: Record<PointType, Processor> = {
@@ -161,9 +163,11 @@ const processRoomTemp = (state: GameState) => {
 const updateMeta = (state: GameState) => {
   const metaElement = document.querySelector('.meta')
   if (metaElement) {
+    const averageTickTime =
+      tickTimes.reduce((acc, cur) => acc + cur, 0) / tickTimes.length
     metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${
       state.points.length
-    } points`
+    } points, ${averageTickTime.toFixed(2)} ms/tick`
   }
   const canvasElement = document.querySelector('canvas')
   if (canvasElement) {
@@ -179,8 +183,7 @@ const updateMeta = (state: GameState) => {
 const TEMPERATURE_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 3
 const TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR = TICKS_PER_SECOND * 1
 
-const processGameTick = (state: GameState): void => {
-  // const start = performance.now()
+const processTemperaturesMap = (state: GameState) => {
   const temperaturesMap = state.temperaturesMap
   for (let x = 0; x < state.borders.horizontal; x++) {
     temperaturesMap[x] = temperaturesMap[x] || []
@@ -193,7 +196,10 @@ const processGameTick = (state: GameState): void => {
         if (current === undefined) {
           current = state.baseTemperature
         } else {
-          current = current + (state.baseTemperature - current) / TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR
+          current =
+            current +
+            (state.baseTemperature - current) /
+              TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR
         }
       }
       if (x > 0) {
@@ -217,21 +223,79 @@ const processGameTick = (state: GameState): void => {
       temperaturesMap[x][y] = current
     }
   }
-  // const end = performance.now()
-  // console.log(`Processing took ${(end - start).toFixed(2)}ms`)
-  state.points.forEach((point) => {
+  state.points.forEach(function updatePointTemperature(point) {
     if (point.fixedTemperature) {
       return
     }
     const temp = temperaturesMap[point.coordinate.x][point.coordinate.y]
     if (!isNaN(temp)) {
-      point.temperature = temperaturesMap[point.coordinate.x][point.coordinate.y]
+      point.temperature =
+        temperaturesMap[point.coordinate.x][point.coordinate.y]
       if (point.type === PointType.Metal) {
         redrawPoint(point.coordinate)
       }
     }
   })
-  state.points.forEach((point) => {
+}
+
+const HUMIDITY_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 10
+const HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR = HUMIDITY_CHANGE_COEFFICIENT * 5
+
+const processHumidityMap = (state: GameState) => {
+  const humidityMap = state.humidityMap
+  for (let x = 0; x < state.borders.horizontal; x++) {
+    humidityMap[x] = humidityMap[x] || []
+    for (let y = 0; y < state.borders.vertical; y++) {
+      const point = state.pointsByCoordinate[x][y]
+      let current = humidityMap[x][y]
+      if (point) {
+        current = point.humidity
+      } else {
+        if (current === undefined) {
+          current = 0
+        } else {
+          current = current /
+            HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
+        }
+      }
+      if (x > 0) {
+        const left = humidityMap[x - 1][y]
+        const diff = (left - current) / HUMIDITY_CHANGE_COEFFICIENT
+        current += diff
+        humidityMap[x - 1][y] -= diff
+      }
+      if (y > 0) {
+        const top = humidityMap[x][y - 1]
+        const diff = (top - current) / HUMIDITY_CHANGE_COEFFICIENT
+        current += diff
+        humidityMap[x][y - 1] -= diff
+      }
+      if (x > 0 && y > 0) {
+        const topLeft = humidityMap[x - 1][y - 1]
+        const diff = (topLeft - current) / HUMIDITY_CHANGE_COEFFICIENT
+        current += diff
+        humidityMap[x - 1][y - 1] -= diff
+      }
+      humidityMap[x][y] = current
+    }
+  }
+  state.points.forEach(function updatePointHumidity(point) {
+    if (point.fixedHumidity) {
+      return
+    }
+    const humidity = humidityMap[point.coordinate.x][point.coordinate.y]
+    if (!isNaN(humidity)) {
+      point.humidity =
+      humidityMap[point.coordinate.x][point.coordinate.y]
+      if ([PointType.Sand, PointType.Tree].includes(point.type)) {
+        redrawPoint(point.coordinate)
+      }
+    }
+  })
+}
+
+const processGameTick = (state: GameState): void => {
+  state.points.forEach(function processPointActions(point) {
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point)
     point.age++
@@ -251,16 +315,22 @@ export const startEngine = async () => {
   while (true) {
     const state = getOrCreateGameState()
     if (state.playing) {
+      const start = performance.now()
       if (tick % TICKS_PER_SECOND === 0) {
         processRoomTemp(state)
       }
+      processTemperaturesMap(state)
+      processHumidityMap(state)
       processGameTick(state)
       updateMeta(state)
       requestAnimationFrame(drawDelayed)
       tick++
+      tickTimes.push(performance.now() - start)
+      if (tickTimes.length > TICK_TIMES_LIMIT) {
+        tickTimes.shift()
+      }
     }
-    await new Promise((resolve) =>
-      setTimeout(resolve, 1000 / TICKS_PER_SECOND / state.speed),
-    )
+    const timeout = 1000 / TICKS_PER_SECOND / state.speed
+    await new Promise((resolve) => setTimeout(resolve, timeout))
   }
 }

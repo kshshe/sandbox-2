@@ -2,23 +2,36 @@ import { GameState, PointData } from '../../gameState'
 
 export type Direction = { x: number; y: number }
 
-export const NEIGHBOUR_DIRECTIONS_TOP: Direction[] = [{ x: 0, y: -1 }]
+export const DIRECTIONS = {
+  left: { x: -1, y: 0 },
+  right: { x: 1, y: 0 },
+  up: { x: 0, y: -1 },
+  down: { x: 0, y: 1 },
+  leftUp: { x: -1, y: -1 },
+  rightUp: { x: 1, y: -1 },
+  leftDown: { x: -1, y: 1 },
+  rightDown: { x: 1, y: 1 },
+}
+
+export const NEIGHBOUR_DIRECTIONS_TOP: Direction[] = [DIRECTIONS.up]
 
 export const NEIGHBOUR_DIRECTIONS_TOP_SIDE: Direction[] = [
-  { x: -1, y: -1 },
-  { x: 1, y: -1 },
+  DIRECTIONS.leftUp,
+  DIRECTIONS.rightUp,
 ]
 
 export const NEIGHBOUR_DIRECTIONS_BOTTOM_SIDE: Direction[] = [
-  { x: -1, y: 1 },
-  { x: 1, y: 1 },
+  DIRECTIONS.leftDown,
+  DIRECTIONS.rightDown,
 ]
 
-export const NEIGHBOUR_DIRECTIONS_BOTTOM: Direction[] = [{ x: 0, y: 1 }]
+export const NEIGHBOUR_DIRECTIONS_BOTTOM: Direction[] = [
+  DIRECTIONS.down,
+]
 
 export const NEIGHBOUR_DIRECTIONS_EQUAL: Direction[] = [
-  { x: -1, y: 0 },
-  { x: 1, y: 0 },
+  DIRECTIONS.left,
+  DIRECTIONS.right,
 ]
 
 export const NEIGHBOUR_DIRECTIONS: Direction[] = [

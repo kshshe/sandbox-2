@@ -1,4 +1,5 @@
-import { PointData } from "./gameState"
+import { PointData } from './gameState'
+import { listToMap } from './utils/listToMap'
 
 export enum PointType {
   Sand = 'Sand',
@@ -65,13 +66,17 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Tree]: PointType.Fire,
 }
 
-export const POINT_INITIAL_DATA: Partial<Record<PointType, Partial<PointData>>> = {
+export const POINT_INITIAL_DATA: Partial<Record<
+  PointType,
+  Partial<PointData>
+>> = {
   [PointType.Ice]: {
     temperature: -200,
   },
   [PointType.Water]: {
     temperature: 5,
     humidity: 100,
+    fixedHumidity: true,
   },
   [PointType.Steam]: {
     temperature: 95,
@@ -111,12 +116,15 @@ export const FLUIDS = [
 
 export const POWDERS = [PointType.Sand, PointType.Stone, PointType.Virus]
 
-export const IGNORE_MAP: Partial<Record<PointType, PointType[]>> = {
-  [PointType.Steam]: [...POWDERS, ...FLUIDS],
-  [PointType.Sand]: FLUIDS,
-  [PointType.Stone]: FLUIDS,
-  [PointType.Lava]: FLUIDS,
-  [PointType.Water]: [PointType.Fuel],
+export const IGNORE_MAP: Partial<Record<
+  PointType,
+  Partial<Record<PointType, true>>
+>> = {
+  [PointType.Steam]: listToMap([...POWDERS, ...FLUIDS]),
+  [PointType.Sand]: listToMap(FLUIDS),
+  [PointType.Stone]: listToMap(FLUIDS),
+  [PointType.Lava]: listToMap(FLUIDS),
+  [PointType.Water]: listToMap([PointType.Fuel]),
 }
 
 export const CONTROLLED_POINT_TYPES = [

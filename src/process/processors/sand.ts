@@ -1,6 +1,5 @@
 import { PointType } from '../../data'
 import { addNewPoint } from '../../utils/addNewPoint'
-import { updateHumidity } from '../utils/updateHumidity'
 import { Processor, RequestedAction } from '../types'
 import {
   canMoveDown,
@@ -21,8 +20,6 @@ export const sandProcessor: Processor = (state, point) => {
   if (canMoveDown(state, point)) {
     return RequestedAction.MoveDown
   }
-
-  updateHumidity(state, point)
 
   const availableActionsFirstPriority = [
     canMoveLeftDown(state, point) && RequestedAction.MoveLeftDown,

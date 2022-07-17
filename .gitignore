@@ -105,3 +105,4 @@ dist
 
 build
 .vercel
+.parcel-cache

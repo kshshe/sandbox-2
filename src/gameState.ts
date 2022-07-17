@@ -11,6 +11,7 @@ export type PointData = {
   temperature: number
   humidity: number
   fixedTemperature: boolean
+  fixedHumidity: boolean
   age: number
   cloningType?: PointType
   transformInto?: PointType
@@ -24,6 +25,7 @@ export type GameState = {
   points: Array<PointData>
   pointsByCoordinate: PointData[][]
   temperaturesMap: number[][],
+  humidityMap: number[][],
   borders: {
     horizontal: number
     vertical: number
@@ -50,6 +52,7 @@ const createGameState = (): GameState => {
       points: [],
       pointsByCoordinate: [],
       temperaturesMap: [],
+      humidityMap: [],
       borders: {
         horizontal: 0,
         vertical: 0,

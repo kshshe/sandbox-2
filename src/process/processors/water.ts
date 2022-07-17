@@ -7,10 +7,10 @@ import {
   canMoveRightDown,
 } from '../utils/canMove'
 import {
+  DIRECTIONS,
   findNeighbours,
-  NEIGHBOUR_DIRECTIONS_EQUAL,
-  NEIGHBOUR_DIRECTIONS_TOP_SIDE,
 } from '../utils/findNeighbours'
+import {exceptType} from '../utils/exceptType'
 
 export const waterProcessor: Processor = (state, point) => {
   if (point.temperature < 0) {
@@ -20,19 +20,21 @@ export const waterProcessor: Processor = (state, point) => {
     return RequestedAction.Melt
   }
 
-  const neighbors = findNeighbours(state, point, [
-    ...NEIGHBOUR_DIRECTIONS_TOP_SIDE,
-    ...NEIGHBOUR_DIRECTIONS_EQUAL,
-  ]).filter((neighbor) => neighbor.type !== point.type)
-  const shouldStickToTheLeft = neighbors.some((neighbor) =>
-    neighbor.coordinate.x < point.coordinate.x)
-  const shouldStickToTheRight = neighbors.some((neighbor) =>  
-    neighbor.coordinate.x > point.coordinate.x)
+  const neighborsLeft = findNeighbours(state, point, [DIRECTIONS.left, DIRECTIONS.leftUp]).filter(exceptType(point.type))
+  const neighborsRight = findNeighbours(state, point, [DIRECTIONS.right, DIRECTIONS.rightUp]).filter(exceptType(point.type))
+
+  const shouldStickToTheLeft = neighborsLeft.length !== 0
+  const shouldStickToTheRight = neighborsRight.length !== 0
+  
+  let canMoveLeftDownResult;
+  let canMoveRightDownResult;
 
   if (shouldStickToTheLeft || shouldStickToTheRight) {
+    canMoveLeftDownResult = canMoveLeftDown(state, point)
+    canMoveRightDownResult = canMoveRightDown(state, point)
     const availableActions = [
-      shouldStickToTheLeft && canMoveLeftDown(state, point) && RequestedAction.MoveLeftDown,
-      shouldStickToTheRight && canMoveRightDown(state, point) && RequestedAction.MoveRightDown,
+      shouldStickToTheLeft && canMoveLeftDownResult && RequestedAction.MoveLeftDown,
+      shouldStickToTheRight && canMoveRightDownResult && RequestedAction.MoveRightDown,
     ].filter(Boolean) as RequestedAction[]
     if (availableActions.length > 0) {
       return availableActions[
@@ -45,9 +47,16 @@ export const waterProcessor: Processor = (state, point) => {
     return RequestedAction.MoveDown
   }
 
+  if (canMoveLeftDownResult === undefined) {
+    canMoveLeftDownResult = canMoveLeftDown(state, point)
+  }
+  if (canMoveRightDownResult === undefined) {
+    canMoveRightDownResult = canMoveRightDown(state, point)
+  }
+
   const availableActionsFirstPriority = [
-    canMoveLeftDown(state, point) && RequestedAction.MoveLeftDown,
-    canMoveRightDown(state, point) && RequestedAction.MoveRightDown,
+    canMoveLeftDownResult && RequestedAction.MoveLeftDown,
+    canMoveRightDownResult && RequestedAction.MoveRightDown,
   ].filter(Boolean) as RequestedAction[]
 
   if (availableActionsFirstPriority.length > 0) {

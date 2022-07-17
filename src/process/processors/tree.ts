@@ -7,7 +7,6 @@ import {
   NEIGHBOUR_DIRECTIONS_TOP_SIDE,
 } from '../utils/findNeighbours'
 import { addNewPoint } from '../../utils/addNewPoint'
-import { updateHumidity } from '../utils/updateHumidity'
 
 export const treeProcessor: Processor = (state, point) => {
   if (point.temperature > 10) {
@@ -28,8 +27,6 @@ export const treeProcessor: Processor = (state, point) => {
   if (bottomNeighbours.length === 0) {
     return RequestedAction.Die
   }
-
-  updateHumidity(state, point, 3)
 
   if (point.humidity > 1) {
     point.treeGrowTimer = (point.treeGrowTimer || 0) + 1

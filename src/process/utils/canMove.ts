@@ -17,7 +17,7 @@ export const canMoveTo = (
   if (pointThere) {
     return (
       pointThere.type !== point.type &&
-      !!IGNORE_MAP[point.type]?.includes(pointThere.type)
+      !!IGNORE_MAP[point.type]?.[pointThere.type]
     )
   }
   return true
