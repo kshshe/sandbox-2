@@ -3,6 +3,10 @@ import { Processor, RequestedAction } from '../types'
 import { cloneProcessor } from './clone'
 
 export const fireWoodProcessor: Processor = (state, point, tick) => {
+  if (point.temperature < 200) {
+    return RequestedAction.Freeze
+  }
+  
   if (point.age > 1000) {
     if (Math.random() < 0.3) {
       point.temperature = 5
