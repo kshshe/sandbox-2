@@ -36,6 +36,7 @@ export type GameState = {
   temperature: number
   baseTemperature: number
   showTemperature: boolean
+  freeBorders: boolean
   playing: boolean
 }
 
@@ -82,6 +83,7 @@ const createGameState = (): GameState => {
       baseTemperature: DEFAULT_BASE_TEMP,
       showTemperature: false,
       playing: true,
+      freeBorders: true,
     }
 }
 

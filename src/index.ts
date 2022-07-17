@@ -73,7 +73,7 @@ const init = async () => {
   brushInput.type = 'range'
   brushInput.min = '1'
   brushInput.max = '10'
-  brushInput.value = '2'
+  brushInput.value = state.brushSize.toString()
   brushInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.brushSize = brushInput.valueAsNumber
@@ -84,7 +84,7 @@ const init = async () => {
   speedInput.type = 'range'
   speedInput.min = '1'
   speedInput.max = '5'
-  speedInput.value = '1'
+  speedInput.value = state.speed.toString()
   speedInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.speed = speedInput.valueAsNumber
@@ -102,8 +102,19 @@ const init = async () => {
   })
   controls.appendChild(baseTempInput)
 
+  const freeBordersInput = document.createElement('input')
+  freeBordersInput.type = 'checkbox'
+  freeBordersInput.checked = state.freeBorders
+  freeBordersInput.addEventListener('change', () => {
+    const state = getOrCreateGameState()
+    state.freeBorders = freeBordersInput.checked
+    drawInitial(canvas)
+  })
+  controls.appendChild(freeBordersInput)
+
   const showTempInput = document.createElement('input')
   showTempInput.type = 'checkbox'
+  showTempInput.checked = state.showTemperature
   showTempInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.showTemperature = showTempInput.checked
@@ -113,7 +124,7 @@ const init = async () => {
 
   const pauseInput = document.createElement('input')
   pauseInput.type = 'checkbox'
-  pauseInput.checked = true
+  pauseInput.checked = state.playing
   pauseInput.addEventListener('change', () => {
     const state = getOrCreateGameState()
     state.playing = pauseInput.checked

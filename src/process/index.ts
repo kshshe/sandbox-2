@@ -254,8 +254,7 @@ const processHumidityMap = (state: GameState) => {
         if (current === undefined) {
           current = 0
         } else {
-          current = current /
-            HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
+          current = current / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
         }
       }
       if (x > 0) {
@@ -279,14 +278,27 @@ const processHumidityMap = (state: GameState) => {
       humidityMap[x][y] = current
     }
   }
+  if (state.freeBorders) {
+    state.points = state.points.filter((point) => {
+      const shouldStay =
+        point.coordinate.x > 1 &&
+        point.coordinate.y > 1 &&
+        point.coordinate.x < state.borders.horizontal - 2 &&
+        point.coordinate.y < state.borders.vertical - 2
+      if (!shouldStay) {
+        delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
+        redrawPoint(point.coordinate)
+      }
+      return shouldStay
+    })
+  }
   state.points.forEach(function updatePointHumidity(point) {
     if (point.fixedHumidity) {
       return
     }
     const humidity = humidityMap[point.coordinate.x][point.coordinate.y]
     if (!isNaN(humidity)) {
-      point.humidity =
-      humidityMap[point.coordinate.x][point.coordinate.y]
+      point.humidity = humidityMap[point.coordinate.x][point.coordinate.y]
       if ([PointType.Sand, PointType.Tree].includes(point.type)) {
         redrawPoint(point.coordinate)
       }
