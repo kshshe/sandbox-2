@@ -1,4 +1,4 @@
-import { DEFAULT_BASE_TEMP, getOrCreateGameState, restoreSavedState } from './gameState'
+import { DEFAULT_BASE_TEMP, getOrCreateGameState, resetState, restoreSavedState } from './gameState'
 import { setBorders } from './utils/setBorders'
 import { startEngine } from './process'
 import { SCALE } from './constants'
@@ -131,6 +131,15 @@ const init = async () => {
     drawInitial(canvas)
   })
   controls.appendChild(pauseInput)
+
+  const resetButton = document.createElement('button')
+  resetButton.innerText = 'reset'
+  resetButton.addEventListener('click', () => {
+    resetState()
+    setCanvasSize()
+    drawInitial(canvas)
+  })
+  controls.appendChild(resetButton)
 
   initControls(canvas)
 

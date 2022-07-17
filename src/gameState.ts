@@ -45,6 +45,10 @@ export const DEFAULT_BASE_TEMP = 5
 
 let gameState: null | GameState = null
 
+export const resetState = () => {
+  gameState = createGameState()
+}
+
 const createGameState = (): GameState => {
     let currentType = (localStorage.getItem('currentType') as PointType.Sand) || PointType.Sand
     let brushSize = localStorage.getItem('brushSize') || 2
@@ -91,8 +95,6 @@ const createGameState = (): GameState => {
 }
 
 export const restoreSavedState = () => {
-  const state = getOrCreateGameState()
-
   const storedPoints = localStorage.getItem('points')
   if (storedPoints) {
     try {
@@ -106,6 +108,7 @@ export const restoreSavedState = () => {
   }
 
   setInterval(() => {
+    const state = getOrCreateGameState()
     localStorage.setItem('points', JSON.stringify(state.points))
   }, 1000)
 }
