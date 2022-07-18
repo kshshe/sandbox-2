@@ -1,6 +1,6 @@
 {
   "name": "sandbox",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "",
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.6.2",
