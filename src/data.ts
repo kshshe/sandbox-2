@@ -38,6 +38,7 @@ export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
   [PointType.Sand]: true,
   [PointType.Tree]: true,
   [PointType.Concrete]: true,
+  [PointType.Sponge]: true,
 }
 
 export const COLORS: Record<PointType, string> = {

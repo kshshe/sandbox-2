@@ -14,7 +14,7 @@ export const spongeProcessor: Processor = (state, point) => {
         ]
         state.points = state.points.filter((p) => p !== neighbour)
         redrawPoint(neighbour.coordinate)
-        point.humidity += 5
+        point.humidity = Math.min(100, point.humidity + 3)
       }
     }
   })

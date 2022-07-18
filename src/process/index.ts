@@ -34,7 +34,7 @@ import { spongeProcessor } from './processors/sponge'
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
-import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
+import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
 
 const TICKS_PER_SECOND = 60
 const TICK_TIMES_LIMIT = 100
@@ -317,7 +317,7 @@ const processHumidityMap = (state: GameState) => {
     const humidity = humidityMap[point.coordinate.x][point.coordinate.y]
     if (!isNaN(humidity)) {
       point.humidity = humidityMap[point.coordinate.x][point.coordinate.y]
-      if ([PointType.Sand, PointType.Tree].includes(point.type)) {
+      if (VISIBLE_HUMIDITY[point.type]) {
         redrawPoint(point.coordinate)
       }
     }
