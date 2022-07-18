@@ -7,8 +7,10 @@ export enum PointType {
   Ice = 'Ice',
   Fire = 'Fire',
   FireWood = 'FireWood',
+  FireCharcoal = 'FireCharcoal',
   Cinder = 'Cinder',
   Wood = 'Wood',
+  Charcoal = 'Charcoal',
   BFire = 'BFire',
   IceFire = 'IceFire',
   Acid = 'Acid',
@@ -64,6 +66,8 @@ export const COLORS: Record<PointType, string> = {
   [PointType.Virus]: '#d900ff',
   [PointType.Metal]: '#e5e5e5',
   [PointType.Tree]: '#60b400',
+  [PointType.FireCharcoal]: '#ff211b',
+  [PointType.Charcoal]: '#393939',
   [PointType.NonExistentElement]: '#ffffff',
 }
 
@@ -74,6 +78,7 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Lava]: PointType.StaticStone,
   [PointType.Concrete]: PointType.StaticStone,
   [PointType.FireWood]: PointType.Cinder,
+  [PointType.FireCharcoal]: PointType.Cinder,
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
@@ -87,6 +92,7 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Fuel]: PointType.Fire,
   [PointType.Tree]: PointType.Fire,
   [PointType.Wood]: PointType.FireWood,
+  [PointType.Charcoal]: PointType.FireCharcoal,
   [PointType.Cinder]: PointType.Concrete,
 }
 
@@ -120,6 +126,14 @@ export const POINT_INITIAL_DATA: Partial<Record<
   },
   [PointType.Fire]: {
     temperature: 900,
+  },
+  [PointType.FireCharcoal]: {
+    temperature: 2000,
+    fixedTemperature: true,
+  },
+  [PointType.FireWood]: {
+    temperature: 500,
+    fixedTemperature: true,
   },
   [PointType.BFire]: {
     temperature: 2000,
@@ -185,6 +199,7 @@ export const CONTROLLED_POINT_TYPES = [
   PointType.Stone,
   PointType.Concrete,
   PointType.Wood,
+  PointType.Charcoal,
   PointType.Metal,
   PointType.Hot,
   PointType.Cold,

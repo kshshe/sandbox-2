@@ -1,7 +1,7 @@
 import { POINTS_LIMIT } from '../constants'
 import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
-import { Coordinate, getOrCreateGameState, PointData } from '../gameState'
+import { Coordinate, GameState, getOrCreateGameState, PointData } from '../gameState'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
 
 const updateCoordinate = (
@@ -18,6 +18,7 @@ const updateCoordinate = (
 }
 
 const createPointObject = (
+  state: GameState,
   coordinate: Coordinate,
   type: PointType,
 ): PointData => {
@@ -39,7 +40,7 @@ const createPointObject = (
       })
     },
     type,
-    temperature: 0,
+    temperature: state.baseTemperature || 0,
     humidity: 0,
     age: 1,
     fixedHumidity: false,
@@ -78,7 +79,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
   if (pointThere) {
     return
   }
-  const point = createPointObject(coordinate, typeToAdd)
+  const point = createPointObject(state, coordinate, typeToAdd)
   state.pointsByCoordinate[coordinate.x][coordinate.y] = point
   drawPoint(coordinate)
   state.points.push(point)

@@ -27,6 +27,8 @@ import { woodProcessor } from './processors/wood'
 import { fireWoodProcessor } from './processors/fireWood'
 import { cinderProcessor } from './processors/cinder'
 import { snowProcessor } from './processors/snow'
+import { fireCharcoalProcessor } from './processors/fireCharcoal'
+import { charcoalProcessor } from './processors/charcoal'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -62,6 +64,8 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.FireWood]: fireWoodProcessor,
   [PointType.Wood]: woodProcessor,
   [PointType.Cinder]: cinderProcessor,
+  [PointType.Charcoal]: charcoalProcessor,
+  [PointType.FireCharcoal]: fireCharcoalProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.Metal]: () => RequestedAction.None,
