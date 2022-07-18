@@ -4,6 +4,7 @@ import { cloneProcessor } from './clone'
 
 export const fireWoodProcessor: Processor = (state, point, tick) => {
   if (point.temperature < 200) {
+    point.fixedTemperature = false
     return RequestedAction.Freeze
   }
   
@@ -11,6 +12,7 @@ export const fireWoodProcessor: Processor = (state, point, tick) => {
     if (Math.random() < 0.3) {
       point.temperature = 5
       point.humidity = 50
+      point.fixedTemperature = false
       return RequestedAction.Freeze
     }
     return RequestedAction.Die
