@@ -26,11 +26,12 @@ import { staticStoneProcessor } from './processors/staticStone'
 import { woodProcessor } from './processors/wood'
 import { fireWoodProcessor } from './processors/fireWood'
 import { cinderProcessor } from './processors/cinder'
+import { snowProcessor } from './processors/snow'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
-import { FREEZE_MAP, MELT_MAP, PointType, POINT_INITIAL_DATA } from '../data'
+import { FREEZE_MAP, MELT_MAP, PointType } from '../data'
 
 const TICKS_PER_SECOND = 60
 const TICK_TIMES_LIMIT = 100
@@ -41,6 +42,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
   [PointType.Ice]: iceProcessor,
+  [PointType.Snow]: snowProcessor,
   [PointType.Steam]: steamProcessor,
   [PointType.Lava]: lavaProcessor,
   [PointType.Fire]: fireProcessor,

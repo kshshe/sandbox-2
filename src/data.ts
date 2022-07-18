@@ -15,6 +15,7 @@ export enum PointType {
   Fuel = 'Fuel',
   Tree = 'Tree',
   Steam = 'Steam',
+  Snow = 'Snow',
   Lava = 'Lava',
   Stone = 'Stone',
   StaticStone = 'StaticStone',
@@ -49,6 +50,7 @@ export const COLORS: Record<PointType, string> = {
   [PointType.BFire]: '#8ddaff',
   [PointType.IceFire]: '#8ddaff',
   [PointType.Stone]: '#a7a7a7',
+  [PointType.Snow]: '#f5f5f5',
   [PointType.StaticStone]: '#a7a7a7',
   [PointType.Concrete]: '#f2f2f2',
   [PointType.StaticGlass]: '#f2f4ff',
@@ -76,6 +78,7 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Ice]: PointType.Water,
+  [PointType.Snow]: PointType.Water,
   [PointType.Water]: PointType.Steam,
   [PointType.Stone]: PointType.Lava,
   [PointType.StaticStone]: PointType.Lava,
@@ -93,6 +96,10 @@ export const POINT_INITIAL_DATA: Partial<Record<
 >> = {
   [PointType.Ice]: {
     temperature: -50,
+  },
+  [PointType.Snow]: {
+    temperature: -20,
+    humidity: 100,
   },
   [PointType.Acid]: {
     humidity: 100,
@@ -167,6 +174,7 @@ export const CONTROLLED_POINT_TYPES = [
   PointType.Sand,
   PointType.Water,
   PointType.Ice,
+  PointType.Snow,
   PointType.Steam,
   PointType.Lava,
   PointType.Fire,
