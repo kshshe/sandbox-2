@@ -182,6 +182,7 @@ export const IGNORE_MAP: Partial<Record<
   [PointType.Steam]: listToMap([...POWDERS, ...FLUIDS]),
   [PointType.Sand]: listToMap(FLUIDS),
   [PointType.Charcoal]: listToMap(FLUIDS),
+  [PointType.FireCharcoal]: listToMap(FLUIDS),
   [PointType.Cinder]: listToMap(FLUIDS),
   [PointType.Stone]: listToMap(FLUIDS),
   [PointType.Lava]: listToMap(FLUIDS),
