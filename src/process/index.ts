@@ -30,6 +30,8 @@ import { snowProcessor } from './processors/snow'
 import { fireCharcoalProcessor } from './processors/fireCharcoal'
 import { charcoalProcessor } from './processors/charcoal'
 import { spongeProcessor } from './processors/sponge'
+import { sawdustProcessor } from './processors/sawdust'
+import { fireSawdustProcessor } from './processors/fireSawdust'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -67,6 +69,8 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Cinder]: cinderProcessor,
   [PointType.Charcoal]: charcoalProcessor,
   [PointType.FireCharcoal]: fireCharcoalProcessor,
+  [PointType.Sawdust]: sawdustProcessor,
+  [PointType.FireSawdust]: fireSawdustProcessor,
   [PointType.Sponge]: spongeProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
