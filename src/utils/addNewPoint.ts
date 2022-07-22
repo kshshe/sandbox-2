@@ -21,12 +21,21 @@ const createPointObject = (
   state: GameState,
   coordinate: Coordinate,
   type: PointType,
+  defaultData?: Partial<PointData>
 ): PointData => {
   let localCoordinate = {
     x: coordinate.x,
     y: coordinate.y,
   }
   const point: PointData = {
+    type,
+    temperature: state.baseTemperature || 0,
+    humidity: 0,
+    age: 1,
+    fixedHumidity: false,
+    fixedTemperature: false,
+    ...(POINT_INITIAL_DATA[type] || {}),
+    ...defaultData,
     get coordinate() {
       return localCoordinate
     },
@@ -39,16 +48,22 @@ const createPointObject = (
         y: newCoordinate.y,
       })
     },
-    type,
-    temperature: state.baseTemperature || 0,
-    humidity: 0,
-    age: 1,
-    fixedHumidity: false,
-    fixedTemperature: false,
-    ...(POINT_INITIAL_DATA[type] || {}),
   }
 
   return point
+}
+
+export const restorePoint = (pointData: PointData) => {
+  const state = getOrCreateGameState()
+  const point = createPointObject(
+    state,
+    pointData.coordinate,
+    pointData.type,
+    pointData,
+  )
+  state.pointsByCoordinate[point.coordinate.x][point.coordinate.y] = point
+  drawPoint(point.coordinate)
+  state.points.push(point)
 }
 
 export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {

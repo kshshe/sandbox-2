@@ -1,5 +1,6 @@
 import { PointType } from './data'
-import { addNewPoint } from './utils/addNewPoint'
+import { drawDelayed } from './draw'
+import { addNewPoint, restorePoint } from './utils/addNewPoint'
 
 export type Coordinate = {
   readonly x: number
@@ -100,8 +101,9 @@ export const restoreSavedState = () => {
     try {
       const parsedPoints = JSON.parse(storedPoints)
       parsedPoints.forEach((point: PointData) => {
-        addNewPoint(point.coordinate, point.type)
+        restorePoint(point)
       });
+      drawDelayed()
     } catch (e) {
       console.error(e)
     }
