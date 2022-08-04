@@ -1,4 +1,4 @@
-import { COLORS, PointType } from '../data'
+import { COLORS, PointType, Tools } from '../data'
 import { getOrCreateGameState } from '../gameState'
 import { mixColors } from './mixColors'
 
@@ -14,7 +14,7 @@ const MAX_RATIO = 0.8
 const cache = new Map<string, string>()
 
 export const getColor = (
-  type: PointType,
+  type: PointType | Tools,
   temperature: number = BASE_TEMP,
   humidity: number = 0,
   force: boolean = false,

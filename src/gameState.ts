@@ -1,6 +1,6 @@
-import { PointType } from './data'
+import { PointType, Tools } from './data'
 import { drawDelayed } from './draw'
-import { addNewPoint, restorePoint } from './utils/addNewPoint'
+import { restorePoint } from './utils/addNewPoint'
 
 export type Coordinate = {
   readonly x: number
@@ -32,7 +32,7 @@ export type GameState = {
     horizontal: number
     vertical: number
   }
-  currentType: PointType | 'Eraser'
+  currentType: Tools | PointType | 'Eraser'
   brushSize: number
   speed: number
   temperature: number

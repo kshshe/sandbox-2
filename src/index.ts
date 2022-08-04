@@ -5,7 +5,7 @@ import { SCALE } from './constants'
 import { drawInitial } from './draw'
 import { initControls } from './controls/initControls'
 import { getColor } from './utils/getColor'
-import { CONTROLLED_POINT_TYPES, PointType } from './data'
+import { CONTROLLED_POINT_TYPES, PointType, Tools } from './data'
 
 const init = async () => {
   try {
@@ -46,8 +46,8 @@ const init = async () => {
 
   const state = getOrCreateGameState()
 
-  const controlTypes = [...CONTROLLED_POINT_TYPES, 'Eraser'] as Array<
-    PointType | 'Eraser'
+  const controlTypes = [...Object.values(Tools), ...CONTROLLED_POINT_TYPES, 'Eraser'] as Array<
+    PointType | 'Eraser' | Tools
   >
   controlTypes.forEach((type) => {
     const button = document.createElement('button')

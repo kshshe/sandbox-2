@@ -36,6 +36,11 @@ export enum PointType {
   NonExistentElement = 'NonExistentElement',
 }
 
+export enum Tools {
+  Heat = 'Heat',
+  Cool = 'Cool',
+}
+
 export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
   [PointType.Sand]: true,
   [PointType.Tree]: true,
@@ -43,7 +48,7 @@ export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
   [PointType.Sponge]: true,
 }
 
-export const COLORS: Record<PointType, string> = {
+export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Sand]: '#ffd800',
   [PointType.Cinder]: '#dfdfdf',
   [PointType.Water]: '#00adff',
@@ -76,6 +81,8 @@ export const COLORS: Record<PointType, string> = {
   [PointType.FireCharcoal]: '#ff211b',
   [PointType.Charcoal]: '#393939',
   [PointType.NonExistentElement]: '#ffffff',
+  [Tools.Cool]: '#0078af',
+  [Tools.Heat]: '#c53300',
 }
 
 export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {

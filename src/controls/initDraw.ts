@@ -1,6 +1,8 @@
 import { addNewPoint } from '../utils/addNewPoint'
 import { SCALE } from '../constants'
 import { Coordinate, getOrCreateGameState } from '../gameState'
+import { Tools } from '../data';
+import { redrawPoint } from '../draw';
 
 type Position = { x: number; y: number }
 
@@ -40,7 +42,21 @@ const drawNewPoint = (canvas: HTMLCanvasElement, position: Position, forceEraser
   const y = Math.floor(relativePosition.y / SCALE)
   getCircleCoordinatesInRadius({ x, y }, brushSize - 1).forEach(
     (coordinate) => {
-      addNewPoint(coordinate, forceEraser ? 'Eraser' : undefined)
+      const tool = state.currentType as Tools
+      if (Tools[tool]) {
+        const point = state.pointsByCoordinate[coordinate.x][coordinate.y]
+        if (point) {
+          if (tool === Tools.Cool) {
+            point.temperature -= 1
+          }
+          if (tool === Tools.Heat) {
+            point.temperature += 1
+          }
+          redrawPoint(coordinate)
+        }
+      } else {
+        addNewPoint(coordinate, forceEraser ? 'Eraser' : undefined)
+      }
     },
   )
 }
