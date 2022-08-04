@@ -53,6 +53,13 @@ const drawNewPoint = (canvas: HTMLCanvasElement, position: Position, forceEraser
             point.temperature += 1
           }
           redrawPoint(coordinate)
+        } else {
+          if (tool === Tools.Cool) {
+            state.temperaturesMap[coordinate.x][coordinate.y] -= 1
+          }
+          if (tool === Tools.Heat) {
+            state.temperaturesMap[coordinate.x][coordinate.y] += 1
+          }
         }
       } else {
         addNewPoint(coordinate, forceEraser ? 'Eraser' : undefined)
