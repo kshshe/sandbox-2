@@ -23,15 +23,29 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     return
   }
 
-const updateMeta = (x: number, y: number) => {
-  const state = getOrCreateGameState()
+  const updateMeta = (x: number, y: number) => {
+    const state = getOrCreateGameState()
     const humidity = state.humidityMap[x]?.[y]
     const temperature = state.temperaturesMap[x]?.[y]
-    if (humidity !== undefined && temperature !== undefined) {
-      cursorMeta.innerText = `${temperature.toFixed(0)}°C, ${humidity.toFixed(0)}%`
-      cursorMeta.style.backgroundColor = getColor(PointType.Void, temperature, 0, true)
+    const pointThere = state.pointsByCoordinate[x]?.[y]
+    if (pointThere || (humidity !== undefined && temperature !== undefined)) {
+      cursorMeta.innerHTML = [
+        `t: ${temperature.toFixed(0)}°C`,
+        `Влажность: ${humidity.toFixed(0)}%`,
+        pointThere && `Тип: ${pointThere.type}`,
+        pointThere?.cloningType && `Клонирует: ${pointThere.cloningType}`,
+      ]
+      .filter(Boolean)
+        .map((line) => `<div>${line}</div>`)
+        .join('')
+      cursorMeta.style.backgroundColor = getColor(
+        PointType.Void,
+        temperature,
+        0,
+        true,
+      )
     } else {
-      cursorMeta.innerText = ''
+      cursorMeta.innerHTML = ''
     }
   }
 
