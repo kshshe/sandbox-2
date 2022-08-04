@@ -66,7 +66,7 @@ export const restorePoint = (pointData: PointData) => {
   state.points.push(point)
 }
 
-export const addNewPoint = (coordinate: Coordinate, type?: PointType) => {
+export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType) => {
   const state = getOrCreateGameState()
   if (coordinate.x < 0 || coordinate.y < 0) {
     return
