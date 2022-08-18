@@ -5,6 +5,7 @@ export enum PointType {
   Sand = 'Sand',
   Water = 'Water',
   Ice = 'Ice',
+  DryIce = 'DryIce',
   Fire = 'Fire',
   FireSawdust = 'FireSawdust',
   FireWood = 'FireWood',
@@ -53,6 +54,7 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Cinder]: '#dfdfdf',
   [PointType.Water]: '#00adff',
   [PointType.Ice]: '#c9eeff',
+  [PointType.DryIce]: '#f3fbff',
   [PointType.Sawdust]: '#ffbc3b',
   [PointType.Steam]: '#efefef',
   [PointType.Lava]: '#ff642e',
@@ -119,6 +121,9 @@ export const POINT_INITIAL_DATA: Partial<Record<
 >> = {
   [PointType.Ice]: {
     temperature: -50,
+  },
+  [PointType.DryIce]: {
+    temperature: -100,
   },
   [PointType.Snow]: {
     temperature: -20,
@@ -211,6 +216,7 @@ export const CONTROLLED_POINT_TYPES = [
   PointType.Sand,
   PointType.Water,
   PointType.Ice,
+  PointType.DryIce,
   PointType.Snow,
   PointType.Steam,
   PointType.Lava,

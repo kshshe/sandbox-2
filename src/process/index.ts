@@ -11,6 +11,7 @@ import { virusProcessor } from './processors/virus'
 import { waterProcessor } from './processors/water'
 import { steamProcessor } from './processors/steam'
 import { iceProcessor } from './processors/ice'
+import { dryIceProcessor } from './processors/dryIce'
 import { lavaProcessor } from './processors/lava'
 import { fireProcessor } from './processors/fire'
 import { stoneProcessor } from './processors/stone'
@@ -47,6 +48,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sand]: sandProcessor,
   [PointType.Water]: waterProcessor,
   [PointType.Ice]: iceProcessor,
+  [PointType.DryIce]: dryIceProcessor,
   [PointType.Snow]: snowProcessor,
   [PointType.Steam]: steamProcessor,
   [PointType.Lava]: lavaProcessor,
