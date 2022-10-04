@@ -45,8 +45,8 @@ export const Main: React.FC = observer(() => {
       </Group>
       <Group title="Base temperature" value={`${store.baseTemperature}℃`}>
         <Slider
-          min={-10}
-          max={10}
+          min={-100}
+          max={100}
           value={store.baseTemperature}
           onChange={(value) => {
             store.setProperty('baseTemperature', value)
