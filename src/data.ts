@@ -6,6 +6,10 @@ export enum PointType {
   Water = 'Water',
   Ice = 'Ice',
   DryIce = 'DryIce',
+  Paraffin = 'Paraffin',
+  MeltedParaffin = 'MeltedParaffin',
+  Candlewick = 'Сandlewick',
+  FireCandlewick = 'FireCandlewick',
   Fire = 'Fire',
   FireSawdust = 'FireSawdust',
   FireWood = 'FireWood',
@@ -53,6 +57,10 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Sand]: '#ffd800',
   [PointType.Cinder]: '#dfdfdf',
   [PointType.Water]: '#00adff',
+  [PointType.Paraffin]: '#fff9c4',
+  [PointType.MeltedParaffin]: '#fff6a0',
+  [PointType.Candlewick]: '#ffb583',
+  [PointType.FireCandlewick]: '#ff992e',
   [PointType.Ice]: '#c9eeff',
   [PointType.DryIce]: '#f3fbff',
   [PointType.Sawdust]: '#ffbc3b',
@@ -88,6 +96,7 @@ export const COLORS: Record<PointType | Tools, string> = {
 }
 
 export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
+  [PointType.MeltedParaffin]: PointType.Paraffin,
   [PointType.Water]: PointType.Ice,
   [PointType.Steam]: PointType.Water,
   [PointType.MeltedGlass]: PointType.StaticGlass,
@@ -99,6 +108,7 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
+  [PointType.Paraffin]: PointType.MeltedParaffin,
   [PointType.Ice]: PointType.Water,
   [PointType.Snow]: PointType.Water,
   [PointType.Water]: PointType.Steam,
@@ -109,6 +119,7 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Fuel]: PointType.Fire,
   [PointType.Tree]: PointType.Fire,
   [PointType.Wood]: PointType.FireWood,
+  [PointType.Candlewick]: PointType.FireCandlewick,
   [PointType.Charcoal]: PointType.FireCharcoal,
   [PointType.Cinder]: PointType.Concrete,
   [PointType.Sponge]: PointType.Fire,
@@ -119,6 +130,10 @@ export const POINT_INITIAL_DATA: Partial<Record<
   PointType,
   Partial<PointData>
 >> = {
+  [PointType.MeltedParaffin]: {
+    temperature: 120,
+    paraffinWasIgnitedTimes: 0
+  },
   [PointType.Ice]: {
     temperature: -50,
   },
@@ -192,7 +207,8 @@ export const FLUIDS = [
   PointType.Fire,
   PointType.BFire,
   PointType.IceFire,
-  PointType.Concrete
+  PointType.Concrete,
+  PointType.MeltedParaffin,
 ]
 
 export const POWDERS = [PointType.Sand, PointType.Stone, PointType.Virus]
@@ -218,6 +234,8 @@ export const CONTROLLED_POINT_TYPES = [
   PointType.Ice,
   PointType.DryIce,
   PointType.Snow,
+  PointType.MeltedParaffin,
+  PointType.Candlewick,
   PointType.Steam,
   PointType.Lava,
   PointType.Fire,

@@ -22,6 +22,7 @@ export type PointData = {
   virusImmunity?: number
   acidUsedTimes?: number
   treeGrowTimer?: number
+  paraffinWasIgnitedTimes?: number
 }
 
 export type GameState = {

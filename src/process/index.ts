@@ -33,6 +33,10 @@ import { charcoalProcessor } from './processors/charcoal'
 import { spongeProcessor } from './processors/sponge'
 import { sawdustProcessor } from './processors/sawdust'
 import { fireSawdustProcessor } from './processors/fireSawdust'
+import { paraffinProcessor } from './processors/paraffin'
+import { meltedParaffinProcessor } from './processors/meltedParaffin'
+import { candlewickProcessor } from './processors/candlewick'
+import { fireCandlewickProcessor } from './processors/fireCandlewick'
 
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -74,6 +78,10 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Sawdust]: sawdustProcessor,
   [PointType.FireSawdust]: fireSawdustProcessor,
   [PointType.Sponge]: spongeProcessor,
+  [PointType.Paraffin]: paraffinProcessor,
+  [PointType.MeltedParaffin]: meltedParaffinProcessor,
+  [PointType.Candlewick]: candlewickProcessor,
+  [PointType.FireCandlewick]: fireCandlewickProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.Metal]: () => RequestedAction.None,
