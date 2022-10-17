@@ -31,7 +31,8 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     if (pointThere || (humidity !== undefined && temperature !== undefined)) {
       cursorMeta.innerHTML = [
         `t: ${temperature.toFixed(0)}°C`,
-        `Влажность: ${humidity.toFixed(0)}%`,
+        `Humidity: ${humidity.toFixed(0)}%`,
+        pointThere && `Age: ${pointThere.age}`,
         pointThere && `Тип: ${pointThere.type}`,
         pointThere?.cloningType && `Клонирует: ${pointThere.cloningType}`,
       ]
