@@ -10,6 +10,7 @@ export const voidProcessor: Processor = (state, point) => {
       neighbour.type = PointType.NonExistentElement
       delete state.pointsByCoordinate[neighbour.coordinate.x][neighbour.coordinate.y]
       state.points = state.points.filter((p) => p !== neighbour)
+      point.temperature += 3
       redrawPoint(neighbour.coordinate)
     }
   })
