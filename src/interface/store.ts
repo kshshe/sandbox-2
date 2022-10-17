@@ -9,6 +9,7 @@ const gameStateModel = types.model({
     pause: types.boolean,
 }).actions(self => ({
     setProperty(key, value) {
+        localStorage.setItem(key, `${value}`)
         self[key] = value
     }
 }))
@@ -16,7 +17,7 @@ const gameStateModel = types.model({
 export default gameStateModel.create({
     brushSize: 3,
     baseTemperature: 5,
-    speed: 5,
+    speed: 50,
     freeBorders: false,
     showTemperature: false,
     pause: false,

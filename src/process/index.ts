@@ -43,7 +43,7 @@ import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
 
-const TICKS_PER_SECOND = 60
+const TICKS_PER_SECOND = 6
 const TICK_TIMES_LIMIT = 100
 const tickTimes: number[] = []
 let tick = 0
