@@ -36,7 +36,7 @@ export const Main: React.FC = observer(() => {
       <Group title="Game speed" value={`x${store.speed}`}>
         <Slider
           min={1}
-          max={50}
+          max={5}
           value={store.speed}
           onChange={(value) => {
             store.setProperty('speed', value)
