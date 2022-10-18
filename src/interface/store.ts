@@ -9,6 +9,7 @@ const gameStateModel = types.model({
     pause: types.boolean,
 }).actions(self => ({
     setProperty(key, value) {
+        localStorage.setItem(key, `${value}`)
         self[key] = value
     }
 }))

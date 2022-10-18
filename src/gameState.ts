@@ -59,6 +59,8 @@ const createGameState = (): GameState => {
   store.setProperty('brushSize', +brushSize)
   let speed = localStorage.getItem('speed') || 5
   store.setProperty('speed', +speed)
+  let baseTemperature = localStorage.getItem('baseTemperature') || 5
+  store.setProperty('baseTemperature', +baseTemperature)
 
   const state = {
     points: [],
@@ -80,14 +82,12 @@ const createGameState = (): GameState => {
       return store.brushSize
     },
     set brushSize(value) {
-      localStorage.setItem('brushSize', `${value}`)
       store.setProperty('brushSize', +value)
     },
     get speed() {
       return store.speed
     },
     set speed(value) {
-      localStorage.setItem('speed', `${value}`)
       store.setProperty('speed', +value)
     },
     temperature: DEFAULT_BASE_TEMP,
