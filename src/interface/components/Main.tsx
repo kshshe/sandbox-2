@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import FPSStats from "react-fps-stats";
 import { Group } from './Group'
 import { Slider } from './Slider'
 import { observer } from 'mobx-react-lite'
@@ -22,61 +23,64 @@ const Container = styled.div`
 
 export const Main: React.FC = observer(() => {
   return (
-    <Container>
-      <Group title="Brush size" value={`${store.brushSize * 10}%`}>
-        <Slider
-          min={1}
-          max={10}
-          value={store.brushSize}
-          onChange={(value) => {
-            store.setProperty('brushSize', value)
-          }}
-        />
-      </Group>
-      <Group title="Game speed" value={`x${store.speed}`}>
-        <Slider
-          min={1}
-          max={5}
-          value={store.speed}
-          onChange={(value) => {
-            store.setProperty('speed', value)
-          }}
-        />
-      </Group>
-      <Group title="Air temperature" value={`${store.baseTemperature}℃`}>
-        <Slider
-          min={-200}
-          max={200}
-          value={store.baseTemperature}
-          onChange={(value) => {
-            store.setProperty('baseTemperature', value)
-          }}
-        />
-      </Group>
-      <Group title="Thermovision">
-        <Checkbox
-          checked={store.showTemperature}
-          onChange={(value) => {
-            store.setProperty('showTemperature', value)
-          }}
-        />
-      </Group>
-      <Group title="No borders">
-        <Checkbox
-          checked={store.freeBorders}
-          onChange={(value) => {
-            store.setProperty('freeBorders', value)
-          }}
-        />
-      </Group>
-      <Group title="Pause">
-        <Checkbox
-          checked={store.pause}
-          onChange={(value) => {
-            store.setProperty('pause', value)
-          }}
-        />
-      </Group>
-    </Container>
+    <>
+      <FPSStats />
+      <Container>
+        <Group title="Brush size" value={`${store.brushSize * 10}%`}>
+          <Slider
+            min={1}
+            max={10}
+            value={store.brushSize}
+            onChange={(value) => {
+              store.setProperty('brushSize', value)
+            }}
+          />
+        </Group>
+        <Group title="Game speed" value={`x${store.speed}`}>
+          <Slider
+            min={1}
+            max={5}
+            value={store.speed}
+            onChange={(value) => {
+              store.setProperty('speed', value)
+            }}
+          />
+        </Group>
+        <Group title="Air temperature" value={`${store.baseTemperature}℃`}>
+          <Slider
+            min={-200}
+            max={200}
+            value={store.baseTemperature}
+            onChange={(value) => {
+              store.setProperty('baseTemperature', value)
+            }}
+          />
+        </Group>
+        <Group title="Thermovision">
+          <Checkbox
+            checked={store.showTemperature}
+            onChange={(value) => {
+              store.setProperty('showTemperature', value)
+            }}
+          />
+        </Group>
+        <Group title="No borders">
+          <Checkbox
+            checked={store.freeBorders}
+            onChange={(value) => {
+              store.setProperty('freeBorders', value)
+            }}
+          />
+        </Group>
+        <Group title="Pause">
+          <Checkbox
+            checked={store.pause}
+            onChange={(value) => {
+              store.setProperty('pause', value)
+            }}
+          />
+        </Group>
+      </Container>
+    </>
   )
 })

@@ -45,7 +45,6 @@ import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
 
 const TICKS_PER_SECOND = 60
 const TICK_TIMES_LIMIT = 100
-const tickTimes: number[] = []
 let tick = 0
 
 const PROCESSORS: Record<PointType, Processor> = {
@@ -195,11 +194,9 @@ const processRoomTemp = (state: GameState) => {
 const updateMeta = (state: GameState) => {
   const metaElement = document.querySelector('.meta')
   if (metaElement) {
-    const averageTickTime =
-      tickTimes.reduce((acc, cur) => acc + cur, 0) / tickTimes.length
     metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${
       state.points.length
-    } points, ${averageTickTime.toFixed(2)} ms/tick`
+    } points`
   }
   const canvasElement = document.querySelector('canvas')
   if (canvasElement) {
@@ -359,7 +356,6 @@ export const startEngine = async () => {
   while (true) {
     const state = getOrCreateGameState()
     if (state.playing) {
-      const start = performance.now()
       if (tick % TICKS_PER_SECOND === 0) {
         processRoomTemp(state)
       }
@@ -369,10 +365,6 @@ export const startEngine = async () => {
       updateMeta(state)
       requestAnimationFrame(drawDelayed)
       tick++
-      tickTimes.push(performance.now() - start)
-      if (tickTimes.length > TICK_TIMES_LIMIT) {
-        tickTimes.shift()
-      }
     }
     const timeout = 1000 / TICKS_PER_SECOND / state.speed
     await new Promise((resolve) => setTimeout(resolve, timeout))
