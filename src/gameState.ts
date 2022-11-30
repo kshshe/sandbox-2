@@ -137,7 +137,7 @@ export const restoreSavedState = () => {
   setInterval(() => {
     const state = getOrCreateGameState()
     localStorage.setItem('points', JSON.stringify(state.points))
-  }, 1000)
+  }, 5000)
 }
 
 export const getOrCreateGameState = (): GameState => {
