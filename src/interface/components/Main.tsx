@@ -7,7 +7,9 @@ import { observer } from 'mobx-react-lite'
 import store from '../store'
 import { Checkbox } from './Checkbox'
 
-const Container = styled.div`
+const Container = styled.div<{
+  isDisabled: boolean
+}>`
   position: fixed;
   bottom: 20px;
   left: 10px;
@@ -19,13 +21,20 @@ const Container = styled.div`
   padding: 5px;
   border-radius: 4px;
   background: #eaeaea6e;
+
+  transition: opacity 0.2s ease-in-out;
+
+  ${props => props.isDisabled && `
+    pointer-events: none;
+    opacity: 0.3;
+  `}
 `
 
 export const Main: React.FC = observer(() => {
   return (
     <>
       <FPSStats />
-      <Container>
+      <Container isDisabled={store.isDrawing}>
         <Group title="Brush size" value={`${store.brushSize * 10}%`}>
           <Slider
             min={1}

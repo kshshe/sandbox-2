@@ -3,6 +3,7 @@ import { SCALE } from '../constants'
 import { Coordinate, getOrCreateGameState } from '../gameState'
 import { Tools } from '../data';
 import { redrawPoint } from '../draw';
+import store from '../interface/store';
 
 type Position = { x: number; y: number }
 
@@ -101,6 +102,7 @@ export const initDraw = (canvas: HTMLCanvasElement) => {
   })
   listen(canvas, ['mouseout'], () => {
     isDragging = false
+    store.setProperty('isDrawing', false)
     if (addInterval) {
       clearInterval(addInterval)
     }
@@ -110,6 +112,7 @@ export const initDraw = (canvas: HTMLCanvasElement) => {
       isEraser = true
     }
     isDragging = true
+    store.setProperty('isDrawing', true)
     lastMousePosition = { ...position }
     if (addInterval) {
       clearInterval(addInterval)
@@ -121,6 +124,7 @@ export const initDraw = (canvas: HTMLCanvasElement) => {
   listen(canvas, ['mouseup', 'touchend'], () => {
     isEraser = false
     isDragging = false
+    store.setProperty('isDrawing', false)
     if (addInterval) {
       clearInterval(addInterval)
     }
