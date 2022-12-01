@@ -12,6 +12,7 @@ import { CONTROLLED_POINT_TYPES, PointType, Tools } from './data'
 import './interface/index'
 import { autorun } from 'mobx'
 import store from './interface/store'
+import '@picocss/pico/css/pico.css'
 
 const init = async () => {
   const root = document.getElementById('root')

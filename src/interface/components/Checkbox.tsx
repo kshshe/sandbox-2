@@ -12,6 +12,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange, label }) 
     <label>
       <input
         type="checkbox"
+        role="switch"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
       />

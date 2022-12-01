@@ -3,6 +3,10 @@ html {
   background-color: rgb(226, 226, 226);
   margin: 0;
   padding: 0;
+
+  --spacing: 0.2rem;
+  --font-size: 14px;
+  font-size: 14px;
 }
 
 #interface {
@@ -23,7 +27,7 @@ html {
   position: fixed;
   top: 85px;
   right: 10px;
-  height: calc(100vh - 142px);
+  height: calc(100vh - 160px);
 
   display: flex;
   flex-direction: column;
@@ -53,6 +57,7 @@ html {
 
 .type {
   padding: 2px;
+  margin: 0;
   display: block;
   height: 24px;
   width: 88px;
@@ -61,11 +66,13 @@ html {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
+  flex-shrink: 0;
 
   &--selected {
     border: 2px solid #000;
   }
 
+  color: black;
   &--void, 
   &--fuel, 
   &--charcoal, 
