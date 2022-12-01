@@ -65,6 +65,16 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
+        <Group title="Scale (bigger is faster)" value={`${store.scale}px`}>
+          <Slider
+            min={3}
+            max={40}
+            value={store.scale}
+            onChange={(value) => {
+              store.setProperty('scale', value)
+            }}
+          />
+        </Group>
         <Group>
           <Checkbox
             label="Dynamic water (beta)"
@@ -76,7 +86,7 @@ export const Main: React.FC = observer(() => {
         </Group>
         <Group>
           <Checkbox
-            label="Thermovision"
+            label="Thermovision (slow)"
             checked={store.showTemperature}
             onChange={(value) => {
               store.setProperty('showTemperature', value)

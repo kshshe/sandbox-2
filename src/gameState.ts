@@ -1,6 +1,6 @@
 import { PointType, Tools } from './data'
 import { drawDelayed } from './draw'
-import store from './interface/store'
+import store, { INITIAL_STATE } from './interface/store'
 import { restorePoint } from './utils/addNewPoint'
 
 export type Coordinate = {
@@ -49,6 +49,10 @@ export const DEFAULT_BASE_TEMP = 5
 let gameState: null | GameState = null
 
 export const resetState = () => {
+  Object.keys(INITIAL_STATE).forEach(key => {
+    // @ts-ignore
+    store.setProperty(key, INITIAL_STATE[key])
+  })
   gameState = createGameState()
 }
 

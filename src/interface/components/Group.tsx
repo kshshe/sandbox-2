@@ -8,7 +8,9 @@ const Head = styled.div`
   justify-content: space-between;
   margin-bottom: 1px;
 `
-const Title = styled.div``
+const Title = styled.div`
+  margin-right: 10px;
+`
 const Value = styled.div``
 const Content = styled.div``
 

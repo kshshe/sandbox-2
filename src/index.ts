@@ -5,7 +5,6 @@ import {
 } from './gameState'
 import { setBorders } from './utils/setBorders'
 import { startEngine } from './process'
-import { SCALE } from './constants'
 import { drawInitial } from './draw'
 import { initControls } from './controls/initControls'
 import { getColor } from './utils/getColor'
@@ -40,9 +39,25 @@ const init = async () => {
     }
     canvas.width = proportions.width
     canvas.height = proportions.height
-    setBorders(proportions.width / SCALE, proportions.height / SCALE)
+    setBorders(proportions.width / store.scale, proportions.height / store.scale)
     drawInitial(canvas)
   }
+  autorun(() => {
+    if (store.scale) {
+      setCanvasSize()
+      const gameState = getOrCreateGameState()
+      gameState.points = gameState.points.filter(point => {
+        return (
+          point.coordinate.x < gameState.borders.horizontal &&
+          point.coordinate.y < gameState.borders.vertical
+        )
+      })
+      gameState.pointsByCoordinate.length = gameState.borders.horizontal
+      gameState.pointsByCoordinate.forEach(row => {
+        row.length = gameState.borders.vertical
+      })
+    }
+  })
   setCanvasSize()
   window.addEventListener('resize', setCanvasSize)
   root.appendChild(canvas)

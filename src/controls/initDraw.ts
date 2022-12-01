@@ -1,5 +1,4 @@
 import { addNewPoint } from '../utils/addNewPoint'
-import { SCALE } from '../constants'
 import { Coordinate, getOrCreateGameState } from '../gameState'
 import { Tools } from '../data';
 import { redrawPoint } from '../draw';
@@ -39,8 +38,8 @@ const drawNewPoint = (canvas: HTMLCanvasElement, position: Position, forceEraser
     x: position.x - rect.left,
     y: position.y - rect.top,
   }
-  const x = Math.floor(relativePosition.x / SCALE)
-  const y = Math.floor(relativePosition.y / SCALE)
+  const x = Math.floor(relativePosition.x / store.scale)
+  const y = Math.floor(relativePosition.y / store.scale)
   getCircleCoordinatesInRadius({ x, y }, brushSize - 1).forEach(
     (coordinate) => {
       const tool = state.currentType as Tools
@@ -75,7 +74,6 @@ const listen = (
   callback: (position: Position, e: MouseEvent | TouchEvent) => void,
 ) => {
   events.forEach((event) => {
-    console.log(`Adding listener for ${event}`)
     element.addEventListener(event, (e) => {
       e.preventDefault()
       callback(

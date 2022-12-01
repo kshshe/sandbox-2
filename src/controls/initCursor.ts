@@ -1,11 +1,11 @@
-import { SCALE } from '../constants'
 import { PointType } from '../data'
 import { getOrCreateGameState } from '../gameState'
+import store from '../interface/store'
 import { getColor } from '../utils/getColor'
 
 const setCursorSize = (cursor: HTMLDivElement) => {
   const state = getOrCreateGameState()
-  const size = SCALE * state.brushSize * 2
+  const size = store.scale * state.brushSize * 2
   cursor.style.color =
     state.currentType === 'Eraser' ? 'black' : getColor(state.currentType)
   cursor.style.height = `${size}px`
@@ -82,8 +82,8 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     const y = e.clientY - rect.top
     cursor.style.transform = `translate(${x}px, ${y}px)`
 
-    const pointX = Math.floor(x / SCALE)
-    const pointY = Math.floor(y / SCALE)
+    const pointX = Math.floor(x / store.scale)
+    const pointY = Math.floor(y / store.scale)
 
     updateMeta(pointX, pointY)
     clearInterval(updateMetaInterval)

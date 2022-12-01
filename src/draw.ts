@@ -1,8 +1,8 @@
 import { Coordinate, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
-import { SCALE } from './constants'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 import { PointType, VISIBLE_HUMIDITY } from './data'
+import store from './interface/store'
 
 const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
   ctx.fillStyle = '#fff'
@@ -20,7 +20,7 @@ export const drawTemp = (coordinate: Coordinate, temp: number) => {
   }
   const { x, y } = coordinate
   ctx.fillStyle = getColor(PointType.NonExistentElement, temp)
-  ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+  ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
 }
 
 export const drawPoint = (coordinate: Coordinate) => {
@@ -32,7 +32,7 @@ export const drawPoint = (coordinate: Coordinate) => {
   const { x, y } = coordinate
   if (!point) {
     ctx.fillStyle = '#fff'
-    ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+    ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
   } else {
     const { type } = point
     ctx.fillStyle = getColor(
@@ -42,11 +42,11 @@ export const drawPoint = (coordinate: Coordinate) => {
         ? point.humidity
         : 0,
     )
-    ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+    ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
     if (point.type === PointType.Tree) {
       ctx.fillStyle = '#305b00'
-      ctx.fillRect(x * SCALE, y * SCALE, 1, SCALE)
-      ctx.fillRect((1 + x) * SCALE - 1, y * SCALE, 1, SCALE)
+      ctx.fillRect(x * store.scale, y * store.scale, 1, store.scale)
+      ctx.fillRect((1 + x) * store.scale - 1, y * store.scale, 1, store.scale)
     }
   }
 }
