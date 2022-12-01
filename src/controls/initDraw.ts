@@ -91,7 +91,7 @@ const listen = (
   })
 }
 
-const HOLD_ADD_TIMEOUT = 20
+const HOLD_ADD_TIMEOUT = 1000 / 50
 export const initDraw = (canvas: HTMLCanvasElement) => {
   let isDragging = false
   let isEraser = false
@@ -129,10 +129,15 @@ export const initDraw = (canvas: HTMLCanvasElement) => {
       clearInterval(addInterval)
     }
   })
+  let prevTime = 0
   listen(canvas, ['mousemove', 'touchmove'], (position) => {
     if (isDragging) {
-      lastMousePosition = { ...position }
-      drawNewPoint(canvas, position, isEraser)
+      const time = Date.now()
+      if (time - prevTime > HOLD_ADD_TIMEOUT) {
+        prevTime = time
+        lastMousePosition = { ...position }
+        drawNewPoint(canvas, position, isEraser)
+      }
     }
   })
 }
