@@ -3,10 +3,11 @@ import styled from 'styled-components'
 
 type CheckboxProps = {
   checked: boolean
+  label: string
   onChange: (value: boolean) => void
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange }) => {
+export const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange, label }) => {
   return (
     <label>
       <input
@@ -14,7 +15,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange }) => {
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
       />
-      <span>{checked ? 'On' : 'Off'}</span>
+      <span>{label}</span>
     </label>
   )
 }

@@ -33,7 +33,7 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
         `t: ${temperature.toFixed(0)}°C`,
         `Humidity: ${humidity.toFixed(0)}%`,
         pointThere && `Age: ${pointThere.age}`,
-        pointThere && `Тип: ${pointThere.type}`,
+        pointThere && `Type: ${pointThere.type}`,
         pointThere?.cloningType && `Клонирует: ${pointThere.cloningType}`,
       ]
       .filter(Boolean)

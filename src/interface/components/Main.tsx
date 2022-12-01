@@ -65,24 +65,27 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
-        <Group title="Thermovision">
+        <Group>
           <Checkbox
+            label="Thermovision"
             checked={store.showTemperature}
             onChange={(value) => {
               store.setProperty('showTemperature', value)
             }}
           />
         </Group>
-        <Group title="No borders">
+        <Group>
           <Checkbox
+            label="No borders"
             checked={store.freeBorders}
             onChange={(value) => {
               store.setProperty('freeBorders', value)
             }}
           />
         </Group>
-        <Group title="Pause">
+        <Group>
           <Checkbox
+            label="Pause"
             checked={store.pause}
             onChange={(value) => {
               store.setProperty('pause', value)
