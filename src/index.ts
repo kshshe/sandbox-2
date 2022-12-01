@@ -8,11 +8,13 @@ import { startEngine } from './process'
 import { drawInitial } from './draw'
 import { initControls } from './controls/initControls'
 import { getColor } from './utils/getColor'
-import { CONTROLLED_POINT_TYPES, PointType, Tools } from './data'
+import { CONTROLLED_POINT_TYPES_BASE, CONTROLLED_POINT_TYPES_MORE, PointType, Tools } from './data'
 import './interface/index'
 import { autorun } from 'mobx'
 import store from './interface/store'
 import '@picocss/pico/css/pico.css'
+
+type Divider = {divider: string}
 
 const init = async () => {
   const root = document.getElementById('root')
@@ -66,27 +68,37 @@ const init = async () => {
   const state = getOrCreateGameState()
 
   const controlTypes = [
-    ...Object.values(Tools),
-    ...CONTROLLED_POINT_TYPES,
+    {divider: 'Main'},
+    ...CONTROLLED_POINT_TYPES_BASE,
     'Eraser',
-  ] as Array<PointType | 'Eraser' | Tools>
+    {divider: 'Tools'},
+    ...Object.values(Tools),
+    ...CONTROLLED_POINT_TYPES_MORE,
+  ] as Array<PointType | 'Eraser' | Tools | Divider>
   controlTypes.forEach((type) => {
+    if ((type as Divider).divider) {
+      const dividerElement = document.createElement('div')
+      dividerElement.classList.add('divider')
+      dividerElement.innerText = (type as Divider).divider
+      types.appendChild(dividerElement)
+      return
+    }
     const button = document.createElement('button')
     button.classList.add('type')
     if (state.currentType === type) {
       button.classList.add('type--selected')
     }
     button.classList.add(`type--${type}`)
-    button.style.backgroundColor = type === 'Eraser' ? 'white' : getColor(type)
-    button.innerText = type
-    button.title = type
+    button.style.backgroundColor = type === 'Eraser' ? 'white' : getColor(type as PointType | Tools);
+    button.innerText = type as string;
+    button.title = type as string;
     button.addEventListener('click', () => {
       const state = getOrCreateGameState()
       document.querySelectorAll('.type').forEach((control) => {
         control.classList.remove('type--selected')
       })
       button.classList.add('type--selected')
-      state.currentType = type
+      state.currentType = type as PointType | Tools | 'Eraser'
     })
     types.appendChild(button)
   })

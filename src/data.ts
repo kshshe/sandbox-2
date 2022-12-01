@@ -42,8 +42,8 @@ export enum PointType {
 }
 
 export enum Tools {
-  Heat = 'Heat',
-  Cool = 'Cool',
+  HeatTool = 'HeatTool',
+  CoolTool = 'CoolTool',
 }
 
 export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
@@ -91,8 +91,8 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.FireCharcoal]: '#ff211b',
   [PointType.Charcoal]: '#393939',
   [PointType.NonExistentElement]: '#ffffff',
-  [Tools.Cool]: '#0078af',
-  [Tools.Heat]: '#c53300',
+  [Tools.CoolTool]: '#0078af',
+  [Tools.HeatTool]: '#c53300',
 }
 
 export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
@@ -230,31 +230,38 @@ export const IGNORE_MAP: Partial<Record<
   [PointType.Water]: listToMap([PointType.Fuel]),
 }
 
-export const CONTROLLED_POINT_TYPES = [
+export const CONTROLLED_POINT_TYPES_BASE = [
   PointType.Sand,
   PointType.Water,
   PointType.Ice,
-  PointType.DryIce,
-  PointType.Snow,
-  PointType.MeltedParaffin,
-  PointType.Candlewick,
-  PointType.Steam,
   PointType.Lava,
+]
+
+export const CONTROLLED_POINT_TYPES_MORE = [
+  {divider: 'Fire'},
   PointType.Fire,
   PointType.BFire,
   PointType.IceFire,
+  {divider: 'Effects'},
   PointType.Fuel,
-  PointType.Sponge,
   PointType.Acid,
+  PointType.Virus,
+  PointType.Clone,
+  PointType.Void,
+  {divider: 'Other'},
   PointType.Stone,
+  PointType.Metal,
   PointType.Concrete,
   PointType.Wood,
   PointType.Sawdust,
   PointType.Charcoal,
-  PointType.Metal,
+  PointType.Steam,
+  PointType.DryIce,
+  PointType.Snow,
+  PointType.MeltedParaffin,
+  PointType.Candlewick,
+  PointType.Sponge,
+  {divider: 'Fixed temp'},
   PointType.Hot,
   PointType.Cold,
-  PointType.Virus,
-  PointType.Void,
-  PointType.Clone,
 ]
