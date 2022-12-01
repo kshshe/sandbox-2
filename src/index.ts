@@ -63,6 +63,7 @@ const init = async () => {
     button.classList.add(`type--${type}`)
     button.style.backgroundColor = type === 'Eraser' ? 'white' : getColor(type)
     button.innerText = type
+    button.title = type
     button.addEventListener('click', () => {
       const state = getOrCreateGameState()
       document.querySelectorAll('.type').forEach((control) => {
