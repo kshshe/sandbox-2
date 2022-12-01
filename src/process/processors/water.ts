@@ -11,6 +11,7 @@ import {
   findNeighbours,
 } from '../utils/findNeighbours'
 import {exceptType} from '../utils/exceptType'
+import { PointType } from '../../data'
 
 export const waterProcessor: Processor = (state, point) => {
   if (point.temperature < 0) {
@@ -18,6 +19,9 @@ export const waterProcessor: Processor = (state, point) => {
   }
   if (point.temperature > 80) {
     return RequestedAction.Melt
+  }
+  if (point.humidity < 80 && point.type === PointType.Water) {
+    return RequestedAction.Die
   }
 
   const neighborsLeft = findNeighbours(state, point, [DIRECTIONS.left, DIRECTIONS.leftUp]).filter(exceptType(point.type))

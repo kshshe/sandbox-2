@@ -42,6 +42,7 @@ import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
+import store from '../interface/store'
 
 const TICKS_PER_SECOND = 60
 const TICK_TIMES_LIMIT = 100
@@ -120,6 +121,7 @@ const applyAction = (
       point.type = MELT_MAP[point.type] || point.type
       if (point.type === PointType.Water) {
         point.humidity = 100
+        point.fixedHumidity = true
       }
       break
     case RequestedAction.MoveDown:
@@ -283,7 +285,11 @@ const processHumidityMap = (state: GameState) => {
         if (current === undefined) {
           current = 0
         } else {
-          current = current / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
+          if (store.dynamicWater && current > 80) {
+            current = 80
+          } else if (!store.dynamicWater) {
+            current = current / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
+          }
         }
       }
       if (x > 0) {
@@ -322,7 +328,7 @@ const processHumidityMap = (state: GameState) => {
     })
   }
   state.points.forEach(function updatePointHumidity(point) {
-    if (point.fixedHumidity) {
+    if (point.fixedHumidity && !store.dynamicWater) {
       return
     }
     const humidity = humidityMap[point.coordinate.x][point.coordinate.y]

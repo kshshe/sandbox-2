@@ -7,6 +7,7 @@ const gameStateModel = types.model({
     showTemperature: types.boolean,
     speed: types.number,
     pause: types.boolean,
+    dynamicWater: types.boolean,
     isDrawing: types.boolean,
 }).actions(self => ({
     setProperty(key, value) {
@@ -23,4 +24,5 @@ export default gameStateModel.create({
     showTemperature: false,
     pause: false,
     isDrawing: false,
+    dynamicWater: localStorage.getItem('dynamicWater') === 'true',
 })
