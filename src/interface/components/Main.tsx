@@ -121,16 +121,16 @@ export const Main: React.FC = observer(() => {
               }}
             />
           </Group>
-          <Group>
-            <Checkbox
-              label="Pause"
-              checked={store.pause}
-              onChange={(value) => {
-                store.setProperty('pause', value)
-              }}
-            />
-          </Group>
         </>}
+        <Group>
+          <Checkbox
+            label="Pause"
+            checked={store.pause}
+            onChange={(value) => {
+              store.setProperty('pause', value)
+            }}
+          />
+        </Group>
         <button onClick={() => store.setProperty('showMoreSettings', !store.showMoreSettings)}>
           {store.showMoreSettings ? 'Less' : 'More'} settings
         </button>
