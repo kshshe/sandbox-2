@@ -196,9 +196,11 @@ const processRoomTemp = (state: GameState) => {
 const updateMeta = (state: GameState) => {
   const metaElement = document.querySelector('.meta')
   if (metaElement) {
-    metaElement.innerHTML = `${state.temperature.toFixed(2)} ℃, ${
-      state.points.length
-    } points`
+    const data = [
+      store.processTemperature && `${state.temperature.toFixed(2)} ℃`,
+      `${state.points.length} points`
+    ].filter(Boolean)
+    metaElement.innerHTML = data.join(', ')
   }
   const canvasElement = document.querySelector('canvas')
   if (canvasElement) {
@@ -362,14 +364,18 @@ export const startEngine = async () => {
   while (true) {
     const state = getOrCreateGameState()
     if (state.playing) {
-      if (tick % TICKS_PER_SECOND === 0) {
-        processRoomTemp(state)
+      if (store.processTemperature) {
+        if (tick % TICKS_PER_SECOND === 0) {
+          processRoomTemp(state)
+        }
+        processTemperaturesMap(state)
       }
-      processTemperaturesMap(state)
-      processHumidityMap(state)
+      if (store.processHumidity) {
+        processHumidityMap(state)
+      }
       processGameTick(state)
       updateMeta(state)
-      requestAnimationFrame(drawDelayed)
+      drawDelayed()
       tick++
     }
     const timeout = 1000 / TICKS_PER_SECOND / state.speed

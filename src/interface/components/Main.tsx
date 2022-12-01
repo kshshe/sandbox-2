@@ -75,42 +75,65 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
-        <Group>
-          <Checkbox
-            label="Dynamic water (beta)"
-            checked={store.dynamicWater}
-            onChange={(value) => {
-              store.setProperty('dynamicWater', value)
-            }}
-          />
-        </Group>
-        <Group>
-          <Checkbox
-            label="Thermovision (slow)"
-            checked={store.showTemperature}
-            onChange={(value) => {
-              store.setProperty('showTemperature', value)
-            }}
-          />
-        </Group>
-        <Group>
-          <Checkbox
-            label="No borders"
-            checked={store.freeBorders}
-            onChange={(value) => {
-              store.setProperty('freeBorders', value)
-            }}
-          />
-        </Group>
-        <Group>
-          <Checkbox
-            label="Pause"
-            checked={store.pause}
-            onChange={(value) => {
-              store.setProperty('pause', value)
-            }}
-          />
-        </Group>
+        {store.showMoreSettings && <>
+          <Group>
+            <Checkbox
+              label="Dynamic water (beta)"
+              checked={store.dynamicWater}
+              onChange={(value) => {
+                store.setProperty('dynamicWater', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="Process temperature"
+              checked={store.processTemperature}
+              onChange={(value) => {
+                store.setProperty('processTemperature', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="Process humidity (plants)"
+              checked={store.processHumidity}
+              onChange={(value) => {
+                store.setProperty('processHumidity', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="Thermovision (slow)"
+              checked={store.showTemperature}
+              onChange={(value) => {
+                store.setProperty('showTemperature', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="No borders"
+              checked={store.freeBorders}
+              onChange={(value) => {
+                store.setProperty('freeBorders', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="Pause"
+              checked={store.pause}
+              onChange={(value) => {
+                store.setProperty('pause', value)
+              }}
+            />
+          </Group>
+        </>}
+        <button onClick={() => store.setProperty('showMoreSettings', !store.showMoreSettings)}>
+          {store.showMoreSettings ? 'Less' : 'More'} settings
+        </button>
       </Container>
     </>
   )

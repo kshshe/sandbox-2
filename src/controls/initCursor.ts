@@ -28,26 +28,23 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     const humidity = state.humidityMap[x]?.[y]
     const temperature = state.temperaturesMap[x]?.[y]
     const pointThere = state.pointsByCoordinate[x]?.[y]
-    if (pointThere || (humidity !== undefined && temperature !== undefined)) {
-      cursorMeta.innerHTML = [
-        `t: ${temperature.toFixed(0)}°C`,
-        `Humidity: ${humidity.toFixed(0)}%`,
-        pointThere && `Age: ${pointThere.age}`,
-        pointThere && `Type: ${pointThere.type}`,
-        pointThere?.cloningType && `Клонирует: ${pointThere.cloningType}`,
-      ]
-      .filter(Boolean)
-        .map((line) => `<div>${line}</div>`)
-        .join('')
-      cursorMeta.style.backgroundColor = getColor(
-        PointType.Void,
-        temperature,
-        0,
-        true,
-      )
-    } else {
-      cursorMeta.innerHTML = ''
-    }
+  
+    cursorMeta.innerHTML = [
+      store.processTemperature && temperature && `t: ${temperature.toFixed(0)}°C`,
+      store.processHumidity && humidity && `Humidity: ${humidity.toFixed(0)}%`,
+      pointThere && `Age: ${pointThere.age}`,
+      pointThere && `Type: ${pointThere.type}`,
+      pointThere?.cloningType && `Clones: ${pointThere.cloningType}`,
+    ]
+    .filter(Boolean)
+      .map((line) => `<div>${line}</div>`)
+      .join('').trim() || 'Nothing here'
+    cursorMeta.style.backgroundColor = getColor(
+      PointType.Void,
+      temperature,
+      0,
+      true,
+    )
   }
 
   canvas.addEventListener('wheel', (e) => {

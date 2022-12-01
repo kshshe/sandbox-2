@@ -48,8 +48,13 @@ export const DEFAULT_BASE_TEMP = 5
 
 let gameState: null | GameState = null
 
+const NOT_RESETABLE = ['showMoreSettings']
+
 export const resetState = () => {
   Object.keys(INITIAL_STATE).forEach(key => {
+    if (NOT_RESETABLE.includes(key)) {
+      return
+    }
     // @ts-ignore
     store.setProperty(key, INITIAL_STATE[key])
   })
