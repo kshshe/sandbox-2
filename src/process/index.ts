@@ -271,6 +271,21 @@ const processTemperaturesMap = (state: GameState) => {
   })
 }
 
+const processFreeBorders = (state: GameState) => {
+  state.points = state.points.filter((point) => {
+    const shouldStay =
+      point.coordinate.x > 1 &&
+      point.coordinate.y > 1 &&
+      point.coordinate.x < state.borders.horizontal - 2 &&
+      point.coordinate.y < state.borders.vertical - 2
+    if (!shouldStay) {
+      delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
+      redrawPoint(point.coordinate)
+    }
+    return shouldStay
+  })
+}
+
 const HUMIDITY_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 10
 const HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR = HUMIDITY_CHANGE_COEFFICIENT * 5
 
@@ -315,20 +330,6 @@ const processHumidityMap = (state: GameState) => {
       humidityMap[x][y] = current
     }
   }
-  if (state.freeBorders) {
-    state.points = state.points.filter((point) => {
-      const shouldStay =
-        point.coordinate.x > 1 &&
-        point.coordinate.y > 1 &&
-        point.coordinate.x < state.borders.horizontal - 2 &&
-        point.coordinate.y < state.borders.vertical - 2
-      if (!shouldStay) {
-        delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
-        redrawPoint(point.coordinate)
-      }
-      return shouldStay
-    })
-  }
   state.points.forEach(function updatePointHumidity(point) {
     if (point.fixedHumidity && !store.dynamicWater) {
       return
@@ -372,6 +373,9 @@ export const startEngine = async () => {
       }
       if (store.processHumidity) {
         processHumidityMap(state)
+      }
+      if (state.freeBorders) {
+        processFreeBorders(state)
       }
       processGameTick(state)
       updateMeta(state)
