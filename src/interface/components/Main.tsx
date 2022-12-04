@@ -33,7 +33,7 @@ const Container = styled.div<{
 export const Main: React.FC = observer(() => {
   return (
     <>
-      <FPSStats />
+      <FPSStats top={3} />
       <Container isDisabled={store.isDrawing}>
         <Group title="Brush size" value={`${store.brushSize * 10}%`}>
           <Slider
@@ -48,7 +48,8 @@ export const Main: React.FC = observer(() => {
         <Group title="Game speed" value={`x${store.speed}`}>
           <Slider
             min={1}
-            max={5}
+            max={16}
+            step={5}
             value={store.speed}
             onChange={(value) => {
               store.setProperty('speed', value)
@@ -75,6 +76,15 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
+        <Group>
+          <Checkbox
+            label="Process temperature"
+            checked={store.processTemperature}
+            onChange={(value) => {
+              store.setProperty('processTemperature', value)
+            }}
+          />
+        </Group>
         {store.showMoreSettings && <>
           <Group>
             <Checkbox
@@ -82,15 +92,6 @@ export const Main: React.FC = observer(() => {
               checked={store.dynamicWater}
               onChange={(value) => {
                 store.setProperty('dynamicWater', value)
-              }}
-            />
-          </Group>
-          <Group>
-            <Checkbox
-              label="Process temperature"
-              checked={store.processTemperature}
-              onChange={(value) => {
-                store.setProperty('processTemperature', value)
               }}
             />
           </Group>

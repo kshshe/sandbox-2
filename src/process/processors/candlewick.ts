@@ -8,5 +8,5 @@ export const candlewickProcessor: Processor = (state, point) => {
     return RequestedAction.Melt
   }
 
-  return RequestedAction.None
+  return RequestedAction.NoneButContinue
 }

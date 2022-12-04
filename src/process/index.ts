@@ -7,7 +7,6 @@ import {
 import { Processor, RequestedAction } from './types'
 
 import { sandProcessor } from './processors/sand'
-import { virusProcessor } from './processors/virus'
 import { waterProcessor } from './processors/water'
 import { steamProcessor } from './processors/steam'
 import { iceProcessor } from './processors/ice'
@@ -43,9 +42,10 @@ import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
 import store from '../interface/store'
+import { findNeighbours } from './utils/findNeighbours'
+import { parallelize } from "thread-like";
 
 const TICKS_PER_SECOND = 60
-const TICK_TIMES_LIMIT = 100
 let tick = 0
 
 const PROCESSORS: Record<PointType, Processor> = {
@@ -68,7 +68,6 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Acid]: acidProcessor,
   [PointType.Void]: voidProcessor,
   [PointType.Clone]: cloneProcessor,
-  [PointType.Virus]: virusProcessor,
   [PointType.Tree]: treeProcessor,
   [PointType.FireWood]: fireWoodProcessor,
   [PointType.Wood]: woodProcessor,
@@ -174,6 +173,7 @@ const applyAction = (
       break
     case RequestedAction.Die:
       delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
+      state.processQueue.delete(point)
       state.points = state.points.filter((p) => p !== point)
       redrawPoint(point.coordinate)
       break
@@ -195,12 +195,27 @@ const processRoomTemp = (state: GameState) => {
 
 const updateMeta = (state: GameState) => {
   const metaElement = document.querySelector('.meta')
+  const queueSizeElement = document.querySelector('.queueSize')
+  if (queueSizeElement) {
+    const size = state.processQueue.size
+    queueSizeElement.style.width = `${size / 4}px`
+    if (size > 1500) {
+      queueSizeElement.classList.add('big')
+    } else {
+      queueSizeElement.classList.remove('big')
+    }
+    if (size < 400) {
+      queueSizeElement.classList.add('small')
+    } else {
+      queueSizeElement.classList.remove('small')
+    }
+  }
   if (metaElement) {
     const data = [
       store.processTemperature && `${state.temperature.toFixed(2)} ℃`,
-      `${state.points.length} points`
+      `${state.points.length} points`,
     ].filter(Boolean)
-    metaElement.innerHTML = data.join(', ')
+    metaElement.innerHTML = data.map(line => `<div>${line}</div>`).join('')
   }
   const canvasElement = document.querySelector('canvas')
   if (canvasElement) {
@@ -264,6 +279,9 @@ const processTemperaturesMap = (state: GameState) => {
     if (!isNaN(temp)) {
       point.temperature =
         temperaturesMap[point.coordinate.x][point.coordinate.y]
+      if (!point.lastProcessedTemperature || Math.abs(point.temperature - point.lastProcessedTemperature) > 3) {
+        state.processQueue.add(point)
+      }
       if (point.type === PointType.Metal) {
         redrawPoint(point.coordinate)
       }
@@ -280,6 +298,7 @@ const processFreeBorders = (state: GameState) => {
       point.coordinate.y < state.borders.vertical - 2
     if (!shouldStay) {
       delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
+      state.processQueue.delete(point)
       redrawPoint(point.coordinate)
     }
     return shouldStay
@@ -337,6 +356,9 @@ const processHumidityMap = (state: GameState) => {
     const humidity = humidityMap[point.coordinate.x][point.coordinate.y]
     if (!isNaN(humidity)) {
       point.humidity = humidityMap[point.coordinate.x][point.coordinate.y]
+      if (!point.lastProcessedHumidity || Math.abs(point.humidity - point.lastProcessedHumidity) > 3) {
+        state.processQueue.add(point)
+      }
       if (VISIBLE_HUMIDITY[point.type]) {
         redrawPoint(point.coordinate)
       }
@@ -344,24 +366,62 @@ const processHumidityMap = (state: GameState) => {
   })
 }
 
-const processGameTick = (state: GameState): void => {
-  state.points.forEach(function processPointActions(point) {
+let now = Date.now()
+let lastProcessedTimeShouldBeLessThan = 0
+
+let queueTick = 0
+const processGameTick = parallelize(function* () {
+  const startState = getOrCreateGameState()
+  for (const point of startState.processQueue) {
+    const state = getOrCreateGameState()
+    if (state !== startState) {
+      break
+    }
+    queueTick++
+    if (queueTick % 100 === 0) {
+      yield
+    }
+    state.processQueue.delete(point)
+    if (point.lastProcessedTime > lastProcessedTimeShouldBeLessThan) {
+      state.processQueue.add(point)
+      continue
+    }
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point, tick)
     point.age++
-    if (point.virusImmunity && point.virusImmunity > 0) {
-      point.virusImmunity--
-    }
+    point.lastProcessedTemperature = point.temperature
+    point.lastProcessedHumidity = point.humidity
+    point.lastProcessedTime = now
     if (action === RequestedAction.None) {
-      return
+      continue
+    }
+    const neighbors = findNeighbours(state, point)
+    neighbors.forEach(neighbor => {
+      state.processQueue.add(neighbor)
+    })
+    state.processQueue.add(point)
+    if (action === RequestedAction.NoneButContinue) {
+      continue
     }
     applyAction(state, action, point)
     redrawPoint(odlCoordinate)
     redrawPoint(point.coordinate)
+  }
+  requestAnimationFrame(() => {
+    processGameTick()
+  })
+})
+
+function startDrawing() {
+  requestAnimationFrame(() => {
+    drawDelayed();
+    startDrawing();
   })
 }
 
 export const startEngine = async () => {
+  processGameTick()
+  startDrawing();
   while (true) {
     const state = getOrCreateGameState()
     if (state.playing) {
@@ -377,12 +437,12 @@ export const startEngine = async () => {
       if (state.freeBorders) {
         processFreeBorders(state)
       }
-      processGameTick(state)
       updateMeta(state)
-      drawDelayed()
       tick++
+      now = Date.now()
     }
-    const timeout = 1000 / TICKS_PER_SECOND / state.speed
-    await new Promise((resolve) => setTimeout(resolve, timeout))
+    const currentTimeout = 1000 / TICKS_PER_SECOND / (state.speed * state.speed)
+    lastProcessedTimeShouldBeLessThan = now - currentTimeout / 2
+    await new Promise((resolve) => setTimeout(resolve, currentTimeout))
   }
 }

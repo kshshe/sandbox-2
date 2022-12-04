@@ -36,7 +36,6 @@ export enum PointType {
   Cold = 'Cold',
   Void = 'Void',
   Clone = 'Clone',
-  Virus = 'Virus',
   Metal = 'Metal',
   NonExistentElement = 'NonExistentElement',
 }
@@ -85,7 +84,6 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Cold]: '#0078af',
   [PointType.Void]: '#000000',
   [PointType.Clone]: '#00a927',
-  [PointType.Virus]: '#d900ff',
   [PointType.Metal]: '#e5e5e5',
   [PointType.Tree]: '#60b400',
   [PointType.FireCharcoal]: '#ff211b',
@@ -213,7 +211,7 @@ export const FLUIDS = [
   PointType.MeltedParaffin,
 ]
 
-export const POWDERS = [PointType.Sand, PointType.Stone, PointType.Virus]
+export const POWDERS = [PointType.Sand, PointType.Stone]
 
 export const IGNORE_MAP: Partial<Record<
   PointType,
@@ -245,7 +243,6 @@ export const CONTROLLED_POINT_TYPES_MORE = [
   {divider: 'Effects'},
   PointType.Fuel,
   PointType.Acid,
-  PointType.Virus,
   PointType.Clone,
   PointType.Void,
   {divider: 'Other'},

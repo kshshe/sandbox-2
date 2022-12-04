@@ -2,6 +2,7 @@ import { GameState, PointData } from '../gameState'
 
 export enum RequestedAction {
   None,
+  NoneButContinue,
   MoveDown = 'MoveDown',
   MoveLeft = 'MoveLeft',
   MoveRight = 'MoveRight',

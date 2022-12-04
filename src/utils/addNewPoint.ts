@@ -2,6 +2,7 @@ import { POINTS_LIMIT } from '../constants'
 import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
 import { Coordinate, GameState, getOrCreateGameState, PointData } from '../gameState'
+import { findNeighbours } from '../process/utils/findNeighbours'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
 
 const updateCoordinate = (
@@ -10,7 +11,9 @@ const updateCoordinate = (
   coordinateTo: Coordinate,
 ): void => {
   const state = getOrCreateGameState()
-  delete state.pointsByCoordinate[coordinateFrom.x][coordinateFrom.y]
+  try {
+    delete state.pointsByCoordinate[coordinateFrom.x][coordinateFrom.y]
+  } catch {}
   if (!state.pointsByCoordinate[coordinateTo.x]) {
     state.pointsByCoordinate[coordinateTo.x] = []
   }
@@ -64,6 +67,7 @@ export const restorePoint = (pointData: PointData) => {
   state.pointsByCoordinate[point.coordinate.x][point.coordinate.y] = point
   drawPoint(point.coordinate)
   state.points.push(point)
+  state.processQueue.add(point)
 }
 
 export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType) => {
@@ -81,8 +85,15 @@ export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType)
   if (typeToAdd === 'Eraser') {
     const pointThere = getPointOnCoordinate(coordinate)
     if (pointThere) {
+      const neighbors = findNeighbours(state, pointThere)
+      neighbors.forEach((neighbor) => {
+        state.processQueue.add(neighbor)
+      })
+      state.processQueue.delete(pointThere)
       state.points = state.points.filter((point) => point !== pointThere)
-      delete state.pointsByCoordinate[pointThere.coordinate.x][pointThere.coordinate.y]
+      try {
+        delete state.pointsByCoordinate[pointThere.coordinate.x][pointThere.coordinate.y]
+      } catch {}
       drawPoint(pointThere.coordinate)
     }
     return
@@ -98,6 +109,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType)
   state.pointsByCoordinate[coordinate.x][coordinate.y] = point
   drawPoint(coordinate)
   state.points.push(point)
+  state.processQueue.add(point)
 }
 
 // @ts-ignore

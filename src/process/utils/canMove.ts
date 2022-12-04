@@ -13,7 +13,7 @@ export const canMoveTo = (
   coordinate: Coordinate,
 ): boolean => {
   const state = getOrCreateGameState()
-  const pointThere = state.pointsByCoordinate[coordinate.x][coordinate.y]
+  const pointThere = state.pointsByCoordinate[coordinate.x]?.[coordinate.y]
   if (pointThere) {
     return (
       pointThere.type !== point.type &&

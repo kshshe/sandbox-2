@@ -42,7 +42,7 @@ export const INITIAL_STATE = {
 export default gameStateModel.create({
     ...INITIAL_STATE,
     dynamicWater: localStorage.getItem('dynamicWater') === 'true',
-    processTemperature: storedProcessTemperature === null ? true : storedProcessTemperature === 'true',
+    processTemperature: storedProcessTemperature === 'true',
     processHumidity: storedProcessHumidity === null ? false : storedProcessHumidity === 'true',
     scale: storedScale ? parseInt(storedScale) : DEFAULT_SCALE,
     showMoreSettings: localStorage.getItem('showMoreSettings') === 'true',

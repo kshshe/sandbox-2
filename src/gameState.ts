@@ -11,21 +11,24 @@ export type Coordinate = {
 export type PointData = {
   coordinate: Coordinate
   type: PointType
+  lastProcessedTime: number
   temperature: number
+  lastProcessedTemperature: number
   humidity: number
+  lastProcessedHumidity: number
   fixedTemperature: boolean
   fixedHumidity: boolean
   age: number
   cloningType?: PointType
   transformInto?: PointType
   transformTimeout?: number
-  virusImmunity?: number
   acidUsedTimes?: number
   treeGrowTimer?: number
   paraffinWasIgnitedTimes?: number
 }
 
 export type GameState = {
+  processQueue: Set<PointData>
   points: Array<PointData>
   pointsByCoordinate: PointData[][]
   temperaturesMap: number[][]
@@ -66,12 +69,13 @@ const createGameState = (): GameState => {
     (localStorage.getItem('currentType') as PointType.Sand) || PointType.Sand
   let brushSize = localStorage.getItem('brushSize') || 2
   store.setProperty('brushSize', +brushSize)
-  let speed = localStorage.getItem('speed') || 5
+  let speed = localStorage.getItem('speed') || 6
   store.setProperty('speed', +speed)
   let baseTemperature = localStorage.getItem('baseTemperature') || 5
   store.setProperty('baseTemperature', +baseTemperature)
 
   const state = {
+    processQueue: new Set(),
     points: [],
     pointsByCoordinate: [],
     temperaturesMap: [],

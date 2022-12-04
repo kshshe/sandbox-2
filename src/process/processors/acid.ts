@@ -22,6 +22,7 @@ export const acidProcessor: Processor = (state, point, tick) => {
   if (neighbours.length > 0) {
     const topNeighbour = neighbours[0]
     delete state.pointsByCoordinate[topNeighbour.coordinate.x][topNeighbour.coordinate.y]
+    state.processQueue.delete(point)
     state.points = state.points.filter((p) => p !== topNeighbour)
     topNeighbour.type = PointType.NonExistentElement
     redrawPoint(topNeighbour.coordinate)
@@ -29,7 +30,7 @@ export const acidProcessor: Processor = (state, point, tick) => {
       return RequestedAction.Die
     }
     point.acidUsedTimes = 1
-    return RequestedAction.None
+    return RequestedAction.NoneButContinue
   }
 
   return waterProcessor(state, {

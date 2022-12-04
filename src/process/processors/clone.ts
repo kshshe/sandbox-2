@@ -12,14 +12,14 @@ export const cloneProcessor: Processor = (state, point) => {
     )
     if (cloneNeighbour) {
       point.cloningType = cloneNeighbour.cloningType
-      return RequestedAction.None
+      return RequestedAction.NoneButContinue
     }
     const nonCloneNeighbour = neighbours.find(
       (neighbour) => neighbour.type !== PointType.Clone,
     )
     if (nonCloneNeighbour) {
       point.cloningType = nonCloneNeighbour.type
-      return RequestedAction.None
+      return RequestedAction.NoneButContinue
     }
   } else {
     const randomDirection =
@@ -35,5 +35,5 @@ export const cloneProcessor: Processor = (state, point) => {
       addNewPoint(coordinate, point.cloningType)
     }
   }
-  return RequestedAction.None
+  return RequestedAction.NoneButContinue
 }

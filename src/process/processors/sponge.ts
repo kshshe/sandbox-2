@@ -27,6 +27,7 @@ export const spongeProcessor: Processor = (state, point, tick) => {
         delete state.pointsByCoordinate[neighbour.coordinate.x][
           neighbour.coordinate.y
         ]
+        state.processQueue.delete(point)
         state.points = state.points.filter((p) => p !== neighbour)
         redrawPoint(neighbour.coordinate)
         point.humidity = Math.min(100, point.humidity + 3)
