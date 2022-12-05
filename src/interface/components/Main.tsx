@@ -93,6 +93,9 @@ export const Main: React.FC = observer(() => {
               checked={store.dynamicWater}
               onChange={(value) => {
                 store.setProperty('dynamicWater', value)
+                if (value) {
+                  store.setProperty('processHumidity', true)
+                }
               }}
             />
           </Group>
