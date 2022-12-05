@@ -14,6 +14,17 @@ import { autorun } from 'mobx'
 import store from './interface/store'
 import '@picocss/pico/css/pico.css'
 
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
+
+// if (window.location.hostname !== 'localhost') {
+  Sentry.init({
+    dsn: "https://c451668fc81a4173b45e15ecaeb9a01a@o4504274949439488.ingest.sentry.io/4504274950422528",
+    integrations: [new BrowserTracing()],
+    tracesSampleRate: 1.0,
+  });
+// }
+
 type Divider = {divider: string}
 
 const init = async () => {
