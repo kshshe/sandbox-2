@@ -10,6 +10,7 @@ import {
   NEIGHBOUR_DIRECTIONS_TOP_SIDE,
 } from '../utils/findNeighbours'
 import { waterProcessor } from './water'
+import { deletePoint } from '../../utils/deletePoint'
 
 export const acidProcessor: Processor = (state, point, tick) => {
   const neighbours = findNeighbours(state, point, [
@@ -21,11 +22,7 @@ export const acidProcessor: Processor = (state, point, tick) => {
   ]).filter((n) => ![PointType.Clone, point.type].includes(n.type))
   if (neighbours.length > 0) {
     const topNeighbour = neighbours[0]
-    delete state.pointsByCoordinate[topNeighbour.coordinate.x][topNeighbour.coordinate.y]
-    state.processQueue.delete(point)
-    state.points = state.points.filter((p) => p !== topNeighbour)
-    topNeighbour.type = PointType.NonExistentElement
-    redrawPoint(topNeighbour.coordinate)
+    deletePoint(topNeighbour)
     if (point.acidUsedTimes && point.acidUsedTimes > 0) {
       return RequestedAction.Die
     }

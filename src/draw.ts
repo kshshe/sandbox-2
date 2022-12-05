@@ -86,7 +86,9 @@ export function drawInitial(canvas: HTMLCanvasElement) {
   resetCanvasBg(ctx)
   const state = getOrCreateGameState()
   state.points.forEach((point) => {
-    drawPoint(point.coordinate)
+    if (!point.toBeRemoved) {
+      drawPoint(point.coordinate)
+    }
   })
 }
 

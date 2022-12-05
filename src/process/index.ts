@@ -45,6 +45,7 @@ import store from '../interface/store'
 import { findNeighbours } from './utils/findNeighbours'
 import { parallelize } from "thread-like";
 import { MAX_SPEED } from '../constants'
+import { deletePoint } from '../utils/deletePoint'
 
 const TICKS_PER_SECOND = 60
 let tick = 0
@@ -173,10 +174,7 @@ const applyAction = (
       })
       break
     case RequestedAction.Die:
-      delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
-      state.processQueue.delete(point)
-      state.points = state.points.filter((p) => p !== point)
-      redrawPoint(point.coordinate)
+      deletePoint(point)
       break
     default:
       break
@@ -273,6 +271,9 @@ const processTemperaturesMap = (state: GameState) => {
     }
   }
   state.points.forEach(function updatePointTemperature(point) {
+    if (point.toBeRemoved) {
+      return
+    }
     if (point.fixedTemperature) {
       return
     }
@@ -291,18 +292,18 @@ const processTemperaturesMap = (state: GameState) => {
 }
 
 const processFreeBorders = (state: GameState) => {
-  state.points = state.points.filter((point) => {
+  state.points.forEach((point) => {
+    if (point.toBeRemoved) {
+      return
+    }
     const shouldStay =
       point.coordinate.x > 1 &&
       point.coordinate.y > 1 &&
       point.coordinate.x < state.borders.horizontal - 2 &&
       point.coordinate.y < state.borders.vertical - 2
     if (!shouldStay) {
-      delete state.pointsByCoordinate[point.coordinate.x][point.coordinate.y]
-      state.processQueue.delete(point)
-      redrawPoint(point.coordinate)
+      deletePoint(point)
     }
-    return shouldStay
   })
 }
 
@@ -351,6 +352,9 @@ const processHumidityMap = (state: GameState) => {
     }
   }
   state.points.forEach(function updatePointHumidity(point) {
+    if (point.toBeRemoved) {
+      return
+    }
     if (point.fixedHumidity && !store.dynamicWater) {
       return
     }
@@ -380,6 +384,9 @@ const processGameTick = parallelize(function* () {
       yield
     }
     state.processQueue.delete(point)
+    if (point.toBeRemoved) {
+      continue
+    }
     if (point.lastProcessedTick === tick && store.speed !== MAX_SPEED) {
       state.processQueue.add(point)
       continue
@@ -437,6 +444,9 @@ export const startEngine = async () => {
       }
       updateMeta(state)
       tick++
+      if (tick % 100 === 0) {
+        state.points = state.points.filter(point => !point.toBeRemoved)
+      }
     }
     const currentTimeout = 1000 / TICKS_PER_SECOND / (state.speed * state.speed)
     await new Promise((resolve) => setTimeout(resolve, currentTimeout))

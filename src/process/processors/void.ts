@@ -2,17 +2,14 @@ import { Processor, RequestedAction } from '../types'
 import { findNeighbours } from '../utils/findNeighbours'
 import { redrawPoint } from '../../draw'
 import { PointType } from '../../data'
+import { deletePoint } from '../../utils/deletePoint'
 
 export const voidProcessor: Processor = (state, point) => {
   const neighbours = findNeighbours(state, point)
   neighbours.forEach((neighbour) => {
     if (neighbour.type !== PointType.Void) {
-      neighbour.type = PointType.NonExistentElement
-      delete state.pointsByCoordinate[neighbour.coordinate.x][neighbour.coordinate.y]
-      state.processQueue.delete(point)
-      state.points = state.points.filter((p) => p !== neighbour)
+      deletePoint(neighbour)
       point.temperature += 3
-      redrawPoint(neighbour.coordinate)
     }
   })
   return RequestedAction.None

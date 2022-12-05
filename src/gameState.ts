@@ -25,6 +25,7 @@ export type PointData = {
   acidUsedTimes?: number
   treeGrowTimer?: number
   paraffinWasIgnitedTimes?: number
+  toBeRemoved?: boolean
 }
 
 export type GameState = {
@@ -139,7 +140,9 @@ export const restoreSavedState = () => {
     try {
       const parsedPoints = JSON.parse(storedPoints)
       parsedPoints.forEach((point: PointData) => {
-        restorePoint(point)
+        if (!point.toBeRemoved) {
+          restorePoint(point)
+        }
       })
       drawDelayed()
     } catch (e) {

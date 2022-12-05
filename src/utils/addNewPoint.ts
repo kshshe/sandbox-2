@@ -3,6 +3,7 @@ import { PointType, POINT_INITIAL_DATA } from '../data'
 import { drawPoint } from '../draw'
 import { Coordinate, GameState, getOrCreateGameState, PointData } from '../gameState'
 import { findNeighbours } from '../process/utils/findNeighbours'
+import { deletePoint } from './deletePoint'
 import { getPointOnCoordinate } from './getPointOnCoordinate'
 
 const updateCoordinate = (
@@ -89,11 +90,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType)
       neighbors.forEach((neighbor) => {
         state.processQueue.add(neighbor)
       })
-      state.processQueue.delete(pointThere)
-      state.points = state.points.filter((point) => point !== pointThere)
-      try {
-        delete state.pointsByCoordinate[pointThere.coordinate.x][pointThere.coordinate.y]
-      } catch {}
+      deletePoint(pointThere)
       drawPoint(pointThere.coordinate)
     }
     return

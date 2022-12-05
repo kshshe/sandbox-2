@@ -3,6 +3,7 @@ import { findNeighbours } from '../utils/findNeighbours'
 import { redrawPoint } from '../../draw'
 import { PointType } from '../../data'
 import { cloneProcessor } from './clone'
+import { deletePoint } from '../../utils/deletePoint'
 
 export const spongeProcessor: Processor = (state, point, tick) => {
   const neighbours = findNeighbours(state, point)
@@ -23,13 +24,7 @@ export const spongeProcessor: Processor = (state, point, tick) => {
   neighbours.forEach((neighbour) => {
     if (neighbour.type === PointType.Water) {
       if (Math.random() > 0.96) {
-        neighbour.type = PointType.NonExistentElement
-        delete state.pointsByCoordinate[neighbour.coordinate.x][
-          neighbour.coordinate.y
-        ]
-        state.processQueue.delete(point)
-        state.points = state.points.filter((p) => p !== neighbour)
-        redrawPoint(neighbour.coordinate)
+        deletePoint(neighbour)
         point.humidity = Math.min(100, point.humidity + 3)
       }
     }
