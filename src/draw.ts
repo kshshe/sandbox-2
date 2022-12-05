@@ -4,8 +4,8 @@ import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 import { PointType, VISIBLE_HUMIDITY } from './data'
 import store from './interface/store'
 
-const resetCanvasBg = (ctx: CanvasRenderingContext2D) => {
-  ctx.fillStyle = '#fff'
+const resetCanvasBg = (ctx: CanvasRenderingContext2D, color = '#fff') => {
+  ctx.fillStyle = color
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 }
 
@@ -65,7 +65,7 @@ export const drawDelayed = () => {
         if (point) {
           drawPoint({ x, y })
         } else {
-          drawTemp({ x, y }, state.temperaturesMap[x][y])
+          drawTemp({ x, y }, state.temperaturesMap?.[x]?.[y] || 0)
         }
       }
     }
@@ -89,6 +89,20 @@ export function drawInitial(canvas: HTMLCanvasElement) {
     if (!point.toBeRemoved) {
       drawPoint(point.coordinate)
     }
+  })
+}
+
+export function drawQueue(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext('2d')
+  if (!ctx) {
+    throw new Error('Could not get context')
+  }
+  resetCanvasBg(ctx)
+  const state = getOrCreateGameState()
+  state.processQueue.forEach((point) => {
+    const { x, y } = point.coordinate
+    ctx.fillStyle = `#ff0000`
+    ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
   })
 }
 

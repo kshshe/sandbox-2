@@ -42,9 +42,19 @@ const init = async () => {
     throw new Error('Types element not found')
   }
   const canvas = document.createElement('canvas')
+  canvas.classList.add('main')
+  const debugCanvas = document.createElement('canvas')
+  debugCanvas.classList.add('debug')
   autorun(() => {
     if (!store.showTemperature) {
       drawInitial(canvas)
+    }
+  })
+  autorun(() => {
+    if (!store.debug) {
+      debugCanvas.style.display = 'none'
+    } else {
+      debugCanvas.style.display = 'block'
     }
   })
   const setCanvasSize = () => {
@@ -54,6 +64,8 @@ const init = async () => {
     }
     canvas.width = proportions.width
     canvas.height = proportions.height
+    debugCanvas.width = proportions.width
+    debugCanvas.height = proportions.height
     setBorders(proportions.width / store.scale, proportions.height / store.scale)
     drawInitial(canvas)
   }
@@ -78,6 +90,7 @@ const init = async () => {
   setCanvasSize()
   window.addEventListener('resize', setCanvasSize)
   root.appendChild(canvas)
+  root.appendChild(debugCanvas)
 
   const state = getOrCreateGameState()
 

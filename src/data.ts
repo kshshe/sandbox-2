@@ -62,6 +62,17 @@ export const UPDATE_EVERY_TICK: Partial<Record<PointType, true>> = {
   [PointType.IceFire]: true,
 }
 
+// Convert neighbors to other types to imitate the heat transfer
+export const INFECT_MAP: Partial<Record<PointType, Partial<Record<PointType, PointType>>>> = {
+  [PointType.Ice]: {
+    [PointType.Water]: PointType.Ice,
+  },
+  [PointType.Lava]: {
+    [PointType.Ice]: PointType.Water,
+    [PointType.Water]: PointType.Steam,
+  }
+}
+
 export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Sand]: '#ffd800',
   [PointType.Cinder]: '#dfdfdf',

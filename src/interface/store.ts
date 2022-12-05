@@ -14,6 +14,7 @@ const gameStateModel = types.model({
     scale: types.number,
     isDrawing: types.boolean,
     showMoreSettings: types.boolean,
+    debug: types.boolean,
 }).actions(self => ({
     setProperty(key: keyof IGameStateModel, value: any) {
         localStorage.setItem(String(key), `${value}`)
@@ -37,6 +38,7 @@ export const INITIAL_STATE = {
     isDrawing: false,
     dynamicWater: false,
     scale: DEFAULT_SCALE,
+    debug: false,
 }
 
 export default gameStateModel.create({
@@ -46,4 +48,5 @@ export default gameStateModel.create({
     processHumidity: storedProcessHumidity === null ? false : storedProcessHumidity === 'true',
     scale: storedScale ? parseInt(storedScale) : DEFAULT_SCALE,
     showMoreSettings: localStorage.getItem('showMoreSettings') === 'true',
+    debug: localStorage.getItem('debug') === 'true',
 })

@@ -37,10 +37,10 @@ import { meltedParaffinProcessor } from './processors/meltedParaffin'
 import { candlewickProcessor } from './processors/candlewick'
 import { fireCandlewickProcessor } from './processors/fireCandlewick'
 
-import { drawDelayed, redrawPoint } from '../draw'
+import { drawDelayed, drawQueue, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
-import { FREEZE_MAP, MELT_MAP, PointType, UPDATE_EVERY_TICK, VISIBLE_HUMIDITY } from '../data'
+import { FREEZE_MAP, INFECT_MAP, MELT_MAP, PointType, POINT_INITIAL_DATA, UPDATE_EVERY_TICK, VISIBLE_HUMIDITY } from '../data'
 import store from '../interface/store'
 import { findNeighbours } from './utils/findNeighbours'
 import { parallelize } from "thread-like";
@@ -48,6 +48,7 @@ import { MAX_SPEED } from '../constants'
 import { deletePoint } from '../utils/deletePoint'
 
 const TICKS_PER_SECOND = 60
+const INFECTION_STEP_TICKS = 700
 let tick = 0
 
 const PROCESSORS: Record<PointType, Processor> = {
@@ -213,10 +214,11 @@ const updateMeta = (state: GameState) => {
     const data = [
       store.processTemperature && `${state.temperature.toFixed(2)} ℃`,
       `${state.points.length} points`,
+      `${tick} ticks`,
     ].filter(Boolean)
     metaElement.innerHTML = data.map(line => `<div>${line}</div>`).join('')
   }
-  const canvasElement = document.querySelector('canvas')
+  const canvasElement = document.querySelector('canvas.main')
   if (canvasElement) {
     canvasElement.style.borderColor = getColor(
       PointType.NonExistentElement,
@@ -396,13 +398,41 @@ const processGameTick = parallelize(function* () {
     point.lastProcessedTemperature = point.temperature
     point.lastProcessedHumidity = point.humidity
     point.lastProcessedTick = tick
-    if (UPDATE_EVERY_TICK[point.type] || action !== RequestedAction.None) {
+    if (UPDATE_EVERY_TICK[point.type] || action !== RequestedAction.None || point.wasInfected) {
       state.processQueue.add(point)
+    }
+    const neighbors = findNeighbours(state, point)
+    if (!store.processTemperature) {
+      const infectMap = INFECT_MAP[point.type]
+      if (infectMap) {
+        neighbors.forEach(neighbor => {
+          const shouldBeInfected = infectMap[neighbor.type]
+          if (shouldBeInfected) {
+            neighbor.type = shouldBeInfected
+            const initialData = POINT_INITIAL_DATA[shouldBeInfected]
+            if (initialData) {
+              neighbor.temperature = initialData.temperature || state.baseTemperature
+              neighbor.humidity = initialData.humidity || 0
+            }
+            neighbor.wasInfected = true
+            neighbor.infectedTick = tick
+            redrawPoint(neighbor.coordinate)
+          }
+        })
+      }
+    }
+    if (point.wasInfected) {
+      const stepsNeeded = INFECTION_STEP_TICKS * Math.random()
+      if ((point.infectedTick || 0) < tick - stepsNeeded) {
+        neighbors.forEach(neighbor => {
+          state.processQueue.add(neighbor)
+        })
+        point.wasInfected = false
+      }
     }
     if (action === RequestedAction.None) {
       continue
     }
-    const neighbors = findNeighbours(state, point)
     neighbors.forEach(neighbor => {
       state.processQueue.add(neighbor)
     })
@@ -418,9 +448,14 @@ const processGameTick = parallelize(function* () {
   })
 })
 
+let debugCanvasStored: HTMLCanvasElement | null = null
 function startDrawing() {
   requestAnimationFrame(() => {
     drawDelayed();
+    if (store.debug) {
+      debugCanvasStored = debugCanvasStored || document.querySelector('canvas.debug') as HTMLCanvasElement
+      drawQueue(debugCanvasStored)
+    }
     startDrawing();
   })
 }

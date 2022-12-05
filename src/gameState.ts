@@ -26,6 +26,8 @@ export type PointData = {
   treeGrowTimer?: number
   paraffinWasIgnitedTimes?: number
   toBeRemoved?: boolean
+  wasInfected?: boolean
+  infectedTick?: number
 }
 
 export type GameState = {

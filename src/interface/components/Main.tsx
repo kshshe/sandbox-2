@@ -14,6 +14,7 @@ const Container = styled.div<{
   position: fixed;
   bottom: 20px;
   left: 10px;
+  z-index: 200;
 
   display: flex;
   flex-direction: column;
@@ -79,7 +80,7 @@ export const Main: React.FC = observer(() => {
         </Group>
         <Group>
           <Checkbox
-            label="Process temperature"
+            label="Realistic temperature"
             checked={store.processTemperature}
             onChange={(value) => {
               store.setProperty('processTemperature', value)
@@ -123,6 +124,15 @@ export const Main: React.FC = observer(() => {
               checked={store.freeBorders}
               onChange={(value) => {
                 store.setProperty('freeBorders', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="Debug"
+              checked={store.debug}
+              onChange={(value) => {
+                store.setProperty('debug', value)
               }}
             />
           </Group>
