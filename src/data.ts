@@ -52,6 +52,16 @@ export const VISIBLE_HUMIDITY: Partial<Record<PointType, true>> = {
   [PointType.Sponge]: true,
 }
 
+export const UPDATE_EVERY_TICK: Partial<Record<PointType, true>> = {
+  [PointType.Fire]: true,
+  [PointType.FireSawdust]: true,
+  [PointType.FireWood]: true,
+  [PointType.FireCharcoal]: true,
+  [PointType.FireCandlewick]: true,
+  [PointType.BFire]: true,
+  [PointType.IceFire]: true,
+}
+
 export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Sand]: '#ffd800',
   [PointType.Cinder]: '#dfdfdf',

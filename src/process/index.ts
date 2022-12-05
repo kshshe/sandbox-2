@@ -40,7 +40,7 @@ import { fireCandlewickProcessor } from './processors/fireCandlewick'
 import { drawDelayed, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
-import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
+import { FREEZE_MAP, MELT_MAP, PointType, UPDATE_EVERY_TICK, VISIBLE_HUMIDITY } from '../data'
 import store from '../interface/store'
 import { findNeighbours } from './utils/findNeighbours'
 import { parallelize } from "thread-like";
@@ -393,10 +393,12 @@ const processGameTick = parallelize(function* () {
     }
     const odlCoordinate = { ...point.coordinate }
     const action = PROCESSORS[point.type](state, point, tick)
-    point.age++
     point.lastProcessedTemperature = point.temperature
     point.lastProcessedHumidity = point.humidity
     point.lastProcessedTick = tick
+    if (UPDATE_EVERY_TICK[point.type] || action !== RequestedAction.None) {
+      state.processQueue.add(point)
+    }
     if (action === RequestedAction.None) {
       continue
     }
@@ -404,7 +406,6 @@ const processGameTick = parallelize(function* () {
     neighbors.forEach(neighbor => {
       state.processQueue.add(neighbor)
     })
-    state.processQueue.add(point)
     if (action === RequestedAction.NoneButContinue) {
       continue
     }
@@ -443,6 +444,9 @@ export const startEngine = async () => {
         processFreeBorders(state)
       }
       updateMeta(state)
+      state.points.forEach(point => {
+        point.age++
+      })
       tick++
       if (tick % 100 === 0) {
         state.points = state.points.filter(point => !point.toBeRemoved)
