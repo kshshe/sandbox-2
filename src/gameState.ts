@@ -11,7 +11,7 @@ export type Coordinate = {
 export type PointData = {
   coordinate: Coordinate
   type: PointType
-  lastProcessedTime: number
+  lastProcessedTick: number
   temperature: number
   lastProcessedTemperature: number
   humidity: number

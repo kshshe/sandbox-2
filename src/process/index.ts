@@ -44,6 +44,7 @@ import { FREEZE_MAP, MELT_MAP, PointType, VISIBLE_HUMIDITY } from '../data'
 import store from '../interface/store'
 import { findNeighbours } from './utils/findNeighbours'
 import { parallelize } from "thread-like";
+import { MAX_SPEED } from '../constants'
 
 const TICKS_PER_SECOND = 60
 let tick = 0
@@ -366,9 +367,6 @@ const processHumidityMap = (state: GameState) => {
   })
 }
 
-let now = Date.now()
-let lastProcessedTimeShouldBeLessThan = 0
-
 let queueTick = 0
 const processGameTick = parallelize(function* () {
   const startState = getOrCreateGameState()
@@ -382,7 +380,7 @@ const processGameTick = parallelize(function* () {
       yield
     }
     state.processQueue.delete(point)
-    if (point.lastProcessedTime > lastProcessedTimeShouldBeLessThan) {
+    if (point.lastProcessedTick === tick && store.speed !== MAX_SPEED) {
       state.processQueue.add(point)
       continue
     }
@@ -391,7 +389,7 @@ const processGameTick = parallelize(function* () {
     point.age++
     point.lastProcessedTemperature = point.temperature
     point.lastProcessedHumidity = point.humidity
-    point.lastProcessedTime = now
+    point.lastProcessedTick = tick
     if (action === RequestedAction.None) {
       continue
     }
@@ -439,10 +437,8 @@ export const startEngine = async () => {
       }
       updateMeta(state)
       tick++
-      now = Date.now()
     }
     const currentTimeout = 1000 / TICKS_PER_SECOND / (state.speed * state.speed)
-    lastProcessedTimeShouldBeLessThan = now - currentTimeout / 2
     await new Promise((resolve) => setTimeout(resolve, currentTimeout))
   }
 }

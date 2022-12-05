@@ -6,6 +6,7 @@ import { Slider } from './Slider'
 import { observer } from 'mobx-react-lite'
 import store from '../store'
 import { Checkbox } from './Checkbox'
+import { MAX_SPEED } from '../../constants';
 
 const Container = styled.div<{
   isDisabled: boolean
@@ -45,7 +46,7 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
-        <Group title="Game speed" value={`x${store.speed}`}>
+        <Group title="Game speed" value={store.speed === MAX_SPEED ? 'max' : `x${store.speed}`}>
           <Slider
             min={1}
             max={16}
