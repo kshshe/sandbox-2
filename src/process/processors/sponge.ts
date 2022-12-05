@@ -29,5 +29,5 @@ export const spongeProcessor: Processor = (state, point, tick) => {
       }
     }
   })
-  return RequestedAction.None
+  return RequestedAction.NoneButContinue
 }
