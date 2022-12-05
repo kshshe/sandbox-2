@@ -69,7 +69,7 @@ export const Main: React.FC = observer(() => {
         </Group>
         <Group title="Scale (bigger is faster)" value={`${store.scale}px`}>
           <Slider
-            min={3}
+            min={1}
             max={40}
             value={store.scale}
             onChange={(value) => {
