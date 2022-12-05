@@ -93,25 +93,10 @@ export const Main: React.FC = observer(() => {
         {store.showMoreSettings && <>
           <Group>
             <Checkbox
-              label="Dynamic water (beta)"
-              checked={store.dynamicWater}
-              onChange={(value) => {
-                store.setProperty('dynamicWater', value)
-                if (value) {
-                  store.setProperty('processHumidity', true)
-                }
-              }}
-            />
-          </Group>
-          <Group>
-            <Checkbox
               label="Process humidity (plants)"
               checked={store.processHumidity}
               onChange={(value) => {
                 store.setProperty('processHumidity', value)
-                if (!value) {
-                  store.setProperty('dynamicWater', false)
-                }
               }}
             />
           </Group>

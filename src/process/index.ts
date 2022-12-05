@@ -325,11 +325,7 @@ const processHumidityMap = (state: GameState) => {
         if (current === undefined) {
           current = 0
         } else {
-          if (store.dynamicWater && current > 80) {
-            current = 80
-          } else if (!store.dynamicWater) {
-            current = current / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
-          }
+          current = current / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
         }
       }
       if (x > 0) {
@@ -357,7 +353,7 @@ const processHumidityMap = (state: GameState) => {
     if (point.toBeRemoved) {
       return
     }
-    if (point.fixedHumidity && !store.dynamicWater) {
+    if (point.fixedHumidity) {
       return
     }
     const humidity = humidityMap[point.coordinate.x][point.coordinate.y]

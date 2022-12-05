@@ -8,7 +8,6 @@ const gameStateModel = types.model({
     showTemperature: types.boolean,
     speed: types.number,
     pause: types.boolean,
-    dynamicWater: types.boolean,
     processTemperature: types.boolean,
     processHumidity: types.boolean,
     scale: types.number,
@@ -36,14 +35,12 @@ export const INITIAL_STATE = {
     showTemperature: false,
     pause: false,
     isDrawing: false,
-    dynamicWater: false,
     scale: DEFAULT_SCALE,
     debug: false,
 }
 
 export default gameStateModel.create({
     ...INITIAL_STATE,
-    dynamicWater: localStorage.getItem('dynamicWater') === 'true',
     processTemperature: storedProcessTemperature === null ? true : storedProcessTemperature === 'true',
     processHumidity: storedProcessHumidity === null ? false : storedProcessHumidity === 'true',
     scale: storedScale ? parseInt(storedScale) : DEFAULT_SCALE,
