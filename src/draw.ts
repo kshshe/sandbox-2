@@ -104,7 +104,7 @@ export function drawTemperature() {
   for (let x = 0; x < state.borders.horizontal; x++) {
     for (let y = 0; y < state.borders.vertical; y++) {
       const temp = state.temperaturesMap?.[x]?.[y] || 0
-      ctx.fillStyle = temp > 0 ? `rgba(255, 0, 0, ${temp / 400})` : `rgba(0, 0, 255, ${Math.abs(temp) / 400})`
+      ctx.fillStyle = temp > 0 ? `rgba(255, 0, 0, ${temp / 200})` : `rgba(0, 0, 255, ${Math.abs(temp) / 200})`
       ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
     }
   }
