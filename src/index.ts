@@ -16,6 +16,7 @@ import '@picocss/pico/css/pico.css'
 
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
+import { deletePoint } from './utils/deletePoint'
 
 // if (window.location.hostname !== 'localhost') {
   Sentry.init({
@@ -60,11 +61,13 @@ const init = async () => {
     if (store.scale) {
       setCanvasSize()
       const gameState = getOrCreateGameState()
-      gameState.points = gameState.points.filter(point => {
-        return (
-          point.coordinate.x < gameState.borders.horizontal &&
-          point.coordinate.y < gameState.borders.vertical
-        )
+      gameState.points.forEach(point => {
+        if (
+          point.coordinate.x > gameState.borders.horizontal ||
+          point.coordinate.y > gameState.borders.vertical
+        ) {
+          deletePoint(point)
+        }
       })
       gameState.pointsByCoordinate.length = gameState.borders.horizontal
       gameState.pointsByCoordinate.forEach(row => {
