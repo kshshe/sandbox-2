@@ -37,7 +37,7 @@ import { meltedParaffinProcessor } from './processors/meltedParaffin'
 import { candlewickProcessor } from './processors/candlewick'
 import { fireCandlewickProcessor } from './processors/fireCandlewick'
 
-import { drawDelayed, drawQueue, redrawPoint } from '../draw'
+import { drawDelayed, drawQueue, drawTemperature, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, INFECT_MAP, MELT_MAP, PointType, POINT_INITIAL_DATA, UPDATE_EVERY_TICK, VISIBLE_HUMIDITY } from '../data'
@@ -455,6 +455,9 @@ function startDrawing() {
     if (store.debug) {
       debugCanvasStored = debugCanvasStored || document.querySelector('canvas.debug') as HTMLCanvasElement
       drawQueue(debugCanvasStored)
+    }
+    if (store.showTemperature && tick % 10 === 0) {
+      drawTemperature()
     }
     startDrawing();
   })

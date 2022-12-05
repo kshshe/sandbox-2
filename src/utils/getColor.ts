@@ -22,10 +22,7 @@ export const getColor = (
   const roundedTemperature = Math.round(temperature)
   const roundedHumidity = Math.round(humidity)
   const state = getOrCreateGameState()
-  const showTemperature =
-    force ||
-    state.showTemperature ||
-    (type === PointType.Metal && roundedTemperature > 0)
+  const showTemperature = !state.showTemperature && type === PointType.Metal && roundedTemperature > 0)
   const cacheKey = `${type}-${roundedTemperature}-${roundedHumidity}-${force}-${showTemperature}`
   if (cache.has(cacheKey)) {
     return cache.get(cacheKey) as string

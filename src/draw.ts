@@ -57,23 +57,9 @@ export const redrawPoint = (coordinate: Coordinate) => {
 }
 
 export const drawDelayed = () => {
-  const state = getOrCreateGameState()
-  if (state.showTemperature) {
-    for (let x = 0; x < state.borders.horizontal; x++) {
-      for (let y = 0; y < state.borders.vertical; y++) {
-        const point = state.pointsByCoordinate[x][y]
-        if (point) {
-          drawPoint({ x, y })
-        } else {
-          drawTemp({ x, y }, state.temperaturesMap?.[x]?.[y] || 0)
-        }
-      }
-    }
-  } else {
-    pointsToRedraw.forEach((coordinate) => {
-      drawPoint(coordinate)
-    })
-  }
+  pointsToRedraw.forEach((coordinate) => {
+    drawPoint(coordinate)
+  })
   pointsToRedraw.clear()
 }
 
@@ -104,6 +90,24 @@ export function drawQueue(canvas: HTMLCanvasElement) {
     ctx.fillStyle = `#ff0000`
     ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
   })
+}
+
+let thermovisionCanvas: HTMLCanvasElement | null = null
+export function drawTemperature() {
+  thermovisionCanvas = thermovisionCanvas || document.querySelector('canvas.thermovision') as HTMLCanvasElement
+  const ctx = thermovisionCanvas.getContext('2d')
+  if (!ctx) {
+    throw new Error('Could not get context')
+  }
+  resetCanvasBg(ctx)
+  const state = getOrCreateGameState()
+  for (let x = 0; x < state.borders.horizontal; x++) {
+    for (let y = 0; y < state.borders.vertical; y++) {
+      const temp = state.temperaturesMap?.[x]?.[y] || 0
+      ctx.fillStyle = temp > 0 ? `rgba(255, 0, 0, ${temp / 400})` : `rgba(0, 0, 255, ${Math.abs(temp) / 400})`
+      ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
+    }
+  }
 }
 
 // @ts-ignore

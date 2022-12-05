@@ -84,6 +84,9 @@ export const Main: React.FC = observer(() => {
             checked={store.processTemperature}
             onChange={(value) => {
               store.setProperty('processTemperature', value)
+              if (!value) {
+                store.setProperty('showTemperature', false)
+              }
             }}
           />
         </Group>
@@ -106,15 +109,21 @@ export const Main: React.FC = observer(() => {
               checked={store.processHumidity}
               onChange={(value) => {
                 store.setProperty('processHumidity', value)
+                if (!value) {
+                  store.setProperty('dynamicWater', false)
+                }
               }}
             />
           </Group>
           <Group>
             <Checkbox
-              label="Thermovision (slow)"
+              label="Thermovision"
               checked={store.showTemperature}
               onChange={(value) => {
                 store.setProperty('showTemperature', value)
+                if (value) {
+                  store.setProperty('processTemperature', true)
+                }
               }}
             />
           </Group>

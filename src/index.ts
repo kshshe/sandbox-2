@@ -45,16 +45,20 @@ const init = async () => {
   canvas.classList.add('main')
   const debugCanvas = document.createElement('canvas')
   debugCanvas.classList.add('debug')
-  autorun(() => {
-    if (!store.showTemperature) {
-      drawInitial(canvas)
-    }
-  })
+  const thermovisionCanvas = document.createElement('canvas')
+  thermovisionCanvas.classList.add('thermovision')
   autorun(() => {
     if (!store.debug) {
       debugCanvas.style.display = 'none'
     } else {
       debugCanvas.style.display = 'block'
+    }
+  })
+  autorun(() => {
+    if (!store.showTemperature) {
+      thermovisionCanvas.style.display = 'none'
+    } else {
+      thermovisionCanvas.style.display = 'block'
     }
   })
   const setCanvasSize = () => {
@@ -66,6 +70,8 @@ const init = async () => {
     canvas.height = proportions.height
     debugCanvas.width = proportions.width
     debugCanvas.height = proportions.height
+    thermovisionCanvas.width = proportions.width
+    thermovisionCanvas.height = proportions.height
     setBorders(proportions.width / store.scale, proportions.height / store.scale)
     drawInitial(canvas)
   }
@@ -91,6 +97,7 @@ const init = async () => {
   window.addEventListener('resize', setCanvasSize)
   root.appendChild(canvas)
   root.appendChild(debugCanvas)
+  root.appendChild(thermovisionCanvas)
 
   const state = getOrCreateGameState()
 
