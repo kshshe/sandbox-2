@@ -70,6 +70,9 @@ export const INFECT_MAP: Partial<Record<PointType, Partial<Record<PointType, Poi
   [PointType.Lava]: {
     [PointType.Ice]: PointType.Water,
     [PointType.Water]: PointType.Steam,
+  },
+  [PointType.Water]: {
+    [PointType.Lava]: PointType.StaticStone,
   }
 }
 
