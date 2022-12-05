@@ -34,7 +34,7 @@ const Container = styled.div<{
 export const Main: React.FC = observer(() => {
   return (
     <>
-      <FPSStats top={3} />
+      <FPSStats top={5} />
       <Container isDisabled={store.isDrawing}>
         <Group title="Brush size" value={`${store.brushSize * 10}%`}>
           <Slider

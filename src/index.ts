@@ -49,8 +49,8 @@ const init = async () => {
   })
   const setCanvasSize = () => {
     const proportions = {
-      width: window.innerWidth - 10,
-      height: window.innerHeight - 10,
+      width: window.innerWidth - 2,
+      height: window.innerHeight - 2,
     }
     canvas.width = proportions.width
     canvas.height = proportions.height

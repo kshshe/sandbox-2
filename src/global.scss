@@ -120,7 +120,7 @@ html {
   left: 0;
   pointer-events: none;
 
-  height: 3px;
+  height: 5px;
   width: 0px;
   background-color: #ffc107;
   transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out;
@@ -134,7 +134,7 @@ html {
 }
 
 canvas {
-  border: 5px solid transparent;
+  border: 1px solid transparent;
   cursor: none;
   transition: border-color 0.2s ease;
 }
