@@ -1,6 +1,6 @@
 # Sandbox 
 
-[![Website](https://img.shields.io/website?label=sandgame.fun&url=https%3A%2F%2Fsandgame.fun%2F)](https://sandbox-2.vercel.app/)
+[![Website](https://img.shields.io/website?label=sandgame.fun&url=https%3A%2F%2Fsandgame.fun%2F)](https://sandgame.fun/)
 
 ![image](https://user-images.githubusercontent.com/16913283/205297360-8887fb8a-3377-405d-b6c4-9f1242a53a2b.png)
 
