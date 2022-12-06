@@ -55,6 +55,16 @@ const init = async () => {
     }
   })
   autorun(() => {
+    const elementsCanBeDisabled = document.querySelectorAll('.canBeDisabled')
+    elementsCanBeDisabled.forEach(el => {
+      if (store.isDrawing) {
+        el.classList.add('disabled')
+      } else {
+        el.classList.remove('disabled')
+      }
+    })
+  })
+  autorun(() => {
     if (!store.showTemperature) {
       thermovisionCanvas.style.display = 'none'
     } else {
