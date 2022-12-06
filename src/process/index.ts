@@ -452,7 +452,7 @@ function startDrawing() {
       debugCanvasStored = debugCanvasStored || document.querySelector('canvas.debug') as HTMLCanvasElement
       drawQueue(debugCanvasStored)
     }
-    if (store.showTemperature && tick % 10 === 0) {
+    if (store.showTemperature && tick % 5 === 0) {
       drawTemperature()
     }
     startDrawing();

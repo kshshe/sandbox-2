@@ -3,6 +3,7 @@ import { getColor } from './utils/getColor'
 import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 import { PointType, VISIBLE_HUMIDITY } from './data'
 import store from './interface/store'
+import { parallelize } from "thread-like";
 
 const resetCanvasBg = (ctx: CanvasRenderingContext2D, color = '#fff') => {
   ctx.fillStyle = color
@@ -93,22 +94,25 @@ export function drawQueue(canvas: HTMLCanvasElement) {
 }
 
 let thermovisionCanvas: HTMLCanvasElement | null = null
-export function drawTemperature() {
+export const drawTemperature = parallelize(function* drawTemperature() {
   thermovisionCanvas = thermovisionCanvas || document.querySelector('canvas.thermovision') as HTMLCanvasElement
   const ctx = thermovisionCanvas.getContext('2d')
   if (!ctx) {
     throw new Error('Could not get context')
   }
-  resetCanvasBg(ctx)
   const state = getOrCreateGameState()
   for (let x = 0; x < state.borders.horizontal; x++) {
+    ctx.fillStyle = '#fff'
+    // Fill column
+    ctx.fillRect(x * store.scale, 0, store.scale, thermovisionCanvas.height)
     for (let y = 0; y < state.borders.vertical; y++) {
       const temp = state.temperaturesMap?.[x]?.[y] || 0
       ctx.fillStyle = temp > 0 ? `rgba(255, 0, 0, ${temp / 200})` : `rgba(0, 0, 255, ${Math.abs(temp) / 200})`
       ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
     }
+    yield
   }
-}
+})
 
 // @ts-ignore
 window.drawInitial = drawInitial
