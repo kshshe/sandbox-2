@@ -23,7 +23,6 @@ export type PointData = {
   transformInto?: PointType
   transformTimeout?: number
   acidUsedTimes?: number
-  treeGrowTimer?: number
   paraffinWasIgnitedTimes?: number
   toBeRemoved?: boolean
   wasInfected?: boolean

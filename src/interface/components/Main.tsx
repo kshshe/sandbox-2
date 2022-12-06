@@ -47,17 +47,6 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
-        <Group title="Game speed" value={store.speed === MAX_SPEED ? 'max' : `x${store.speed}`}>
-          <Slider
-            min={1}
-            max={16}
-            step={5}
-            value={store.speed}
-            onChange={(value) => {
-              store.setProperty('speed', value)
-            }}
-          />
-        </Group>
         <Group title="Air temperature" value={`${store.baseTemperature}℃`}>
           <Slider
             min={-200}
@@ -68,16 +57,29 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
-        <Group title="Scale (bigger is faster)" value={`${store.scale}px`}>
-          <Slider
-            min={1}
-            max={40}
-            value={store.scale}
-            onChange={(value) => {
-              store.setProperty('scale', value)
-            }}
-          />
-        </Group>
+        {store.showMoreSettings && <>
+          <Group title="Scale (bigger is faster)" value={`${store.scale}px`}>
+            <Slider
+              min={1}
+              max={40}
+              value={store.scale}
+              onChange={(value) => {
+                store.setProperty('scale', value)
+              }}
+            />
+          </Group>
+          <Group title="Game speed" value={store.speed === MAX_SPEED ? 'max' : `x${store.speed}`}>
+            <Slider
+              min={1}
+              max={16}
+              step={5}
+              value={store.speed}
+              onChange={(value) => {
+                store.setProperty('speed', value)
+              }}
+            />
+          </Group>
+        </>}
         <Group>
           <Checkbox
             label="Realistic temperature"
@@ -90,16 +92,16 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
+        <Group>
+          <Checkbox
+            label="Process humidity (plants)"
+            checked={store.processHumidity}
+            onChange={(value) => {
+              store.setProperty('processHumidity', value)
+            }}
+          />
+        </Group>
         {store.showMoreSettings && <>
-          <Group>
-            <Checkbox
-              label="Process humidity (plants)"
-              checked={store.processHumidity}
-              onChange={(value) => {
-                store.setProperty('processHumidity', value)
-              }}
-            />
-          </Group>
           <Group>
             <Checkbox
               label="Thermovision"

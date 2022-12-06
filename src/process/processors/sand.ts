@@ -1,5 +1,6 @@
 import { PointType } from '../../data'
 import { addNewPoint } from '../../utils/addNewPoint'
+import { deletePoint } from '../../utils/deletePoint'
 import { Processor, RequestedAction } from '../types'
 import {
   canMoveDown,
@@ -32,20 +33,20 @@ export const sandProcessor: Processor = (state, point) => {
     ]
   }
 
-  const topNeighbours = findNeighbours(state, point, NEIGHBOUR_DIRECTIONS_TOP)
-  if (point.humidity > 15 && topNeighbours.length === 0 && point.temperature > 1) {
-    point.treeGrowTimer = (point.treeGrowTimer || 0) + 1
-  } else {
-    point.treeGrowTimer = 0
-  }
+  const topNeighbours = findNeighbours(state, point, NEIGHBOUR_DIRECTIONS_TOP).filter(p => p.type !== PointType.Water)
 
-  if (point.humidity > 15 && point.treeGrowTimer && point.treeGrowTimer > 150) {
+  if (point.humidity > 15 && point.temperature > 1) {
     if (topNeighbours.length === 0) {
+      const newPointCoordinate = {
+        x: point.coordinate.x,
+        y: point.coordinate.y - 1,
+      }
+      const pointThere = state.pointsByCoordinate[newPointCoordinate.x]?.[newPointCoordinate.y]
+      if (pointThere) {
+        deletePoint(pointThere)
+      }
       addNewPoint(
-        {
-          x: point.coordinate.x,
-          y: point.coordinate.y - 1,
-        },
+        newPointCoordinate,
         PointType.Tree,
       )
     }
