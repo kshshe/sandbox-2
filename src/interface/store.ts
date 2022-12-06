@@ -4,6 +4,7 @@ import { DEFAULT_SCALE } from '../constants';
 const gameStateModel = types.model({
     brushSize: types.number,
     baseTemperature: types.number,
+    baseHumidity: types.number,
     freeBorders: types.boolean,
     showTemperature: types.boolean,
     speed: types.number,
@@ -26,10 +27,12 @@ type IGameStateModel = Instance<typeof gameStateModel>
 const storedScale = localStorage.getItem('scale')
 const storedProcessHumidity = localStorage.getItem('processHumidity')
 const storedProcessTemperature = localStorage.getItem('processTemperature')
+const storedBaseHumidity = localStorage.getItem('baseHumidity')
 
 export const INITIAL_STATE = {
     brushSize: 3,
     baseTemperature: 5,
+    baseHumidity: 3,
     speed: 5,
     freeBorders: false,
     showTemperature: false,
@@ -41,6 +44,7 @@ export const INITIAL_STATE = {
 
 export default gameStateModel.create({
     ...INITIAL_STATE,
+    baseHumidity: storedBaseHumidity ? +storedBaseHumidity : INITIAL_STATE.baseHumidity,
     processTemperature: storedProcessTemperature === null ? true : storedProcessTemperature === 'true',
     processHumidity: storedProcessHumidity === null ? false : storedProcessHumidity === 'true',
     scale: storedScale ? parseInt(storedScale) : DEFAULT_SCALE,

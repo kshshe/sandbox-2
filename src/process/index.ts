@@ -310,7 +310,7 @@ const processFreeBorders = (state: GameState) => {
 }
 
 const HUMIDITY_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 10
-const HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR = HUMIDITY_CHANGE_COEFFICIENT * 5
+const HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR = HUMIDITY_CHANGE_COEFFICIENT * 1
 
 const processHumidityMap = (state: GameState) => {
   const humidityMap = state.humidityMap
@@ -323,9 +323,10 @@ const processHumidityMap = (state: GameState) => {
         current = point.humidity
       } else {
         if (current === undefined) {
-          current = 0
+          current = store.baseHumidity
         } else {
-          current = current / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
+          const diff = (store.baseHumidity - current)
+          current += diff / HUMIDITY_CHANGE_COEFFICIENT_FOR_AIR
         }
       }
       if (x > 0) {

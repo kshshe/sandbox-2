@@ -57,6 +57,16 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
+        {store.processHumidity && <Group title="Air humidity" value={`${store.baseHumidity}%`}>
+          <Slider
+            min={0}
+            max={100}
+            value={store.baseHumidity}
+            onChange={(value) => {
+              store.setProperty('baseHumidity', value)
+            }}
+          />
+        </Group>}
         {store.showMoreSettings && <>
           <Group title="Scale (bigger is faster)" value={`${store.scale}px`}>
             <Slider
