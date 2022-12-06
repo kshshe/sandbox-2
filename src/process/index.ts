@@ -283,7 +283,7 @@ const processTemperaturesMap = (state: GameState) => {
     if (!isNaN(temp)) {
       point.temperature =
         temperaturesMap[point.coordinate.x][point.coordinate.y]
-      if (!point.lastProcessedTemperature || Math.abs(point.temperature - point.lastProcessedTemperature) > 3) {
+      if (!point.lastProcessedTemperature || Math.abs(point.temperature - point.lastProcessedTemperature) > 0.5) {
         state.processQueue.add(point)
       }
       if (point.type === PointType.Metal) {
@@ -360,7 +360,7 @@ const processHumidityMap = (state: GameState) => {
     const humidity = humidityMap[point.coordinate.x][point.coordinate.y]
     if (!isNaN(humidity)) {
       point.humidity = humidityMap[point.coordinate.x][point.coordinate.y]
-      if (!point.lastProcessedHumidity || Math.abs(point.humidity - point.lastProcessedHumidity) > 3) {
+      if (!point.lastProcessedHumidity || Math.abs(point.humidity - point.lastProcessedHumidity) > 0.5) {
         state.processQueue.add(point)
       }
       if (VISIBLE_HUMIDITY[point.type]) {
