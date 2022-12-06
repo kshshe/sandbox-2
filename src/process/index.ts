@@ -42,7 +42,7 @@ import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
 import { getColor } from '../utils/getColor'
 import { FREEZE_MAP, INFECT_MAP, MELT_MAP, PointType, POINT_INITIAL_DATA, UPDATE_EVERY_TICK, VISIBLE_HUMIDITY } from '../data'
 import store from '../interface/store'
-import { findNeighbours } from './utils/findNeighbours'
+import { findNeighbours, NEIGHBOUR_DIRECTIONS } from './utils/findNeighbours'
 import { parallelize } from "thread-like";
 import { MAX_SPEED } from '../constants'
 import { deletePoint } from '../utils/deletePoint'
@@ -234,6 +234,7 @@ const TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR = TICKS_PER_SECOND * 1
 
 const processTemperaturesMap = (state: GameState) => {
   const temperaturesMap = state.temperaturesMap
+  const currentDirection = NEIGHBOUR_DIRECTIONS[Math.floor(Math.random() * NEIGHBOUR_DIRECTIONS.length)]
   for (let x = 0; x < state.borders.horizontal; x++) {
     temperaturesMap[x] = temperaturesMap[x] || []
     for (let y = 0; y < state.borders.vertical; y++) {
@@ -251,23 +252,21 @@ const processTemperaturesMap = (state: GameState) => {
               TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR
         }
       }
-      if (x > 0) {
-        const left = temperaturesMap[x - 1][y]
-        const diff = (left - current) / TEMPERATURE_CHANGE_COEFFICIENT
-        current += diff
-        temperaturesMap[x - 1][y] -= diff
+      temperaturesMap[x][y] = current
+    }
+  }
+  for (let x = 0; x < state.borders.horizontal; x++) {
+    for (let y = 0; y < state.borders.vertical; y++) {
+      let current = temperaturesMap[x][y]
+      const neighbourCoordinate = {
+        x: x + currentDirection.x,
+        y: y + currentDirection.y,
       }
-      if (y > 0) {
-        const top = temperaturesMap[x][y - 1]
-        const diff = (top - current) / TEMPERATURE_CHANGE_COEFFICIENT
+      if (neighbourCoordinate.x >= 0 && neighbourCoordinate.y >= 0 && neighbourCoordinate.x < state.borders.horizontal && neighbourCoordinate.y < state.borders.vertical) {
+        const neighbour = temperaturesMap[neighbourCoordinate.x]?.[neighbourCoordinate.y] || state.baseTemperature
+        const diff = (neighbour - current) / TEMPERATURE_CHANGE_COEFFICIENT
         current += diff
-        temperaturesMap[x][y - 1] -= diff
-      }
-      if (x > 0 && y > 0) {
-        const topLeft = temperaturesMap[x - 1][y - 1]
-        const diff = (topLeft - current) / TEMPERATURE_CHANGE_COEFFICIENT
-        current += diff
-        temperaturesMap[x - 1][y - 1] -= diff
+        temperaturesMap[neighbourCoordinate.x][neighbourCoordinate.y] = neighbour - diff
       }
       temperaturesMap[x][y] = current
     }
