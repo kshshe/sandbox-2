@@ -47,7 +47,7 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>
-        <Group title="Air temperature" value={`${store.baseTemperature}℃`}>
+        {store.processTemperature && <Group title="Air temperature" value={`${store.baseTemperature}℃`}>
           <Slider
             min={-200}
             max={200}
@@ -56,7 +56,7 @@ export const Main: React.FC = observer(() => {
               store.setProperty('baseTemperature', value)
             }}
           />
-        </Group>
+        </Group>}
         {store.processHumidity && <Group title="Air humidity" value={`${store.baseHumidity}%`}>
           <Slider
             min={0}
