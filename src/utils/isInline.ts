@@ -3,6 +3,6 @@ export const isInline = (): boolean => {
     if (cached !== null) {
         return cached
     }
-    cached = window.location.pathname.includes('inline')
+    cached = window.location.hash.includes('inline')
     return cached
 }
