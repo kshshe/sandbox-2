@@ -19,13 +19,13 @@ import { BrowserTracing } from "@sentry/tracing";
 import { deletePoint } from './utils/deletePoint'
 import { isInline } from './utils/isInline'
 
-// if (window.location.hostname !== 'localhost') {
+if (window.location.hostname !== 'localhost') {
   Sentry.init({
     dsn: "https://c451668fc81a4173b45e15ecaeb9a01a@o4504274949439488.ingest.sentry.io/4504274950422528",
     integrations: [new BrowserTracing()],
     tracesSampleRate: 1.0,
   });
-// }
+}
 
 type Divider = {divider: string}
 
