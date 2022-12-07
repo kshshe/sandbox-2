@@ -94,7 +94,12 @@ export function drawQueue(canvas: HTMLCanvasElement) {
 }
 
 let thermovisionCanvas: HTMLCanvasElement | null = null
+let isDrawingThermovision = false
 export const drawTemperature = parallelize(function* drawTemperature() {
+  if (isDrawingThermovision) {
+    return
+  }
+  isDrawingThermovision = true
   thermovisionCanvas = thermovisionCanvas || document.querySelector('canvas.thermovision') as HTMLCanvasElement
   const ctx = thermovisionCanvas.getContext('2d')
   if (!ctx) {
@@ -112,6 +117,7 @@ export const drawTemperature = parallelize(function* drawTemperature() {
     }
     yield
   }
+  isDrawingThermovision = false
 })
 
 // @ts-ignore
