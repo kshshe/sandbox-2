@@ -218,3 +218,13 @@ canvas {
   top: 0;
   right: 0;
 }
+
+.inline {
+  #github {
+    display: none;
+  }
+  .types {
+    top: 10px;
+    height: calc(100vh - 100px);
+  }
+}

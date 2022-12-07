@@ -46,6 +46,7 @@ import { findNeighbours, NEIGHBOUR_DIRECTIONS } from './utils/findNeighbours'
 import { parallelize } from "thread-like";
 import { MAX_SPEED } from '../constants'
 import { deletePoint } from '../utils/deletePoint'
+import { isInline } from '../utils/isInline'
 
 const TICKS_PER_SECOND = 60
 const INFECTION_STEP_TICKS = 700
@@ -194,6 +195,9 @@ const processRoomTemp = (state: GameState) => {
 }
 
 const updateMeta = (state: GameState) => {
+  if (isInline()) {
+    return
+  }
   const metaElement = document.querySelector('.meta')
   const queueSizeElement = document.querySelector('.queueSize')
   if (queueSizeElement) {

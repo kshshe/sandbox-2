@@ -17,6 +17,7 @@ import '@picocss/pico/css/pico.css'
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
 import { deletePoint } from './utils/deletePoint'
+import { isInline } from './utils/isInline'
 
 // if (window.location.hostname !== 'localhost') {
   Sentry.init({
@@ -32,6 +33,11 @@ const init = async () => {
   const root = document.getElementById('root')
   const controls = document.querySelector('.controls')
   const types = document.querySelector('.types')
+
+  if (isInline()) {
+    document.body.classList.add('inline')
+  }
+
   if (!root) {
     throw new Error('Root element not found')
   }

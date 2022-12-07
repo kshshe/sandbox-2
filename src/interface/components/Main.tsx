@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite'
 import store from '../store'
 import { Checkbox } from './Checkbox'
 import { MAX_SPEED } from '../../constants';
+import { isInline } from '../../utils/isInline';
 
 const Container = styled.div<{
   isDisabled: boolean
@@ -33,9 +34,10 @@ const Container = styled.div<{
 `
 
 export const Main: React.FC = observer(() => {
+  const inline = isInline()
   return (
     <>
-      <FPSStats top={5} />
+      {!inline && <FPSStats top={5} />}
       <Container isDisabled={store.isDrawing}>
         <Group title="Brush size" value={`${store.brushSize * 10}%`}>
           <Slider
@@ -67,7 +69,7 @@ export const Main: React.FC = observer(() => {
             }}
           />
         </Group>}
-        {store.showMoreSettings && <>
+        {!inline && store.showMoreSettings && <>
           <Group title="Scale (bigger is faster)" value={`${store.scale}px`}>
             <Slider
               min={1}
