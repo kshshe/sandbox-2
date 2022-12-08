@@ -28,6 +28,8 @@ const Container = styled.div<{
   border-radius: 4px;
   background: #eaeaea6e;
 
+  padding-right: ${HINT_SIZE}px;
+
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   transform: translateX(calc(${HINT_SIZE}px - 100%));
 
@@ -53,7 +55,7 @@ const Container = styled.div<{
     transform: translateX(0);
 
     &::after {
-      opacity: 0;
+      opacity: 0.3;
     }
   }
 
