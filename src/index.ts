@@ -61,6 +61,9 @@ const init = async () => {
     }
   })
   autorun(() => {
+    thermovisionCanvas.style.opacity = store.showTemperaturePercent / 100 + ''
+  })
+  autorun(() => {
     const elementsCanBeDisabled = document.querySelectorAll('.canBeDisabled')
     elementsCanBeDisabled.forEach(el => {
       if (store.isDrawing) {

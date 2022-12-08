@@ -28,7 +28,7 @@ const Container = styled.div<{
   border-radius: 4px;
   background: #eaeaea6e;
 
-  padding-right: ${HINT_SIZE}px;
+  padding-right: ${HINT_SIZE + 5}px;
 
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   transform: translateX(calc(${HINT_SIZE}px - 100%));
@@ -88,6 +88,16 @@ export const Main: React.FC = observer(() => {
             value={store.baseTemperature}
             onChange={(value) => {
               store.setProperty('baseTemperature', value)
+            }}
+          />
+        </Group>}
+        {store.showTemperature && <Group title="Thermovision" value={`${store.showTemperaturePercent}%`}>
+          <Slider
+            min={0}
+            max={90}
+            value={store.showTemperaturePercent}
+            onChange={(value) => {
+              store.setProperty('showTemperaturePercent', value)
             }}
           />
         </Group>}
