@@ -9,12 +9,15 @@ import { Checkbox } from './Checkbox'
 import { MAX_SPEED } from '../../constants';
 import { isInline } from '../../utils/isInline';
 
+const HINT_SIZE = 35
+const LEFT_GAP = 0
+
 const Container = styled.div<{
   isDisabled: boolean
 }>`
-  position: fixed;
+  position: absolute;
   bottom: 20px;
-  left: 10px;
+  left: ${LEFT_GAP}px;
   z-index: 200;
 
   display: flex;
@@ -25,7 +28,34 @@ const Container = styled.div<{
   border-radius: 4px;
   background: #eaeaea6e;
 
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transform: translateX(calc(${HINT_SIZE}px - 100%));
+
+  &::after {
+    content: 'Settings';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: ${HINT_SIZE + LEFT_GAP}px;
+    background: #eaeaea;
+    opacity: 1;
+    writing-mode: tb-rl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(180deg);
+
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover {
+    transform: translateX(0);
+
+    &::after {
+      opacity: 0;
+    }
+  }
 
   ${props => props.isDisabled && `
     pointer-events: none;
