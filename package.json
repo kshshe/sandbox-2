@@ -41,7 +41,5 @@
     "styled-components": "^5.3.6",
     "thread-like": "^1.2.5"
   },
-  "browserslist": [
-    "since 2017-06"
-  ]
+  "browserslist": ">0.3%, last 2 versions, not dead"
 }
