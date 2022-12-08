@@ -467,6 +467,7 @@ export const startEngine = async () => {
   processGameTick()
   startDrawing();
   while (true) {
+    const start = Date.now()
     const state = getOrCreateGameState()
     if (state.playing) {
       if (store.processTemperature) {
@@ -490,7 +491,9 @@ export const startEngine = async () => {
         state.points = state.points.filter(point => !point.toBeRemoved)
       }
     }
-    const currentTimeout = 1000 / TICKS_PER_SECOND / (state.speed * state.speed)
+    const end = Date.now()
+    const elapsed = end - start
+    const currentTimeout = 1000 / TICKS_PER_SECOND / (state.speed * state.speed) - elapsed
     await new Promise((resolve) => setTimeout(resolve, currentTimeout))
   }
 }
