@@ -7,11 +7,8 @@ const HOT = '#FF0000'
 const WET = '#000000'
 
 const BASE_TEMP = 5
-const MIN_DIFF = 2
 const MAX_DIFF = 700
 const MAX_RATIO = 0.8
-
-const cache = new Map<string, string>()
 
 export const getColor = (
   type: PointType | Tools,
@@ -19,26 +16,24 @@ export const getColor = (
   humidity: number = 0,
   force: boolean = false,
 ): string => {
-  const roundedTemperature = Math.round(temperature)
-  const roundedHumidity = Math.round(humidity)
   const state = getOrCreateGameState()
-  const showTemperature = !state.showTemperature && type === PointType.Metal && roundedTemperature > 0)
-  const cacheKey = `${type}-${roundedTemperature}-${roundedHumidity}-${force}-${showTemperature}`
-  if (cache.has(cacheKey)) {
-    return cache.get(cacheKey) as string
+  const showTemperature = !state.showTemperature && type === PointType.Metal && temperature > 0
+  if (showTemperature || humidity > 0 || force) {
+    let color = COLORS[type]
+    if (humidity > 0) {
+      color = mixColors(
+        COLORS[type],
+        WET,
+        Math.min(humidity / 200, 1),
+      )
+    }
+    if (showTemperature) {
+      const tempDiff = Math.abs(temperature - BASE_TEMP)
+      const ratio = Math.min(tempDiff / MAX_DIFF, MAX_RATIO)
+      color = mixColors(color, temperature > 0 ? HOT : COLD, ratio)
+    }
+    return color
+  } else {
+    return COLORS[type]
   }
-  const typeColor = mixColors(
-    COLORS[type],
-    WET,
-    Math.min(roundedHumidity / 200, 1),
-  )
-  const tempDiff = Math.abs(roundedTemperature - BASE_TEMP)
-  if (!showTemperature || tempDiff < MIN_DIFF) {
-    cache.set(cacheKey, typeColor)
-    return typeColor
-  }
-  const ratio = Math.min(tempDiff / MAX_DIFF, MAX_RATIO)
-  const color = mixColors(typeColor, roundedTemperature > 0 ? HOT : COLD, ratio)
-  cache.set(cacheKey, color)
-  return color
 }

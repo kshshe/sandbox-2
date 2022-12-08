@@ -66,7 +66,7 @@ export const restorePoint = (pointData: PointData) => {
     pointData,
   )
   state.pointsByCoordinate[point.coordinate.x][point.coordinate.y] = point
-  drawPoint(point.coordinate)
+  drawPoint(point.coordinate, state)
   state.points.push(point)
   state.processQueue.add(point)
 }
@@ -91,7 +91,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType)
         state.processQueue.add(neighbor)
       })
       deletePoint(pointThere)
-      drawPoint(pointThere.coordinate)
+      drawPoint(pointThere.coordinate, state)
     }
     return
   }
@@ -104,7 +104,7 @@ export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType)
   }
   const point = createPointObject(state, coordinate, typeToAdd)
   state.pointsByCoordinate[coordinate.x][coordinate.y] = point
-  drawPoint(coordinate)
+  drawPoint(coordinate, state)
   state.points.push(point)
   state.processQueue.add(point)
 }

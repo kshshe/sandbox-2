@@ -1,6 +1,5 @@
-import { Coordinate, getOrCreateGameState } from './gameState'
+import { Coordinate, GameState, getOrCreateGameState } from './gameState'
 import { getColor } from './utils/getColor'
-import { getPointOnCoordinate } from './utils/getPointOnCoordinate'
 import { PointType, VISIBLE_HUMIDITY } from './data'
 import store from './interface/store'
 import { parallelize } from "thread-like";
@@ -24,12 +23,12 @@ export const drawTemp = (coordinate: Coordinate, temp: number) => {
   ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
 }
 
-export const drawPoint = (coordinate: Coordinate) => {
+export const drawPoint = (coordinate: Coordinate, state: GameState) => {
   const ctx = lastCtx
   if (!ctx) {
     return
   }
-  const point = getPointOnCoordinate(coordinate)
+  const point = state.pointsByCoordinate?.[coordinate.x]?.[coordinate.y]
   const { x, y } = coordinate
   if (!point) {
     ctx.fillStyle = '#fff'
@@ -58,8 +57,9 @@ export const redrawPoint = (coordinate: Coordinate) => {
 }
 
 export const drawDelayed = () => {
+  const state = getOrCreateGameState()
   pointsToRedraw.forEach((coordinate) => {
-    drawPoint(coordinate)
+    drawPoint(coordinate, state)
   })
   pointsToRedraw.clear()
 }
@@ -74,7 +74,7 @@ export function drawInitial(canvas: HTMLCanvasElement) {
   const state = getOrCreateGameState()
   state.points.forEach((point) => {
     if (!point.toBeRemoved) {
-      drawPoint(point.coordinate)
+      drawPoint(point.coordinate, state)
     }
   })
 }

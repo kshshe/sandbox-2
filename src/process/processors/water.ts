@@ -11,7 +11,6 @@ import {
   findNeighbours,
 } from '../utils/findNeighbours'
 import {exceptType} from '../utils/exceptType'
-import { PointType } from '../../data'
 
 export const waterProcessor: Processor = (state, point) => {
   if (point.temperature < 0) {
