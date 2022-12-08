@@ -65,13 +65,24 @@ export const waterProcessor: Processor = (state, point) => {
     ]
   }
 
-  const availableActions = [
+  const horizontalActions = [
     canMoveLeft(state, point) && RequestedAction.MoveLeft,
     canMoveRight(state, point) && RequestedAction.MoveRight,
-  ].filter(Boolean) as RequestedAction[]
+  ]
+
+  if (point.lastWaterDirectionIsRight === false && horizontalActions[0]) {
+    return horizontalActions[0]
+  }
+  if (point.lastWaterDirectionIsRight === true && horizontalActions[1]) {
+    return horizontalActions[1]
+  }
+
+  const availableActions = horizontalActions.filter(Boolean) as RequestedAction[]
 
   if (availableActions.length > 0) {
-    return availableActions[Math.floor(Math.random() * availableActions.length)]
+    const selectedAction = availableActions[Math.floor(Math.random() * availableActions.length)]
+    point.lastWaterDirectionIsRight = selectedAction === RequestedAction.MoveRight
+    return selectedAction
   }
 
   return RequestedAction.None

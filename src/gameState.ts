@@ -27,6 +27,7 @@ export type PointData = {
   toBeRemoved?: boolean
   wasInfected?: boolean
   infectedTick?: number
+  lastWaterDirectionIsRight?: boolean
 }
 
 export type GameState = {
