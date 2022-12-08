@@ -269,6 +269,9 @@ export const CONTROLLED_POINT_TYPES_MORE = [
   PointType.Acid,
   PointType.Clone,
   PointType.Void,
+  {divider: 'Fixed temp'},
+  PointType.Hot,
+  PointType.Cold,
   {divider: 'Other'},
   PointType.Stone,
   PointType.Metal,
@@ -282,7 +285,4 @@ export const CONTROLLED_POINT_TYPES_MORE = [
   PointType.MeltedParaffin,
   PointType.Candlewick,
   PointType.Sponge,
-  {divider: 'Fixed temp'},
-  PointType.Hot,
-  PointType.Cold,
 ]
