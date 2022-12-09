@@ -71,7 +71,7 @@ export const gasMovementProcessor: Processor = (state, point) => {
   }, [] as typeof possibleDirections) : possibleDirections
 
   if (possibleDirectionsWithChances.length > 0) {
-    return possibleDirectionsWithChances[Math.floor(Math.random() * possibleDirections.length)].action
+    return possibleDirectionsWithChances[Math.floor(Math.random() * possibleDirectionsWithChances.length)].action
   }
 
   return RequestedAction.None
