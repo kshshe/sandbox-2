@@ -16,6 +16,10 @@ export const treeProcessor: Processor = (state, point) => {
     return RequestedAction.Melt
   }
 
+  if (point.temperature < -40) {
+    return RequestedAction.Freeze
+  }
+
   if (point.temperature < 1) {
     return RequestedAction.None
   }

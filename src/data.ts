@@ -138,6 +138,7 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.FireCharcoal]: PointType.Cinder,
   [PointType.Gas]: PointType.LiquidGas,
   [PointType.LiquidGas]: PointType.DryIce,
+  [PointType.Tree]: PointType.Ice,
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
