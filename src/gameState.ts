@@ -65,6 +65,7 @@ export const resetState = () => {
     // @ts-ignore
     store.setProperty(key, INITIAL_STATE[key])
   })
+  localStorage.setItem('points', JSON.stringify([]))
   gameState = createGameState()
 }
 
