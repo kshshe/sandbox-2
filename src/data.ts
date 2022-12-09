@@ -275,6 +275,7 @@ export const IGNORE_MAP: Partial<Record<
   [PointType.Lava]: listToMap(FLUIDS),
   [PointType.Concrete]: listToMap(FLUIDS),
   [PointType.Water]: listToMap([PointType.Fuel, PointType.Gas]),
+  [PointType.LiquidGas]: listToMap([PointType.Fuel, PointType.Gas]),
 }
 
 export const CONTROLLED_POINT_TYPES_BASE = [
