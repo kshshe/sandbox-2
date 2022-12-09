@@ -65,7 +65,6 @@ export const UPDATE_EVERY_TICK: Partial<Record<PointType, true>> = {
   [PointType.IceFire]: true,
   [PointType.Void]: true,
   [PointType.FireGas]: true,
-  [PointType.Gas]: true,
 }
 
 // Convert neighbors to other types to imitate the heat transfer
