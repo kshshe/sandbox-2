@@ -52,15 +52,11 @@ const POSSIBLE_DIRECTIONS: Array<{
   }
 ]
 
-const RETRIES_COUNT = 3
-
 export const gasMovementProcessor: Processor = (state, point) => {
-  for (let retry = 0; retry < RETRIES_COUNT; retry++) {
-    const randomDirection = Math.floor(Math.random() * POSSIBLE_DIRECTIONS.length)
-    const direction = POSSIBLE_DIRECTIONS[randomDirection]
-    if (direction.condition(state, point)) {
-      return direction.action
-    }
+  const possibleDirections = POSSIBLE_DIRECTIONS.filter(direction => direction.condition(state, point))
+  
+  if (possibleDirections.length > 0) {
+    return possibleDirections[Math.floor(Math.random() * possibleDirections.length)].action
   }
 
   return RequestedAction.None
