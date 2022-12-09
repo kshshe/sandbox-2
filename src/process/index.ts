@@ -36,6 +36,8 @@ import { paraffinProcessor } from './processors/paraffin'
 import { meltedParaffinProcessor } from './processors/meltedParaffin'
 import { candlewickProcessor } from './processors/candlewick'
 import { fireCandlewickProcessor } from './processors/fireCandlewick'
+import { gasProcessor } from './processors/gas'
+import { fireGasProcessor } from './processors/fireGas'
 
 import { drawDelayed, drawQueue, drawTemperature, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -85,6 +87,8 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.MeltedParaffin]: meltedParaffinProcessor,
   [PointType.Candlewick]: candlewickProcessor,
   [PointType.FireCandlewick]: fireCandlewickProcessor,
+  [PointType.Gas]: gasProcessor,
+  [PointType.FireGas]: fireGasProcessor,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.Metal]: () => RequestedAction.None,

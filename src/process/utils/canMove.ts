@@ -6,7 +6,7 @@ import {
   PointData,
 } from '../../gameState'
 
-type MoveChecker = (state: GameState, point: PointData) => boolean
+export type MoveChecker = (state: GameState, point: PointData) => boolean
 
 export const canMoveTo = (
   point: PointData,

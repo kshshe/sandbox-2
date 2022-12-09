@@ -37,6 +37,8 @@ export enum PointType {
   Void = 'Void',
   Clone = 'Clone',
   Metal = 'Metal',
+  Gas = 'Gas',
+  FireGas = 'FireGas',
   NonExistentElement = 'NonExistentElement',
 }
 
@@ -61,6 +63,7 @@ export const UPDATE_EVERY_TICK: Partial<Record<PointType, true>> = {
   [PointType.BFire]: true,
   [PointType.IceFire]: true,
   [PointType.Void]: true,
+  [PointType.FireGas]: true,
 }
 
 // Convert neighbors to other types to imitate the heat transfer
@@ -89,8 +92,10 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.DryIce]: '#f3fbff',
   [PointType.Sawdust]: '#ffbc3b',
   [PointType.Steam]: '#efefef',
+  [PointType.Gas]: '#efefef',
   [PointType.Lava]: '#ff642e',
   [PointType.Fire]: '#ff992e',
+  [PointType.FireGas]: '#ff992e',
   [PointType.FireWood]: '#ff992e',
   [PointType.FireSawdust]: '#ff992e',
   [PointType.Sponge]: '#ffe761',
@@ -141,6 +146,7 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.StaticGlass]: PointType.MeltedGlass,
   [PointType.Fuel]: PointType.Fire,
   [PointType.Tree]: PointType.Fire,
+  [PointType.Gas]: PointType.FireGas,
   [PointType.Wood]: PointType.FireWood,
   [PointType.Candlewick]: PointType.FireCandlewick,
   [PointType.Charcoal]: PointType.FireCharcoal,
@@ -153,6 +159,10 @@ export const POINT_INITIAL_DATA: Partial<Record<
   PointType,
   Partial<PointData>
 >> = {
+  [PointType.FireGas]: {
+    temperature: 1200,
+    fixedTemperature: true,
+  },
   [PointType.MeltedParaffin]: {
     temperature: 120,
     paraffinWasIgnitedTimes: 0
@@ -234,6 +244,8 @@ export const FLUIDS = [
   PointType.IceFire,
   PointType.Concrete,
   PointType.MeltedParaffin,
+  PointType.Gas,
+  PointType.FireGas,
 ]
 
 export const POWDERS = [PointType.Sand, PointType.Stone]
@@ -265,6 +277,7 @@ export const CONTROLLED_POINT_TYPES_MORE = [
   PointType.Fire,
   PointType.BFire,
   PointType.IceFire,
+  PointType.Gas,
   {divider: 'Effects'},
   PointType.Fuel,
   PointType.Acid,
