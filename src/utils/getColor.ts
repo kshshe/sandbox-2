@@ -1,14 +1,10 @@
 import { COLORS, PointType, Tools } from '../data'
 import { getOrCreateGameState } from '../gameState'
-import store from '../interface/store'
 import { mixColors } from './mixColors'
 
 const COLD = '#0000FF'
 const HOT = '#FF0000'
 const WET = '#000000'
-
-const BLACK = '#000000'
-const WHITE = '#FFFFFF'
 
 const BASE_TEMP = 5
 const MAX_DIFF = 700
@@ -38,9 +34,6 @@ export const getColor = (
     }
     return color
   } else {
-    if (!store.sharpColor) {
-      return COLORS[type]
-    }
-    return mixColors(COLORS[type], Math.random() > 0.5 ? BLACK : WHITE, Math.random() * 0.02)
+    return COLORS[type]
   }
 }
