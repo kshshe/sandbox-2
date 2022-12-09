@@ -93,19 +93,20 @@ const init = async () => {
     thermovisionCanvas.height = proportions.height
     setBorders(proportions.width / store.scale, proportions.height / store.scale)
     drawInitial(canvas)
+    const gameState = getOrCreateGameState()
+    gameState.points.forEach(point => {
+      if (
+        point.coordinate.x > gameState.borders.horizontal ||
+        point.coordinate.y > gameState.borders.vertical
+      ) {
+        deletePoint(point)
+      }
+    })
   }
   autorun(() => {
     if (store.scale) {
       setCanvasSize()
       const gameState = getOrCreateGameState()
-      gameState.points.forEach(point => {
-        if (
-          point.coordinate.x > gameState.borders.horizontal ||
-          point.coordinate.y > gameState.borders.vertical
-        ) {
-          deletePoint(point)
-        }
-      })
       gameState.pointsByCoordinate.length = gameState.borders.horizontal
       gameState.pointsByCoordinate.forEach(row => {
         row.length = gameState.borders.vertical
