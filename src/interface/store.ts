@@ -16,6 +16,7 @@ const gameStateModel = types.model({
     isDrawing: types.boolean,
     showMoreSettings: types.boolean,
     debug: types.boolean,
+    sharpColor: types.boolean,
 }).actions(self => ({
     setProperty(key: keyof IGameStateModel, value: any) {
         localStorage.setItem(String(key), `${value}`)
@@ -36,6 +37,7 @@ const storedProcessHumidity = localStorage.getItem('processHumidity')
 const storedProcessTemperature = localStorage.getItem('processTemperature')
 const storedBaseHumidity = localStorage.getItem('baseHumidity')
 const storedShowTemperaturePercent = localStorage.getItem('showTemperaturePercent')
+const storedSharpColor = localStorage.getItem('sharpColor')
 
 export const INITIAL_STATE = {
     brushSize: 3,
@@ -48,7 +50,8 @@ export const INITIAL_STATE = {
     isDrawing: false,
     scale: DEFAULT_SCALE,
     debug: false,
-    showTemperaturePercent: 0
+    showTemperaturePercent: 0,
+    sharpColor: true,
 }
 
 export default gameStateModel.create({
@@ -59,5 +62,6 @@ export default gameStateModel.create({
     scale: storedScale ? parseInt(storedScale) : DEFAULT_SCALE,
     showMoreSettings: localStorage.getItem('showMoreSettings') === 'true',
     debug: localStorage.getItem('debug') === 'true',
+    sharpColor: storedSharpColor === null ? true : storedSharpColor === 'true',
     showTemperaturePercent: storedShowTemperaturePercent ? +storedShowTemperaturePercent : INITIAL_STATE.showTemperaturePercent,
 })

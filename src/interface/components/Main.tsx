@@ -8,6 +8,9 @@ import store from '../store'
 import { Checkbox } from './Checkbox'
 import { MAX_SPEED } from '../../constants';
 import { isInline } from '../../utils/isInline';
+import { getOrCreateGameState } from '../../gameState';
+import { redrawPoint } from '../../draw';
+
 
 const HINT_SIZE = 35
 const LEFT_GAP = 0
@@ -183,6 +186,19 @@ export const Main: React.FC = observer(() => {
               checked={store.debug}
               onChange={(value) => {
                 store.setProperty('debug', value)
+              }}
+            />
+          </Group>
+          <Group>
+            <Checkbox
+              label="Sharp color"
+              checked={store.sharpColor}
+              onChange={(value) => {
+                store.setProperty('sharpColor', value)
+                const state = getOrCreateGameState()
+                state.points.forEach(point => {
+                  redrawPoint(point.coordinate)
+                })
               }}
             />
           </Group>
