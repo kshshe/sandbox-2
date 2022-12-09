@@ -39,6 +39,7 @@ export enum PointType {
   Metal = 'Metal',
   Gas = 'Gas',
   FireGas = 'FireGas',
+  LiquidGas = 'LiquidGas',
   NonExistentElement = 'NonExistentElement',
 }
 
@@ -102,6 +103,7 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Sponge]: '#ffe761',
   [PointType.Wood]: '#cf8800',
   [PointType.BFire]: '#8ddaff',
+  [PointType.LiquidGas]: '#8ddaff',
   [PointType.IceFire]: '#8ddaff',
   [PointType.Stone]: '#a7a7a7',
   [PointType.Snow]: '#f5f5f5',
@@ -134,6 +136,8 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.FireWood]: PointType.Cinder,
   [PointType.FireSawdust]: PointType.Cinder,
   [PointType.FireCharcoal]: PointType.Cinder,
+  [PointType.Gas]: PointType.LiquidGas,
+  [PointType.LiquidGas]: PointType.DryIce,
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
@@ -154,6 +158,8 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Cinder]: PointType.Concrete,
   [PointType.Sponge]: PointType.Fire,
   [PointType.Sawdust]: PointType.FireSawdust,
+  [PointType.DryIce]: PointType.Gas,
+  [PointType.LiquidGas]: PointType.Gas,
 }
 
 export const POINT_INITIAL_DATA: Partial<Record<
@@ -174,6 +180,9 @@ export const POINT_INITIAL_DATA: Partial<Record<
     fixedHumidity: true,
   },
   [PointType.DryIce]: {
+    temperature: -150,
+  },
+  [PointType.LiquidGas]: {
     temperature: -100,
   },
   [PointType.Snow]: {
@@ -246,10 +255,11 @@ export const FLUIDS = [
   PointType.Concrete,
   PointType.MeltedParaffin,
   PointType.Gas,
+  PointType.LiquidGas,
   PointType.FireGas,
 ]
 
-export const POWDERS = [PointType.Sand, PointType.Stone]
+export const POWDERS = [PointType.Sand, PointType.Stone, PointType.DryIce]
 
 export const IGNORE_MAP: Partial<Record<
   PointType,
@@ -257,6 +267,7 @@ export const IGNORE_MAP: Partial<Record<
 >> = {
   [PointType.Steam]: listToMap([...POWDERS, ...FLUIDS]),
   [PointType.Sand]: listToMap(FLUIDS),
+  [PointType.DryIce]: listToMap(FLUIDS),
   [PointType.Charcoal]: listToMap(FLUIDS),
   [PointType.FireCharcoal]: listToMap(FLUIDS),
   [PointType.Cinder]: listToMap(FLUIDS),
@@ -278,7 +289,10 @@ export const CONTROLLED_POINT_TYPES_MORE = [
   PointType.Fire,
   PointType.BFire,
   PointType.IceFire,
+  {divider: 'Gas'},
   PointType.Gas,
+  PointType.LiquidGas,
+  PointType.DryIce,
   {divider: 'Effects'},
   PointType.Fuel,
   PointType.Acid,

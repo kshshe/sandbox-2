@@ -17,46 +17,61 @@ import { NEIGHBOUR_DIRECTIONS } from '../utils/findNeighbours'
 const POSSIBLE_DIRECTIONS: Array<{
   action: RequestedAction,
   condition: MoveChecker,
+  chance: number
 }> = [
   {
     action: RequestedAction.MoveUp,
     condition: canMoveUp,
+    chance: 1
   },
   {
     action: RequestedAction.MoveDown,
-    condition: canMoveDown
+    condition: canMoveDown,
+    chance: 5
   },
   {
     action: RequestedAction.MoveLeft,
-    condition: canMoveLeft
+    condition: canMoveLeft,
+    chance: 1
   },
   {
     action: RequestedAction.MoveRight,
-    condition: canMoveRight
+    condition: canMoveRight,
+    chance: 1
   },
   {
     action: RequestedAction.MoveLeftUp,
-    condition: canMoveLeftUp
+    condition: canMoveLeftUp,
+    chance: 1
   },
   {
     action: RequestedAction.MoveLeftDown,
-    condition: canMoveLeftDown
+    condition: canMoveLeftDown,
+    chance: 2
   },
   {
     action: RequestedAction.MoveRightUp,
-    condition: canMoveRightUp
+    condition: canMoveRightUp,
+    chance: 1
   },
   {
     action: RequestedAction.MoveRightDown,
-    condition: canMoveRightDown
+    condition: canMoveRightDown,
+    chance: 2
   }
 ]
 
 export const gasMovementProcessor: Processor = (state, point) => {
   const possibleDirections = POSSIBLE_DIRECTIONS.filter(direction => direction.condition(state, point))
-  
-  if (possibleDirections.length > 0) {
-    return possibleDirections[Math.floor(Math.random() * possibleDirections.length)].action
+  const possibleDirectionsWithChances = point.temperature < -20 ? possibleDirections.reduce((acc, direction) => {
+    for (let i = 0; i < direction.chance; i++) {
+      acc.push(direction)
+    }
+    return acc
+  }, [] as typeof possibleDirections) : possibleDirections
+
+  if (possibleDirectionsWithChances.length > 0) {
+    return possibleDirectionsWithChances[Math.floor(Math.random() * possibleDirections.length)].action
   }
 
   return RequestedAction.None
@@ -70,6 +85,9 @@ export const gasProcessor: Processor = (state, point, tick) => {
     point.cloningType = PointType.FireGas
     point.isInitialGas = true
     return RequestedAction.Melt
+  }
+  if (point.temperature < -80) {
+    return RequestedAction.Freeze
   }
 
   return gasMovementProcessor(state, point, tick)
