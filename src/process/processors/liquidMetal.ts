@@ -3,7 +3,7 @@ import { metalProcessor } from './metal'
 import { waterProcessor } from './water'
 
 export const liquidMetalProcessor: Processor = (state, point, tick) => {
-  if (point.temperature < 660) {
+  if (point.temperature < 600) {
     return RequestedAction.Freeze
   }
 
