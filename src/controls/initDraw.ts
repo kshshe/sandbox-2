@@ -44,7 +44,7 @@ const drawNewPoint = (canvas: HTMLCanvasElement, position: Position, forceEraser
     (coordinate) => {
       const tool = state.currentType as Tools
       if (Tools[tool]) {
-        const point = state.pointsByCoordinate[coordinate.x][coordinate.y]
+        const point = state.pointsByCoordinate[coordinate.x]?.[coordinate.y]
         if (point) {
           if (tool === Tools.CoolTool && !point.fixedTemperature) {
             point.temperature -= 1
