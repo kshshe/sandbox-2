@@ -20,6 +20,10 @@ const moveElectricity = (point: PointData, neighbour: PointData, coefficient: nu
 }
 
 export const metalProcessor: Processor = (state, point) => {
+  if (point.temperature > 660 && point.type === PointType.Metal) {
+    return RequestedAction.Melt
+  }
+
   if (point.electricityPower) {
     const groundingNeighbours = findNeighbours(state, point).filter(
       (p) => p.type === PointType.Grounding
@@ -48,7 +52,7 @@ export const metalProcessor: Processor = (state, point) => {
     if (metalNeighbours.length !== 0) {
       const randomNeighbour = metalNeighbours[Math.floor(Math.random() * metalNeighbours.length)]
 
-      moveElectricity(point, randomNeighbour, 0.99)
+      moveElectricity(point, randomNeighbour, 0.7)
 
       return RequestedAction.NoneButContinue
     }

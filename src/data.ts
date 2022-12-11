@@ -37,6 +37,7 @@ export enum PointType {
   Void = 'Void',
   Clone = 'Clone',
   Metal = 'Metal',
+  LiquidMetal = 'LiquidMetal',
   Grounding = 'Grounding',
   Electricity = 'Electricity',
   Gas = 'Gas',
@@ -124,6 +125,7 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Source]: '#ffea00',
   [PointType.Clone]: '#00a927',
   [PointType.Metal]: '#e5e5e5',
+  [PointType.LiquidMetal]: '#e5e5e5',
   [PointType.Wall]: '#bcbcbc',
   [PointType.Tree]: '#60b400',
   [PointType.FireCharcoal]: '#ff211b',
@@ -146,6 +148,7 @@ export const FREEZE_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Gas]: PointType.LiquidGas,
   [PointType.LiquidGas]: PointType.DryIce,
   [PointType.Tree]: PointType.Ice,
+  [PointType.LiquidMetal]: PointType.Metal,
 }
 
 export const MELT_MAP: Partial<Record<PointType, PointType>> = {
@@ -168,6 +171,7 @@ export const MELT_MAP: Partial<Record<PointType, PointType>> = {
   [PointType.Sawdust]: PointType.FireSawdust,
   [PointType.DryIce]: PointType.Gas,
   [PointType.LiquidGas]: PointType.Gas,
+  [PointType.Metal]: PointType.LiquidMetal,
 }
 
 export const POINT_INITIAL_DATA: Partial<Record<
@@ -265,6 +269,7 @@ export const FLUIDS = [
   PointType.Gas,
   PointType.LiquidGas,
   PointType.FireGas,
+  PointType.LiquidMetal,
 ]
 
 export const POWDERS = [PointType.Sand, PointType.Stone, PointType.DryIce]
@@ -284,6 +289,7 @@ export const IGNORE_MAP: Partial<Record<
   [PointType.Concrete]: listToMap(FLUIDS),
   [PointType.Water]: listToMap([PointType.Fuel, PointType.Gas]),
   [PointType.LiquidGas]: listToMap([PointType.Fuel, PointType.Gas]),
+  [PointType.LiquidMetal]: listToMap(FLUIDS),
 }
 
 export const CONTROLLED_POINT_TYPES_BASE = [

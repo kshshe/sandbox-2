@@ -20,7 +20,7 @@ export const getColor = (
   electricityPower: number = 0,
 ): string => {
   const state = getOrCreateGameState()
-  const showTemperature = !state.showTemperature && type === PointType.Metal && temperature > 0
+  const showTemperature = !state.showTemperature && (type === PointType.Metal || type === PointType.LiquidMetal) && temperature > 0
   let color = COLORS[type]
   if (humidity > 0) {
     color = mixColors(
