@@ -1,6 +1,8 @@
-export const listToMap = <T extends string>(list: T[]): Record<T, true> => {
+export const listToMap = <T extends string>(list: T[], except?: T): Record<T, true> => {
     return list.reduce((map, item) => {
-        map[item] = true;
+        if (item !== except) {
+            map[item] = true;
+        }
         return map;
     }, {} as Record<T, true>);
 }

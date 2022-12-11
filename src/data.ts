@@ -287,11 +287,11 @@ export const IGNORE_MAP: Partial<Record<
   [PointType.FireCharcoal]: listToMap(FLUIDS),
   [PointType.Cinder]: listToMap(FLUIDS),
   [PointType.Stone]: listToMap(FLUIDS),
-  [PointType.Lava]: listToMap(FLUIDS),
+  [PointType.Lava]: listToMap(FLUIDS, PointType.Lava),
   [PointType.Concrete]: listToMap(FLUIDS),
   [PointType.Water]: listToMap([PointType.Fuel, PointType.Gas]),
   [PointType.LiquidGas]: listToMap([PointType.Fuel, PointType.Gas]),
-  [PointType.LiquidMetal]: listToMap(FLUIDS),
+  [PointType.LiquidMetal]: listToMap(FLUIDS, PointType.LiquidMetal),
 }
 
 export const CONTROLLED_POINT_TYPES_BASE = [
