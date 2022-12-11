@@ -30,6 +30,7 @@ export type PointData = {
   lastWaterDirectionIsRight?: boolean
   isInitialGas?: boolean
   electricityPower?: number
+  impulseElectricityPower?: number
   electricityDirection?: {
     x: number
     y: number

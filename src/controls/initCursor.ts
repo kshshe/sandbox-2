@@ -1,6 +1,7 @@
 import { PointType } from '../data'
 import { getOrCreateGameState } from '../gameState'
 import store from '../interface/store'
+import { IMPULSE_TARGET } from '../process/processors/impulseGenerator'
 import { getColor } from '../utils/getColor'
 
 const getArrow = (direction: { x: number; y: number }) => {
@@ -43,6 +44,7 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
       pointThere && `Age: ${pointThere.age}`,
       pointThere?.electricityPower && `Power: ${pointThere.electricityPower.toFixed(2)}`,
       pointThere?.electricityDirection && `Direction: ${getArrow(pointThere.electricityDirection)}`,
+      pointThere?.impulseElectricityPower && `Impulse preparing: ${Math.round(100 * pointThere.impulseElectricityPower / IMPULSE_TARGET)}%`,
       pointThere && `Type: ${pointThere.type}`,
       pointThere?.cloningType && `Clones: ${pointThere.cloningType}`,
     ]

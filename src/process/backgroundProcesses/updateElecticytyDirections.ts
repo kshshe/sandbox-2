@@ -6,6 +6,7 @@ import { parallelize } from "thread-like";
 export const CAN_CONDUCT_ELECTRICITY: Partial<Record<PointType, true>> = {
     [PointType.Metal]: true,
     [PointType.LiquidMetal]: true,
+    [PointType.ImpulseGenerator]: true,
 }
 
 const getNextNeighbours = (state: GameState, point: PointData) => {
