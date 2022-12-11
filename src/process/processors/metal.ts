@@ -1,6 +1,7 @@
 import { PointType } from '../../data'
 import { redrawPoint } from '../../draw'
 import { PointData } from '../../gameState'
+import { CAN_CONDUCT_ELECTRICITY } from '../backgroundProcesses/updateElecticytyDirections'
 import { Processor, RequestedAction } from '../types'
 import { findNeighbours } from '../utils/findNeighbours'
 
@@ -36,7 +37,7 @@ export const metalProcessor: Processor = (state, point) => {
     
     if (point.electricityDirection) {
       const metalNeighbourInDirection = findNeighbours(state, point, [point.electricityDirection]).find(
-        (p) => p.type === PointType.Metal && (!p.electricityPower || p.electricityPower < (point.electricityPower || 0))
+        (p) => CAN_CONDUCT_ELECTRICITY[p.type] && (!p.electricityPower || p.electricityPower < (point.electricityPower || 0))
       )
       if (metalNeighbourInDirection) {
         moveElectricity(point, metalNeighbourInDirection)
@@ -46,7 +47,7 @@ export const metalProcessor: Processor = (state, point) => {
     }
 
     const metalNeighbours = findNeighbours(state, point).filter(
-      (p) => p.type === PointType.Metal
+      (p) => CAN_CONDUCT_ELECTRICITY[p.type]
     ).filter(p => !p.electricityPower || p.electricityPower < (point.electricityPower || 0))
 
     if (metalNeighbours.length !== 0) {

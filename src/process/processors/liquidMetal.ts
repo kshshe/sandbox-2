@@ -8,8 +8,9 @@ export const liquidMetalProcessor: Processor = (state, point, tick) => {
   }
 
   metalProcessor(state, point, tick)
-  return waterProcessor(state, {
+  const action = waterProcessor(state, {
     ...point,
     temperature: 5,
   }, tick)
+  return action === RequestedAction.None ? RequestedAction.NoneButContinue : action
 }
