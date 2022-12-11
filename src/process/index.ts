@@ -41,6 +41,7 @@ import { fireGasProcessor } from './processors/fireGas'
 import { liquidGasProcessor } from './processors/liquidGas'
 import { electricityProcessor } from './processors/electricity'
 import { metalProcessor } from './processors/metal'
+import { sourceProcessor } from './processors/source'
 
 import { drawDelayed, drawQueue, drawTemperature, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -96,6 +97,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.LiquidGas]: liquidGasProcessor,
   [PointType.Electricity]: electricityProcessor,
   [PointType.Metal]: metalProcessor,
+  [PointType.Source]: sourceProcessor,
   [PointType.Grounding]: () => RequestedAction.None,
   [PointType.Wall]: () => RequestedAction.None,
   [PointType.Hot]: () => RequestedAction.None,

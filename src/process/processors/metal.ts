@@ -4,7 +4,7 @@ import { PointData } from '../../gameState'
 import { Processor, RequestedAction } from '../types'
 import { findNeighbours } from '../utils/findNeighbours'
 
-const TEMPERATURE_INCREASE_PER_POWER = 0.1
+const TEMPERATURE_INCREASE_PER_POWER = 0.03
 
 const moveElectricity = (point: PointData, neighbour: PointData, coefficient: number = 1) => {
   const tempDiff = TEMPERATURE_INCREASE_PER_POWER * (point.electricityPower || 0)
