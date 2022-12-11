@@ -107,6 +107,10 @@ export const addNewPoint = (coordinate: Coordinate, type?: 'Eraser' | PointType)
   drawPoint(coordinate, state)
   state.points.push(point)
   state.processQueue.add(point)
+  const neighbors = findNeighbours(state, point)
+  neighbors.forEach((neighbor) => {
+    state.processQueue.add(neighbor)
+  })
 }
 
 // @ts-ignore
