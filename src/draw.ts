@@ -41,6 +41,8 @@ export const drawPoint = (coordinate: Coordinate, state: GameState) => {
       VISIBLE_HUMIDITY[point.type]
         ? point.humidity
         : 0,
+        false,
+      point.electricityPower,
     )
     ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
     if (point.type === PointType.Tree) {

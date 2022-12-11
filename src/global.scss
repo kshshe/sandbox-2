@@ -114,7 +114,8 @@ html {
   &--cooltool, 
   &--heattool,
   &--hot,
-  &--cold {
+  &--cold,
+  &--grounding {
     color: white;
   }
 }
@@ -197,6 +198,33 @@ canvas {
 
     margin-left: 150px;
     margin-bottom: 30px;
+
+    .arrow-container {
+      height: 30px;
+      width: 30px;
+      position: relative;
+
+      .arrow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 2px;
+        background: #fff;
+        transform-origin: center center;
+
+        &::after {
+          content: '';
+          height: 4px;
+          width: 4px;
+          background: red;
+          position: absolute;
+          right: 0;
+          top: -1px;
+        }
+      }
+    }
   }
 
   &--active {

@@ -29,6 +29,12 @@ export type PointData = {
   infectedTick?: number
   lastWaterDirectionIsRight?: boolean
   isInitialGas?: boolean
+  electricityPower?: number
+  electricityDirection?: {
+    x: number
+    y: number
+  },
+isElectricityDirectionOld?: boolean
 }
 
 export type GameState = {

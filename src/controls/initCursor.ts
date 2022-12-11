@@ -3,6 +3,14 @@ import { getOrCreateGameState } from '../gameState'
 import store from '../interface/store'
 import { getColor } from '../utils/getColor'
 
+const getArrow = (direction: { x: number; y: number }) => {
+  const angle = Math.atan2(direction.y, direction.x)
+  const angleDeg = (angle * 180) / Math.PI
+  return `<div class="arrow-container">
+    <div class="arrow" style="transform: rotate(${angleDeg}deg)"></div>
+  </div>`
+}
+
 const setCursorSize = (cursor: HTMLDivElement) => {
   const state = getOrCreateGameState()
   const size = store.scale * state.brushSize * 2
@@ -33,6 +41,8 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
       store.processTemperature && temperature && `t: ${temperature.toFixed(0)}°C`,
       store.processHumidity && humidity && `Humidity: ${humidity.toFixed(0)}%`,
       pointThere && `Age: ${pointThere.age}`,
+      pointThere?.electricityPower && `Power: ${pointThere.electricityPower.toFixed(2)}`,
+      pointThere?.electricityDirection && `Direction: ${getArrow(pointThere.electricityDirection)}`,
       pointThere && `Type: ${pointThere.type}`,
       pointThere?.cloningType && `Clones: ${pointThere.cloningType}`,
     ]

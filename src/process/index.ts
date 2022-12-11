@@ -39,6 +39,8 @@ import { fireCandlewickProcessor } from './processors/fireCandlewick'
 import { gasProcessor } from './processors/gas'
 import { fireGasProcessor } from './processors/fireGas'
 import { liquidGasProcessor } from './processors/liquidGas'
+import { electricityProcessor } from './processors/electricity'
+import { metalProcessor } from './processors/metal'
 
 import { drawDelayed, drawQueue, drawTemperature, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -50,6 +52,7 @@ import { parallelize } from "thread-like";
 import { MAX_SPEED } from '../constants'
 import { deletePoint } from '../utils/deletePoint'
 import { isInline } from '../utils/isInline'
+import { updateElecticityDirections } from './backgroundProcesses/updateElecticytyDirections'
 
 const TICKS_PER_SECOND = 60
 const INFECTION_STEP_TICKS = 700
@@ -91,9 +94,12 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Gas]: gasProcessor,
   [PointType.FireGas]: fireGasProcessor,
   [PointType.LiquidGas]: liquidGasProcessor,
+  [PointType.Electricity]: electricityProcessor,
+  [PointType.Metal]: metalProcessor,
+  [PointType.Grounding]: () => RequestedAction.None,
+  [PointType.Wall]: () => RequestedAction.None,
   [PointType.Hot]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
-  [PointType.Metal]: () => RequestedAction.None,
   [PointType.NonExistentElement]: () => RequestedAction.None,
 }
 
@@ -472,6 +478,7 @@ function startDrawing() {
 export const startEngine = async () => {
   processGameTick()
   startDrawing();
+  updateElecticityDirections()
   while (true) {
     const start = Date.now()
     const state = getOrCreateGameState()
