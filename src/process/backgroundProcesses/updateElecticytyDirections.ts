@@ -17,6 +17,14 @@ export const updateElecticityDirections = parallelize(function* () {
     while (true) {
         const state = getOrCreateGameState()
         const pointsCanConductElectricity = state.points.filter(p => CAN_CONDUCT_ELECTRICITY[p.type])
+
+        if (pointsCanConductElectricity.length === 0) {
+            setTimeout(() => {
+                updateElecticityDirections()
+            })
+            return
+        }
+
         for (let i = 0; i < pointsCanConductElectricity.length; i++) {
             const point = pointsCanConductElectricity[i]
             point.isElectricityDirectionOld = true
