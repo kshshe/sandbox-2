@@ -307,7 +307,7 @@ const processTemperaturesMap = (state: GameState) => {
       if (!point.lastProcessedTemperature || Math.abs(point.temperature - point.lastProcessedTemperature) > 0.5) {
         state.processQueue.add(point)
       }
-      if (point.type === PointType.Metal) {
+      if (point.type === PointType.Metal || point.type === PointType.LiquidMetal) {
         redrawPoint(point.coordinate)
       }
     }
