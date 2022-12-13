@@ -17,14 +17,14 @@ const gameStateModel = types.model({
     showMoreSettings: types.boolean,
     debug: types.boolean,
 }).actions(self => ({
-    setProperty(key: keyof IGameStateModel, value: any) {
+    setProperty(key: keyof IGameStateModel, value: any, noDependents?: boolean) {
         localStorage.setItem(String(key), `${value}`)
         self[key] = value
-        if (key === 'showTemperaturePercent') {
-            this.setProperty('showTemperature', value > 0)
+        if (key === 'showTemperaturePercent' && !noDependents) {
+            this.setProperty('showTemperature', value > 0, true)
         }
-        if (key === 'showTemperature') {
-            this.setProperty('showTemperaturePercent', value ? 50 : 0)
+        if (key === 'showTemperature' && !noDependents) {
+            this.setProperty('showTemperaturePercent', value ? 50 : 0, true)
         }
     }
 }))
