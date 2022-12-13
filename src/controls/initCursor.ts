@@ -98,6 +98,6 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     clearInterval(updateMetaInterval)
     updateMetaInterval = setInterval(() => {
       updateMeta(pointX, pointY)
-    }, 300)
+    }, 100)
   })
 }
