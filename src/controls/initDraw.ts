@@ -89,7 +89,7 @@ const listen = (
   })
 }
 
-const HOLD_ADD_TIMEOUT = 1000 / 50
+const HOLD_ADD_TIMEOUT = 1000 / 240
 export const initDraw = (canvas: HTMLCanvasElement) => {
   let isDragging = false
   let isEraser = false
