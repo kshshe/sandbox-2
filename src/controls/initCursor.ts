@@ -1,4 +1,4 @@
-import { PointType } from '../data'
+import { COLORS, PointType } from '../data'
 import { getOrCreateGameState } from '../gameState'
 import store from '../interface/store'
 import { IMPULSE_TARGET } from '../process/processors/impulseGenerator'
@@ -39,13 +39,14 @@ export const initCursor = (canvas: HTMLCanvasElement) => {
     const pointThere = state.pointsByCoordinate[x]?.[y]
   
     cursorMeta.innerHTML = [
+      pointThere && `<div class="type" style="background-color: ${COLORS[pointThere.type]}">${pointThere.type}</div>`,
+
       store.processTemperature && temperature && `t: ${temperature.toFixed(0)}°C`,
       store.processHumidity && humidity && `Humidity: ${humidity.toFixed(0)}%`,
-      pointThere && `Age: ${pointThere.age}`,
+      pointThere && `Age: ${pointThere.age} ticks`,
       pointThere?.electricityPower && `Power: ${pointThere.electricityPower.toFixed(2)}`,
       pointThere?.electricityDirection && `Direction: ${getArrow(pointThere.electricityDirection)}`,
       pointThere?.impulseElectricityPower && `Impulse preparing: ${Math.round(100 * pointThere.impulseElectricityPower / IMPULSE_TARGET)}%`,
-      pointThere && `Type: ${pointThere.type}`,
       pointThere?.cloningType && `Clones: ${pointThere.cloningType}`,
     ]
     .filter(Boolean)
