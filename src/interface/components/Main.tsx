@@ -8,6 +8,7 @@ import store from '../store'
 import { Checkbox } from './Checkbox'
 import { MAX_SPEED } from '../../constants';
 import { isInline } from '../../utils/isInline';
+import { getOrCreateGameState } from '../../gameState'
 
 const HINT_SIZE = 35
 const LEFT_GAP = 0
@@ -88,6 +89,8 @@ export const Main: React.FC = observer(() => {
             value={store.baseTemperature}
             onChange={(value) => {
               store.setProperty('baseTemperature', value)
+              const state = getOrCreateGameState()
+              state.temperaturesMap = []
             }}
           />
         </Group>}

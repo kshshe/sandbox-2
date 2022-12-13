@@ -21,10 +21,10 @@ const gameStateModel = types.model({
         localStorage.setItem(String(key), `${value}`)
         self[key] = value
         if (key === 'showTemperaturePercent') {
-            self.showTemperature = value > 0
+            this.setProperty('showTemperature', value > 0)
         }
         if (key === 'showTemperature') {
-            self.showTemperaturePercent = value ? 50 : 0
+            this.setProperty('showTemperaturePercent', value ? 50 : 0)
         }
     }
 }))
@@ -53,6 +53,7 @@ export const INITIAL_STATE = {
 
 export default gameStateModel.create({
     ...INITIAL_STATE,
+    showTemperature: storedShowTemperaturePercent && +storedShowTemperaturePercent > 0,
     baseHumidity: storedBaseHumidity ? +storedBaseHumidity : INITIAL_STATE.baseHumidity,
     processTemperature: storedProcessTemperature === null ? true : storedProcessTemperature === 'true',
     processHumidity: storedProcessHumidity === null ? false : storedProcessHumidity === 'true',
