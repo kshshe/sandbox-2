@@ -252,7 +252,7 @@ const updateMeta = (state: GameState) => {
   }
 }
 
-const TEMPERATURE_CHANGE_COEFFICIENT = TICKS_PER_SECOND * 3
+const TEMPERATURE_CHANGE_COEFFICIENT = TICKS_PER_SECOND / 5
 const TEMPERATURE_CHANGE_COEFFICIENT_FOR_AIR = TICKS_PER_SECOND * 10
 
 const processTemperaturesMap = (state: GameState) => {
