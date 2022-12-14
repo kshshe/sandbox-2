@@ -105,6 +105,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Grounding]: () => RequestedAction.None,
   [PointType.Wall]: () => RequestedAction.None,
   [PointType.Hot]: () => RequestedAction.None,
+  [PointType.Star]: () => RequestedAction.None,
   [PointType.Cold]: () => RequestedAction.None,
   [PointType.NonExistentElement]: () => RequestedAction.None,
 }

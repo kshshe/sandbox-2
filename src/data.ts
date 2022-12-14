@@ -42,6 +42,7 @@ export enum PointType {
   Grounding = 'Grounding',
   Electricity = 'Electricity',
   Gas = 'Gas',
+  Star = 'Star',
   Wall = 'Wall',
   Source = 'Source',
   FireGas = 'FireGas',
@@ -88,6 +89,7 @@ export const INFECT_MAP: Partial<Record<PointType, Partial<Record<PointType, Poi
 }
 
 export const COLORS: Record<PointType | Tools, string> = {
+  [PointType.Star]: '#fff260',
   [PointType.Sand]: '#ffd800',
   [PointType.Cinder]: '#dfdfdf',
   [PointType.Water]: '#00adff',
@@ -245,6 +247,10 @@ export const POINT_INITIAL_DATA: Partial<Record<
     temperature: 1500,
     fixedTemperature: true,
   },
+  [PointType.Star]: {
+    temperature: 900000000,
+    fixedTemperature: true,
+  },
   [PointType.Cold]: {
     temperature: -1500,
     fixedTemperature: true,
@@ -326,6 +332,7 @@ export const CONTROLLED_POINT_TYPES_MORE = [
   {divider: 'Fixed temp'},
   PointType.Hot,
   PointType.Cold,
+  PointType.Star,
   {divider: 'Other'},
   PointType.Stone,
   PointType.Concrete,
