@@ -280,6 +280,10 @@ const processTemperaturesMap = (state: GameState) => {
   }
   for (let x = 0; x < state.borders.horizontal; x++) {
     for (let y = 0; y < state.borders.vertical; y++) {
+      const point = state.pointsByCoordinate[x][y]
+      if (point?.fixedTemperature) {
+        continue
+      }
       let current = temperaturesMap[x][y]
       const neighbourCoordinate = {
         x: x + currentDirection.x,
