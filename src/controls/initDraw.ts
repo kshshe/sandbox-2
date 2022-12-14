@@ -54,11 +54,15 @@ const drawNewPoint = (canvas: HTMLCanvasElement, position: Position, forceEraser
           }
           redrawPoint(coordinate)
         } else {
-          if (tool === Tools.CoolTool) {
-            state.temperaturesMap[coordinate.x][coordinate.y] -= 1
-          }
-          if (tool === Tools.HeatTool) {
-            state.temperaturesMap[coordinate.x][coordinate.y] += 1
+          try {
+            if (tool === Tools.CoolTool) {
+              state.temperaturesMap[coordinate.x][coordinate.y] -= 1
+            }
+            if (tool === Tools.HeatTool) {
+              state.temperaturesMap[coordinate.x][coordinate.y] += 1
+            }
+          } catch {
+            // ignore
           }
         }
       } else {
