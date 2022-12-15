@@ -114,7 +114,7 @@ export const drawTemperature = parallelize(function* drawTemperature() {
     ctx.fillRect(x * store.scale, 0, store.scale, thermovisionCanvas.height)
     for (let y = 0; y < state.borders.vertical; y++) {
       const temp = state.temperaturesMap?.[x]?.[y] || 0
-      ctx.fillStyle = temp > 0 ? `rgba(255, 0, 0, ${temp / 1000})` : `rgba(0, 0, 255, ${Math.abs(temp) / 1000})`
+      ctx.fillStyle = temp > 0 ? `rgba(255, 0, 0, ${temp / 300})` : `rgba(0, 0, 255, ${Math.abs(temp) / 300})`
       ctx.fillRect(x * store.scale, y * store.scale, store.scale, store.scale)
     }
     yield
