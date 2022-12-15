@@ -6,7 +6,7 @@ export const fireProcessor: Processor = (state, point) => {
   if (point.type === PointType.IceFire && point.temperature > 0) {
     return RequestedAction.Die
   }
-  if ([PointType.Fire, PointType.BFire0].includes(point.type) && point.temperature < 0) {
+  if ([PointType.Fire, PointType.BFire].includes(point.type) && point.temperature < 0) {
     return RequestedAction.Die
   }
   if ((point.age > 10 && Math.random() < 0.2) || point.age > 40) {
