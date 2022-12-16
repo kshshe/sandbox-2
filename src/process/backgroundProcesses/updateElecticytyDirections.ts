@@ -16,12 +16,20 @@ const getNextNeighbours = (state: GameState, point: PointData) => {
 export const updateElecticityDirections = parallelize(function* () {
     while (true) {
         const state = getOrCreateGameState()
+        const groundings = state.points.filter(p => p.type === PointType.Grounding)
+        if (groundings.length === 0) {
+            setTimeout(() => {
+                updateElecticityDirections()
+            }, 100)
+            return
+        }
+
         const pointsCanConductElectricity = state.points.filter(p => CAN_CONDUCT_ELECTRICITY[p.type])
 
         if (pointsCanConductElectricity.length === 0) {
             setTimeout(() => {
                 updateElecticityDirections()
-            })
+            }, 100)
             return
         }
 
@@ -34,8 +42,6 @@ export const updateElecticityDirections = parallelize(function* () {
             closestGrounding: PointData
             point: PointData
         }> = []
-
-        const groundings = state.points.filter(p => p.type === PointType.Grounding)
 
         for (let i = 0; i < groundings.length; i++) {
             const grounding = groundings[i]
