@@ -3,6 +3,7 @@ import { Coordinate, getOrCreateGameState } from '../gameState'
 import { Tools } from '../data';
 import { redrawPoint } from '../draw';
 import store from '../interface/store';
+import { getColor } from '../utils/getColor';
 
 type Position = { x: number; y: number }
 
@@ -110,7 +111,28 @@ export const initDraw = (canvas: HTMLCanvasElement) => {
     }
   })
   listen(canvas, ['mousedown', 'touchstart'], (position, event) => {
-    if ((event as MouseEvent).button === 2) {
+    const isWheelClick = (event as MouseEvent).button === 1
+    if (isWheelClick) {
+      const state = getOrCreateGameState()
+      const rect = canvas.getBoundingClientRect()
+      const relativePosition = {
+        x: position.x - rect.left,
+        y: position.y - rect.top,
+      }
+      const x = Math.floor(relativePosition.x / store.scale)
+      const y = Math.floor(relativePosition.y / store.scale)
+      const pointThere = state.pointsByCoordinate[x]?.[y]
+      if (pointThere) {
+        state.currentType = pointThere.type
+        const cursor = document.querySelector('.cursor') as HTMLDivElement
+        if (cursor) {
+          cursor.style.color = getColor(state.currentType)
+        }
+      }
+      return
+    }
+    const isRightClick = (event as MouseEvent).button === 2
+    if (isRightClick) {
       isEraser = true
     }
     isDragging = true
