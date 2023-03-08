@@ -20,9 +20,18 @@ const moveElectricity = (point: PointData, neighbour: PointData, coefficient: nu
   redrawPoint(neighbour.coordinate)
 }
 
-export const metalProcessor: Processor = (state, point) => {
+export const metalProcessor: Processor = (state, point, tick) => {
   if (point.temperature > 660 && point.type === PointType.Metal) {
     return RequestedAction.Melt
+  }
+
+  const hasWaterNeighbours = findNeighbours(state, point).some(
+    (p) => p.type === PointType.Water
+  )
+  if (hasWaterNeighbours && tick % 10 === 0 && Math.random() > 0.99 && point.type === PointType.Metal) {
+    point.type = PointType.Rust
+    redrawPoint(point.coordinate)
+    return RequestedAction.NoneButContinue
   }
 
   if (point.electricityPower) {
@@ -59,5 +68,5 @@ export const metalProcessor: Processor = (state, point) => {
     }
   }
 
-  return RequestedAction.None
+  return hasWaterNeighbours ? RequestedAction.NoneButContinue : RequestedAction.None
 }

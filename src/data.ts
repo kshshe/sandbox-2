@@ -37,6 +37,7 @@ export enum PointType {
   Void = 'Void',
   Clone = 'Clone',
   Metal = 'Metal',
+  Rust = 'Rust',
   ImpulseGenerator = 'ImpulseGenerator',
   LiquidMetal = 'LiquidMetal',
   Grounding = 'Grounding',
@@ -128,6 +129,7 @@ export const COLORS: Record<PointType | Tools, string> = {
   [PointType.Source]: '#ffea00',
   [PointType.Clone]: '#00a927',
   [PointType.Metal]: '#e5e5e5',
+  [PointType.Rust]: '#c7a758',
   [PointType.ImpulseGenerator]: '#d5d5d5',
   [PointType.LiquidMetal]: '#e5e5e5',
   [PointType.Wall]: '#bcbcbc',
@@ -280,7 +282,7 @@ export const FLUIDS = [
   PointType.LiquidMetal,
 ]
 
-export const POWDERS = [PointType.Sand, PointType.Stone, PointType.DryIce]
+export const POWDERS = [PointType.Sand, PointType.Stone, PointType.DryIce, PointType.Rust]
 
 export const IGNORE_MAP: Partial<Record<
   PointType,
@@ -288,6 +290,7 @@ export const IGNORE_MAP: Partial<Record<
 >> = {
   [PointType.Steam]: listToMap([...POWDERS, ...FLUIDS]),
   [PointType.Sand]: listToMap(FLUIDS),
+  [PointType.Rust]: listToMap(FLUIDS),
   [PointType.DryIce]: listToMap(FLUIDS),
   [PointType.Charcoal]: listToMap(FLUIDS),
   [PointType.FireCharcoal]: listToMap(FLUIDS),

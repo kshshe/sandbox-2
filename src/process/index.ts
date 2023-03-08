@@ -44,6 +44,7 @@ import { metalProcessor } from './processors/metal'
 import { sourceProcessor } from './processors/source'
 import { liquidMetalProcessor } from './processors/liquidMetal'
 import { impulseGeneratorProcessor } from './processors/impulseGenerator'
+import { rustProcessor } from './processors/rust'
 
 import { drawDelayed, drawQueue, drawTemperature, redrawPoint } from '../draw'
 import { getPointOnCoordinate } from '../utils/getPointOnCoordinate'
@@ -102,6 +103,7 @@ const PROCESSORS: Record<PointType, Processor> = {
   [PointType.Source]: sourceProcessor,
   [PointType.LiquidMetal]: liquidMetalProcessor,
   [PointType.ImpulseGenerator]: impulseGeneratorProcessor,
+  [PointType.Rust]: rustProcessor,
   [PointType.Grounding]: () => RequestedAction.None,
   [PointType.Wall]: () => RequestedAction.None,
   [PointType.Hot]: () => RequestedAction.None,

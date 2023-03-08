@@ -53,7 +53,7 @@ export const INITIAL_STATE = {
 
 export default gameStateModel.create({
     ...INITIAL_STATE,
-    showTemperature: storedShowTemperaturePercent && +storedShowTemperaturePercent > 0,
+    showTemperature: Boolean(storedShowTemperaturePercent && +storedShowTemperaturePercent > 0),
     baseHumidity: storedBaseHumidity ? +storedBaseHumidity : INITIAL_STATE.baseHumidity,
     processTemperature: storedProcessTemperature === null ? true : storedProcessTemperature === 'true',
     processHumidity: storedProcessHumidity === null ? false : storedProcessHumidity === 'true',
