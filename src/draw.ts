@@ -50,6 +50,8 @@ export const drawPoint = (coordinate: Coordinate, state: GameState) => {
       ctx.fillRect(x * store.scale, y * store.scale, 1, store.scale)
       ctx.fillRect((1 + x) * store.scale - 1, y * store.scale, 1, store.scale)
     }
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
+    ctx.fillRect(x * store.scale + store.scale / 2, y * store.scale + store.scale / 2, 1, 1)
   }
 }
 
